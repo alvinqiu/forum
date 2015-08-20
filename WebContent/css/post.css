@@ -1,0 +1,26 @@
+body{
+	width:100%;
+}
+.back{
+	width:70%;
+	margin:auto;
+}
+.panel{
+	border:1px solid red;
+	width:70%;
+	margin:auto;
+	padding:10px;
+}
+.panel .list,.panel .detail{
+	border:1px solid red;
+	display:inline-block;
+	height:auto;
+	padding:10px;
+}
+.panel .list{
+	width:30%;
+	margin-right:10px;
+}
+.panel .detail{
+	width:65%; 
+}

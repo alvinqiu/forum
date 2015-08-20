@@ -1,0 +1,18 @@
+.panel{
+	width:400px;
+	height:400px;
+	border:3px solid #C5F7D2;
+	padding:10px;
+}
+.panel div{
+	margin:10px;
+}
+.tagPanel{
+	width:200px;
+	height:100px;
+	border:3px solid #C5F7D2;
+}
+img{
+	width:100px;
+	height:100px;
+}

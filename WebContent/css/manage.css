@@ -1,0 +1,25 @@
+*{
+	margin:0;
+	padding:0;
+	font-size:16px;
+}
+body{
+	background-color:#F5F5F5;
+}
+.panel{
+	border:1px solid #C5F7D2;
+	width:70%;
+	margin:auto;
+	height:600px;
+}
+.panel div{
+	border:1px solid red;
+	display:inline-block;
+	width:200px;
+	height:200px;
+	text-align:center;
+	line-height:200px;
+}
+.panel div:hover{
+	cursor:pointer;
+}

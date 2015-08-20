@@ -1,0 +1,21 @@
+.back{
+	width:70%;
+	margin:auto;
+}
+.panel{
+	width:70%;
+	margin:auto;
+	padding:10px;
+}
+.panel table{
+	border:1px solid red;
+	width:100%;
+	height:auto;
+	text-align:center;
+}
+.panel table tr{
+	border:1px solid red;
+}
+.panel table tr td a{
+	margin-left:10px;
+}

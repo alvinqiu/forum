@@ -1,0 +1,9 @@
+.panel{
+	width:1000px;
+	height:700px;
+	border:3px solid #C5F7D2;
+	padding:10px;
+}
+.panel div{
+	margin:10px;
+}
