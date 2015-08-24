@@ -1,6 +1,6 @@
 $(function(){
 	//实例化UEditor编辑器
-	var um = UM.getEditor('myumeditor',{
+	var ue = UE.getEditor('editor', {
 		toolbars: [
 					['fontsize','fontfamily','bold','undo','cleardoc','forecolor']
 				],
@@ -107,7 +107,7 @@ function formatDate(now) {
 }
 
 function gt_custom_ajax(result, selector, message) {
-	var um = UM.getEditor('myumeditor');
+	var ue = UE.getEditor('editor');
 	var id = getUrlParam('id');
 	
 	if (result) {
@@ -115,7 +115,7 @@ function gt_custom_ajax(result, selector, message) {
 		var validate = selector(".geetest_validate").value;
 		var seccode = selector(".geetest_seccode").value;
 		
-		var comments = $.trim(UM.getEditor('myumeditor').getPlainTxt());
+		var comments = $.trim(UE.getEditor('editor').getPlainTxt());
 		if(comments!=""){
 			$.ajax({
 				type:"post",
