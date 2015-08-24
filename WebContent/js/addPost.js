@@ -28,9 +28,9 @@ $(function(){
 		}
 	});
 	
-	$("#editor").blur(function(){
-		$("input[name='content']").val($.trim(UE.getEditor('editor').getPlainTxt()));
-	});
+//	$("#editor").blur(function(){
+//		$("input[name='content']").val($.trim(UE.getEditor('editor').getPlainTxt()));
+//	});
 	
 	$("input[type='checkbox']").click(function(){
 		if($(this).is(":checked")){
@@ -52,6 +52,7 @@ function checkForm(){
 	var subject = $.trim($("input[name='subject']").val());
 	var moduleId = $.trim($("select[name='moduleId']").val());
 	var type = $.trim($("select[name='type']").val());
+	$("input[name='content']").val($.trim(UE.getEditor('editor').getPlainTxt()));
 	var content = $.trim($("input[name='content']").val());
 	
 	if(subject==""){

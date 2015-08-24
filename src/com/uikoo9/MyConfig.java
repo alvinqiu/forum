@@ -25,7 +25,7 @@ public class MyConfig extends JFinalConfig {
 	 * 配置路由
 	 */
 	public void configRoute(Routes me) {
-		me.add("/", IndexController.class);
+		me.add("/addPost.html", IndexController.class);
 	}
 	
 	public void configPlugin(Plugins me) {}

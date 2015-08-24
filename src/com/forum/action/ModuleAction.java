@@ -1,5 +1,6 @@
 package com.forum.action;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +39,7 @@ public class ModuleAction {
 		
 		List<ModuleVO> moduleVOList;
 		
-		if (userVO != null && userVO.getGroupId() == 1) {// Ϊ����Ա
+		if (userVO != null && userVO.getGroupId() == Constants.GroupType.admin.getValue()) {
 			moduleVOList = moduleBiz.selectAllModule();
 		} else {
 			moduleVOList = moduleBiz.selectAllModule(false);
@@ -80,7 +81,7 @@ public class ModuleAction {
 	 */
 	@RequestMapping("/editModule.json")
 	@ResponseBody
-	public String editModule(@RequestParam("id") String id,@RequestParam("name") String name,@RequestParam("desc") String desc,@RequestParam("visible") String visible){
+	public String editModule(@RequestParam("id") String id,@RequestParam("name") String name,@RequestParam("desc") String desc,@RequestParam("visible") String visible) throws UnsupportedEncodingException{
 		ModuleVO moduleVO = new ModuleVO();
 		moduleVO.setId(Integer.parseInt(id));
 		moduleVO.setName(name);

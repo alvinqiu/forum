@@ -56,7 +56,7 @@
 
 	<filter-mapping>
 		<filter-name>jfinal</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/addPost.html</url-pattern>
 	</filter-mapping>
 	
 
