@@ -1,18 +1,20 @@
 package com.forum.utility;
 
 public class RegisterValidateService {
-	
+
 	/**
-     * ���ͼ����ʼ�
-     */
-    public void processregister(String email,String url){
-         
-        ///�ʼ�������
+	 * 发送激活邮件
+	 */
+	public void processregister(String email, String url) {
+
+		// 添加邮件内容
 		StringBuffer sb = new StringBuffer(
-				"����������Ӽ����˺ţ�48Сʱ��Ч����������ע���˺ţ�����ֻ��ʹ��һ�Σ��뾡�켤�<br>");
-		sb.append(url + "/forum/activate.json?email=" + email);
-         
-        //�����ʼ�
-        SendMail.send(email, sb.toString());
-    }
+				"点击下面链接激活账号，24小时内有效，否则重新注册账号，请尽快激活！<br>");
+		sb.append("<a href='http://" + url + "/forum/activate.json?email="
+				+ email + "' target='_blank'>" + url
+				+ "/forum/activate.json?email=" + email + "</a>");
+
+		// 发送邮件
+		SendMail.send(email, sb.toString());
+	}
 }
