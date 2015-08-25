@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.forum.dao.UserDao;
+import com.forum.utility.Constants;
 import com.forum.utility.MD5;
 import com.forum.utility.RegisterValidateService;
 import com.forum.vo.UserVO;
@@ -22,7 +23,7 @@ public class UserBiz {
 	private UserDao userDao;
 	
 	/*
-	 * �����û�
+	 * 新增用户
 	 */
 	public Integer addUser(UserVO userVO,HttpServletRequest request) throws NoSuchAlgorithmException{
 		Integer result = 0;
@@ -34,11 +35,11 @@ public class UserBiz {
 			String darkPassword = MD5.md5(userVO.getDarkPass());
 			userVO.setDarkPass(darkPassword);
 			userVO.setIsActive(0);
-			userVO.setGroupId(3);//1.����Ա  2.����  3.��ͨ�û�
+			userVO.setGroupId(Constants.GroupType.user.getValue());//1.管理员  2.版主  3.普通用户
 			result=userDao.addUser(userVO);
 			
 			if(result>0){
-				//  ���ͼ����ʼ�
+				//发送激活邮件
 				RegisterValidateService rvs = new RegisterValidateService();
 				
 				String url = request.getRequestURL().toString().replace(request.getRequestURI(),"");
@@ -52,14 +53,14 @@ public class UserBiz {
 	}
 	
 	/*
-	 * �����û�
+	 * 激活用户
 	 */
 	public Integer updateActive(long isActive,String mail){
 		return userDao.updateActive(isActive,mail);
 	}
 	
 	/*
-	 * ��ѯ�û�
+	 * 查询用户
 	 */
 	public List<UserVO> selectUser(UserVO userVO) throws NoSuchAlgorithmException{
 		String darkPass = MD5.md5(userVO.getDarkPass());
@@ -67,7 +68,7 @@ public class UserBiz {
 	}
 	
 	/*
-	 * �����������
+	 * 设置用户类型
 	 */
 	public Integer setGroup(long groupId,String mail){
 		Integer result = 0;
@@ -83,7 +84,7 @@ public class UserBiz {
 	}
 	
 	/*
-	 * ��ȡ�����û� ���� groupId ���⣩
+	 * 查询用户 by groupid
 	 */
 	public List<UserVO> selectUserExcept(long groupId){
 		return userDao.selectUserExcept(groupId);

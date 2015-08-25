@@ -23,7 +23,7 @@ public class RegisterAction {
 	private UserBiz userBiz;
 	
 	/*
-	 * �����û�
+	 * 注册
 	 */
 	@RequestMapping(value="/register.json")
 	@ResponseBody
@@ -47,7 +47,7 @@ public class RegisterAction {
 	}
 	
 	/*
-	 * ��֤�����û�
+	 * 激活账户
 	 */
 	@RequestMapping(value="/activate.json")
 	@ResponseBody

@@ -17,84 +17,88 @@ public class PostBiz {
 	private PostDao postDao;
 	
 	/*
-	 * �������
+	 * 新增帖子
 	 */
 	public Integer addPost(PostVO postVO){
 		return postDao.addPost(postVO);
 	}
 	
 	/*
-	 * ��ȡ��������
+	 * 获取所有帖子
 	 */
 	public List<PostVO> getAllPost(){
 		return postDao.getAllPost();
 	}
 	
 	/*
-	 * ��ȡ�������� (start ,end)
+	 * 获取范围内帖子 (start ,end)
 	 */
-	public List<PostVO> getAllPost(long start,long end){
-		return postDao.getAllPost(start,end);
+	public List<PostVO> getAllPost(long start, long end, boolean visible) {
+		if (visible) {// 管理员
+			return postDao.getAllPost(start, end);
+		} else {
+			return postDao.getAllPost(start, end, false);
+		}
 	}
 	
 	/*
-	 * ��ȡ������������ by moduleId
+	 * 获取板块内帖子的数量 (by moduleId)
 	 */
 	public List<PostVO> getAllPostCount(long moduleId){
 		return postDao.getAllPostCount(moduleId);
 	}
 	
 	/*
-	 * ��ȡ��������(limit)
+	 * 获取板块内所有帖子(limit)
 	 */
 	public List<PostVO> getAllPostLimit(long start,long end,long moduleId){
 		return postDao.getAllPostLimit(start,end,moduleId);
 	}
 	
 	/*
-	 * ���id��ȡ����
+	 * 根据id获取帖子
 	 */
 	public PostVO getPostById(long id){
 		return postDao.getPostById(id);
 	}
 	
 	/*
-	 * ���post id ��ȡ����
+	 * 根据帖子id获取对应的所有评论
 	 */
 	public List<PostVO> getCommentByPostId(long postId){
 		return postDao.getCommentByPostId(postId);
 	}
 	
 	/*
-	 * ��ȡ���������
+	 * 获取所有待审核的帖子
 	 */
 	public List<PostVO> getAllPostByHold(){
 		return postDao.getAllPostByHold();
 	}
 	
 	/*
-	 * �������
+	 * 审核帖子
 	 */
 	public Integer passPost(String type,long id){
 		return postDao.passPost(type, id);
 	}
 	
 	/*
-	 * ���ø��� ��by id��
+	 * 设置高亮
 	 */
 	public Integer setHighLight(String highLight,long id){
 		return postDao.setHighLight(highLight,id);
 	}
 	
 	/*
-	 * �����ö� ��by id��
+	 * 设置置顶
 	 */
 	public Integer setTop(String top,long id){
 		return postDao.setTop(top, id);
 	}
 	
 	/*
-	 * ɾ�� ��by id��
+	 * 删除帖子
 	 */
 	public Integer del(long id){
 		return postDao.del(id);

@@ -73,7 +73,7 @@ public class PostAction {
 	}
 	
 	/*
-	 * ��ȡ��������
+	 * 获取所有帖子
 	 */
 	@RequestMapping("/getAllPost.json")
 	@ResponseBody
@@ -90,13 +90,8 @@ public class PostAction {
 			
 			HttpSession session = request.getSession();
 			UserVO userVO = (UserVO)session.getAttribute(Constants.LOGINED_USER);
-			
-			if(userVO!=null){
-				json.put("GroupId", userVO.getGroupId());
-			}
-			else{
-				json.put("GroupId", 3);//���Ϊ��¼��Ĭ��Ϊ��ͨ�û�
-			}
+			long groupId = userVO != null ? userVO.getGroupId() : Constants.GroupType.user.getValue();//如未登录则视为普通用户处理
+			json.put("GroupId", groupId);
 			
 			List<PostVO> postVOList;
 			if(moduleId>0){
@@ -107,22 +102,27 @@ public class PostAction {
 				json.put("Total", total);
 			}
 			else{
-				postVOList = postBiz.getAllPost(start,end-5);
+				if(groupId==Constants.GroupType.admin.getValue()){//管理员
+					postVOList = postBiz.getAllPost(start, end - 5, true);
+				}
+				else{
+					postVOList = postBiz.getAllPost(start, end - 5, false);
+				}
 			}
 			
 			List<ExpandInfoVO> expandInfoVOList;
 			String postContent="";
 			if(postVOList.size()>0){
 				for (PostVO postVO : postVOList) {
-					//�ǳ�
+					//昵称
 					expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 					if(expandInfoVOList.size()>0){
 						postVO.setName(expandInfoVOList.get(0).getNickName());
 					}
-					//�ظ���
+					//回复数
 					postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
 					
-					//ժҪ
+					//截取帖子内容一部分
 					postContent = postVO.getContent();
 					if(postContent.length()>=100){
 						postContent = postContent.substring(0, 100);

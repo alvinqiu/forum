@@ -81,7 +81,26 @@ public interface PostInterface {
 			@Result(property = "moduleId", column = "col_module_id"),
 			@Result(property = "userId", column = "col_user_id")
 	})
-	public List<PostVO> getAllPostTopFive(@Param("start") long start,@Param("end") long end);
+	public List<PostVO> getAllPostTopFive4Admin(@Param("start") long start,@Param("end") long end);
+	
+	@Select("select * from tab_post where col_parent_id=0 and col_type=2 and col_module_id in (select col_id from tab_module where col_visible = #{visible}) order by col_submit_time desc limit #{start},#{end}")
+	@Results(value={
+			@Result(property = "id", column = "col_id"),
+			@Result(property = "subject", column = "col_subject"),
+			@Result(property = "content", column = "col_content"),
+			@Result(property = "type", column = "col_type"),
+			@Result(property = "highLight", column = "col_high_light"),
+			@Result(property = "top", column = "col_top"),
+			@Result(property = "parentId", column = "col_parent_id"),
+			@Result(property = "parentContentSummary", column = "col_parent_content_summary"),
+			@Result(property = "attach", column = "col_attach"),
+			@Result(property = "submitTime", column = "col_submit_time"),
+			@Result(property = "moduleId", column = "col_module_id"),
+			@Result(property = "userId", column = "col_user_id"),
+			@Result(property = "visible", column = "col_visible")
+	})
+	public List<PostVO> getAllPostTopFive(@Param("start") long start,
+			@Param("end") long end, @Param("visible") boolean visible);
 	
 	@Select("select * from tab_post where col_parent_id=0 and col_type=2 order by col_submit_time desc")
 	@Results(value={

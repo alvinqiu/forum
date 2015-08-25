@@ -28,10 +28,17 @@ public class PostDao {
 	}
 	
 	/*
-	 * ��ȡ��������(start ,end)
+	 * 获取范围内帖子(start ,end)  管理员
 	 */
-	public List<PostVO> getAllPost(long start,long end){
-		return postInterface.getAllPostTopFive(start,end);
+	public List<PostVO> getAllPost(long start, long end) {
+		return postInterface.getAllPostTopFive4Admin(start, end);
+	}
+	
+	/*
+	 * 获取范围内帖子(start ,end)  管理员除外角色
+	 */
+	public List<PostVO> getAllPost(long start, long end, boolean visible) {
+		return postInterface.getAllPostTopFive(start, end, visible);
 	}
 	
 	/*
