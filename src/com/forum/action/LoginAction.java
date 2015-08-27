@@ -23,35 +23,33 @@ public class LoginAction {
 
 	@Autowired
 	private UserBiz userBiz;
-	
+
 	/*
-	 * ��¼
+	 * 登录
 	 */
 	@RequestMapping("/login.json")
 	@ResponseBody
-	public String login(UserVO userVO,HttpServletRequest request,HttpServletResponse response) throws NoSuchAlgorithmException{
-		
-		List<UserVO> userVOList=userBiz.selectUser(userVO);
-		
+	public String login(UserVO userVO, HttpServletRequest request,
+			HttpServletResponse response) throws NoSuchAlgorithmException {
+
+		List<UserVO> userVOList = userBiz.selectUser(userVO);
+
 		JSONObject json = new JSONObject();
-		if(userVOList.size()>0){
-			if(userVOList.get(0).getIsActive()>0){
-				//json.put("result", "��¼�ɹ�!");
+		if (userVOList.size() > 0) {// 用户存在
+			if (userVOList.get(0).getIsActive() > 0) {// 已激活
 				json.put("success", true);
-				
+
 				HttpSession session = request.getSession();
 				session.setAttribute(Constants.LOGINED_USER, userVOList.get(0));
-			}
-			else{
-				json.put("result", "δ����!");
+			} else {// 用户未激活
+				json.put("result", "账户未激活!");
 				json.put("success", false);
 			}
-		}
-		else{
-			json.put("result", "�˻������ڻ��˺���������!");
+		} else {// 用户不存在
+			json.put("result", "用户名或密码错误!");
 			json.put("success", false);
 		}
-		
+
 		return json.toString();
 	}
 }

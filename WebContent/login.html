@@ -5,6 +5,7 @@
 <title>登录</title>
 
 <link rel="stylesheet" href="css/login.css" />
+
 </head>
 <body>
 	<div class="panel">
@@ -15,35 +16,33 @@
 			<div class="panel_top_content">
 				<ul>
 					<li><a href="login.html">登录</a></li>
-					<li> | </li>
+					<li>|</li>
 					<li><a href="register.html">注册</a></li>
 				</ul>
 			</div>
 		</div>
-	
+
 		<div class="panel_login">
 			<form method="post" name="loginForm">
 				<div>
 					<input type="text" name="mail" id="js-mail" placeholder="邮箱地址" />
 				</div>
 				<div>
-					<input type="password" name="darkPass" id="js-password" placeholder="密码" />
+					<input type="password" name="darkPass" id="js-password"
+						placeholder="密码" />
 				</div>
 				<div>
 					<input value="登录" type="submit" id="js-submit" class="submit" />
-					
+					<div class="geetestDiv" id="js-GeetestDiv"></div>
 				</div>
 			</form>
 		</div>
-		
+
 	</div>
-	<div class="foot">
-		晟越科技
-	</div>
-	
-	<script src="js/jquery-1.7.2.min.js" ></script>
-	<script type="text/javascript" src="http://api.geetest.com/get.php?gt=df6595b204a06069670b68b6e716ca45&&product=popup&popupbtnid=js-submit"></script>
-	<script src="js/login.js" ></script>
-	
+	<div class="foot">晟越科技</div>
+
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="http://api.geetest.com/get.php"></script>
+	<script src="js/login.js"></script>
 </body>
 </html>
