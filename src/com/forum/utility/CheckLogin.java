@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.forum.biz.ExpandInfoBiz;
+import com.forum.utility.Constants.GroupType;
 import com.forum.vo.ExpandInfoVO;
 import com.forum.vo.UserVO;
 
@@ -25,8 +26,8 @@ public class CheckLogin {
 	public String USERNAME = "";
 	
 	/*
-	 * �Ƿ��¼
-	 * return �û����ǳ� or mail��
+	 * 是否登录
+	 * return 昵称 or mail
 	 */
 	@RequestMapping("/checkLogin.json")
 	@ResponseBody
@@ -38,7 +39,7 @@ public class CheckLogin {
 		UserVO userVO = (UserVO)session.getAttribute(Constants.LOGINED_USER);
 		
 		if(userVO!=null){
-			//�ǳ�
+			//用户名
 			expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(userVO.getId());
 			if(expandInfoVOList.size()>0){
 				USERNAME = expandInfoVOList.get(0).getNickName();
@@ -46,7 +47,8 @@ public class CheckLogin {
 			else{
 				USERNAME = userVO.getMail();
 			}
-			isAdmin = userVO.getGroupId()==1?true:false;
+			isAdmin = userVO.getGroupId() == GroupType.admin.getValue() ? true
+					: false;
 			json.put("name", USERNAME);
 			json.put("isAdmin", isAdmin);
 			json.put("success", true);
@@ -61,8 +63,8 @@ public class CheckLogin {
 	
 	
 	/*
-	 * �Ƿ�Ϊ����Ա
-	 */
+	 * 是否为管理员
+	 
 	@RequestMapping("/checkLogin4Admin.json")
 	@ResponseBody
 	public String checkLogin4Admin(HttpServletRequest request){
@@ -78,5 +80,5 @@ public class CheckLogin {
 		}
 		
 		return json.toString();
-	}
+	}*/
 }

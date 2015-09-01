@@ -1,6 +1,23 @@
 $(function(){
 	
 	$.ajax({
+		url : "checkLogin.json",
+		async : false,
+		success : function(data) {
+			var jsonObj = eval("(" + data + ")");
+			if (jsonObj.success) {
+				if (!jsonObj.isAdmin) {
+					alert("您还没有权限访问，请联系管理员！");
+					history.go(-1);
+				}
+			} else {
+				alert("请先登录！");
+				history.go(-1);
+			}
+		}
+	});
+	
+	$.ajax({
 		url:"getAllModule.json",
 		error:function(){alert("获取数据失败！");},
 		success:function(data){
