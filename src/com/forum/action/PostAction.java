@@ -34,25 +34,21 @@ public class PostAction {
 	private long PageCount = 10;//ÿҳ��ʾ��������
 	
 	/*
-	 * �������
+	 * 添加帖子
 	 */
 	@RequestMapping("/addPost.json")
 	@ResponseBody
 	public String addPost(HttpServletRequest request,PostVO postVO){
 		JSONObject json = new JSONObject();
 		
-		//������
+		//验证是否登录
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO)session.getAttribute(Constants.LOGINED_USER);
 		if(userVO!=null){
 			postVO.setUserId(userVO.getId());
-			postVO.setHighLight("0");
-			postVO.setTop("0");
+			postVO.setType("3");//设置为待审核状态
 			
-			postVO.setType("3");//����� (��ʱ����)
-			
-			
-			//��ǰʱ��
+			//获取当前时间
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			postVO.setSubmitTime(timestamp);
 			
@@ -60,13 +56,16 @@ public class PostAction {
 			
 			if(result>0){
 				json.put("success", true);
+				json.put("result","发布成功！");
 			}
 			else{
 				json.put("success", false);
+				json.put("result","发布失败！");
 			}
 		}else{
-			// δ��¼
+			// 未登录
 			json.put("success", false);
+			json.put("result","请登录！");
 		}
 		
 		return json.toString();

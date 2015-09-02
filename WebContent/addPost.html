@@ -9,57 +9,72 @@
 </head>
 <body>
 
-	<form method="post" name="postForm">
-		<div class="panel">
-			<div class="subject">
-				<label>标题：</label><label><input type="text" name="subject" /></label>
+	<div class="panel">
+		<div class="panel_top">
+			<div class="panel_top_header">
+				<div class="panel_top_logo">
+					<a href="index.html"><img alt="logo" src="img/logo.png" /></a>
+				</div>
 			</div>
-			<div class="module">
-				<label>版块</label>
-				<label>
-					<select name="moduleId">
-						<option value="0" selected="selected">请选择</option>
-					</select>
-				</label>
-			</div>
-			<div class="type">
-				<label>类型：</label>
-				<label>
-					<select name="type">
-						<option value="0" selected="selected">请选择</option>
-						<option value="1">公告</option>
-						<option value="2">普通帖</option>
-						<!-- <option value="3">待审核</option> -->
-					</select>
-				</label>
-			</div>
-			<div class="content">
-				<label>内容：</label>
-				<label>
-					<script type="text/plain" id="editor"></script>
-					<input type="hidden" name="content" />
-				</label>
-			</div>
-<!-- 			<div class="highLight"> -->
-<!-- 				<label>高亮：</label><label><input type="checkbox" /><input type="hidden" name="highLight" value="0" /></label> -->
-<!-- 			</div> -->
-<!-- 			<div class="top"> -->
-<!-- 				<label>置顶：</label><label><input type="checkbox" /><input type="hidden" name="top" value="0" /></label> -->
-<!-- 			</div> -->
-			<div class="attach">
-				<label>附件：</label><label><input type="file" name="attach" /></label>
-			</div>
-			<input type="submit" id="js-submit" value="发布" />
 		</div>
-	</form>
+		<form method="post" name="postForm">
+			<div class="panel_detail">
+				<div class="panel_content">
+					<div class="goBack"><a href="manage.html">返回管理主页</a></div>
+				
+					<div class="subject">
+						<label>标题：</label><label><input type="text" name="subject" /></label>
+					</div>
+					<div class="module">
+						<label>版块：</label> <label> <select name="moduleId">
+								<option value="0" selected="selected">请选择</option>
+						</select>
+						</label>
+					</div>
+					<div class="type">
+						<label>类型：</label> <label> <select name="type">
+								<option value="0" selected="selected">请选择</option>
+								<option value="1">公告</option>
+								<option value="2">普通帖</option>
+						</select>
+						</label>
+					</div>
+					<div class="content">
+						<label>内容：</label> <label> <script type="text/plain"
+								id="editor"></script> <input type="hidden" name="content" />
+						</label>
+					</div>
+					<div class="highLight">
+						<label>高亮：</label><label><input type="checkbox" /><input
+							type="hidden" name="highLight" value="0" /></label>
+					</div>
+					<div class="top">
+						<label>置顶：</label><label><input type="checkbox" /><input
+							type="hidden" name="top" value="0" /></label>
+					</div>
+					<div class="attach">
+						<label>附件：</label><label><input type="file" name="attach" /></label>
+					</div>
+					<input type="submit" id="js-submit" class="submitPost" value="发布" />
+				</div>
+			</div>
+		</form>
+	</div>
+
 
 	<!-- base -->
-	<script type="text/javascript">var base = '${base}';</script>
+	<script type="text/javascript">
+		var base = '${base}';
+	</script>
 	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-	<script type="text/javascript" src="http://api.geetest.com/get.php?gt=df6595b204a06069670b68b6e716ca45&&product=popup&popupbtnid=js-submit"></script>
-	<script type="text/javascript" src="ueditor-min-1.4.3/ueditor.config.js"></script>
-	<script type="text/javascript" src="ueditor-min-1.4.3/ueditor.all.min.js"></script>
-	<script type="text/javascript" src="ueditor-min-1.4.3/lang/zh-cn/zh-cn.js"></script>
+	<script type="text/javascript"
+		src="http://api.geetest.com/get.php?gt=df6595b204a06069670b68b6e716ca45&&product=popup&popupbtnid=js-submit"></script>
+	<script type="text/javascript"
+		src="ueditor-min-1.4.3/ueditor.config.js"></script>
+	<script type="text/javascript"
+		src="ueditor-min-1.4.3/ueditor.all.min.js"></script>
+	<script type="text/javascript"
+		src="ueditor-min-1.4.3/lang/zh-cn/zh-cn.js"></script>
 	<script src="js/addPost.js"></script>
 </body>
 </html>

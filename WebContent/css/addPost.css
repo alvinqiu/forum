@@ -1,9 +1,77 @@
-.panel{
-	width:1000px;
-	height:700px;
-	border:3px solid #C5F7D2;
-	padding:10px;
+body {
+	font-family: "Microsoft YaHei", Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #515151;
+	margin: 0;
+	padding: 0;
+	background-color: #F2F2F2 !important;
 }
-.panel div{
-	margin:10px;
+
+.panel {
+	width: 100%;
+	min-width: 1366px;
+}
+
+.panel_top {
+	height: 100px;
+	width: 100%;
+	min-width: 1366px;
+	background-color: #FEFEFE;
+	border-bottom: 1px solid #e9e9e9;
+}
+
+.panel_top_header {
+	height: 100px;
+	width: 1200px;
+	margin: 0 auto;
+	padding: 27px 20px;
+}
+
+.panel_top_logo {
+	display: inline-block;
+	float: left;
+}
+
+.panel_top_logo img {
+	
+}
+
+.panel_top_logo a {
+	text-decoration: none;
+	color: #515151;
+}
+
+.panel_top_logo a:hover {
+	color: #7f7f7f;
+}
+
+.panel_detail {
+	height: auto;
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.panel_content{
+	padding:10px;
+	width:800px;
+	margin:auto;
+	height:auto;
+}
+
+.goBack{
+	margin-bottom:10px;
+}
+
+
+
+.submitPost{
+	display: block;
+	width: 96px;
+	height: 36px;
+	background-color: #32a5e7;
+	border: 1px solid #32a5e7;
+	border-radius: 2px 2px 2px 2px;
+	color: #FFF;
+	float:left;
+	margin:10px 0;
 }
