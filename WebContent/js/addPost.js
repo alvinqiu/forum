@@ -11,7 +11,7 @@ $(function() {
 	// 实例化UEditor编辑器
 	var ue = UE.getEditor('editor', {
 		toolbars : [ [ 'fontsize', 'fontfamily', 'bold', 'undo', 'cleardoc',
-				'forecolor', 'simpleupload', 'insertimage' ] ],
+				'forecolor', 'simpleupload' ] ],
 		initialFrameWidth : 790,
 		initialFrameHeight : 500,
 		autoSyncData : false
