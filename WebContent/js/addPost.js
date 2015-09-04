@@ -1,15 +1,24 @@
 $(function() {
+
+	// 初始化验证
+	var gt_captcha_obj = new window.Geetest({
+		gt : "df6595b204a06069670b68b6e716ca45",
+		product : "popup",
+		https : false
+	});
+	gt_captcha_obj.appendTo("#js-GeetestDiv").bindOn('#js-submit');
+
 	// 实例化UEditor编辑器
 	var ue = UE.getEditor('editor', {
 		toolbars : [ [ 'fontsize', 'fontfamily', 'bold', 'undo', 'cleardoc',
 				'forecolor', 'simpleupload', 'insertimage' ] ],
 		initialFrameWidth : 790,
-		initialFrameHeight : 500
+		initialFrameHeight : 500,
+		autoSyncData : false
 	});
 
 	// 获取所有版块
-	$
-			.ajax({
+	$.ajax({
 				url : "getAllModule.json",
 				error : function() {
 					alert("获取数据失败！");
@@ -38,6 +47,28 @@ $(function() {
 		}
 	});
 
+	gt_captcha_obj.onSuccess(function() {
+		var formDom = $("form[name='postForm']");
+		if (checkForm()) {
+			$.ajax({
+				type : "get",
+				url : "addPost.json",
+				data : formDom.serialize(),
+				async : true,
+				error : function(request) {
+					alert("发布帖子失败！" + request);
+				},
+				success : function(data) {
+					var jsonObj = eval("(" + data + ")");
+					alert(jsonObj.result);
+					if (jsonObj.success) {
+						window.location.href = "/forum/index.html";
+					}
+				}
+			});
+		}
+	});
+
 });
 
 function checkForm() {
@@ -62,34 +93,5 @@ function checkForm() {
 		return false;
 	} else {
 		return true;
-	}
-}
-
-function gt_custom_ajax(result, selector, message) {
-
-	if (result) {
-		var challenge = selector(".geetest_challenge").value;
-		var validate = selector(".geetest_validate").value;
-		var seccode = selector(".geetest_seccode").value;
-
-		var formDom = $("form[name='postForm']");
-		if (checkForm()) {
-			$.ajax({
-				type : "get",
-				url : "addPost.json",
-				data : formDom.serialize(),
-				async : true,
-				error : function(request) {
-					alert("发布帖子失败！" + request);
-				},
-				success : function(data) {
-					var jsonObj = eval("(" + data + ")");
-					alert(jsonObj.result);
-					if (jsonObj.success) {
-						window.location.href = "/forum/index.html";
-					}
-				}
-			});
-		}
 	}
 }

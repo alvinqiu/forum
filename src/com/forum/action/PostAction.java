@@ -31,7 +31,7 @@ public class PostAction {
 	@Autowired
 	private ExpandInfoBiz expandInfoBiz;
 	
-	private long PageCount = 10;//ÿҳ��ʾ��������
+	private long PageCount = 10;//每页显示10条数据
 	
 	/*
 	 * 添加帖子

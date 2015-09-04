@@ -20,8 +20,10 @@
 		<form method="post" name="postForm">
 			<div class="panel_detail">
 				<div class="panel_content">
-					<div class="goBack"><a href="manage.html">返回管理主页</a></div>
-				
+					<div class="goBack">
+						<a href="javascript:void(0);" onclick="history.go(-1);">返回上一级</a>
+					</div>
+
 					<div class="subject">
 						<label>标题：</label><label><input type="text" name="subject" /></label>
 					</div>
@@ -56,6 +58,7 @@
 						<label>附件：</label><label><input type="file" name="attach" /></label>
 					</div>
 					<input type="submit" id="js-submit" class="submitPost" value="发布" />
+					<div class="geetestDiv" id="js-GeetestDiv"></div>
 				</div>
 			</div>
 		</form>
@@ -66,15 +69,11 @@
 	<script type="text/javascript">
 		var base = '${base}';
 	</script>
-	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-	<script type="text/javascript"
-		src="http://api.geetest.com/get.php?gt=df6595b204a06069670b68b6e716ca45&&product=popup&popupbtnid=js-submit"></script>
-	<script type="text/javascript"
-		src="ueditor-min-1.4.3/ueditor.config.js"></script>
-	<script type="text/javascript"
-		src="ueditor-min-1.4.3/ueditor.all.min.js"></script>
-	<script type="text/javascript"
-		src="ueditor-min-1.4.3/lang/zh-cn/zh-cn.js"></script>
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="http://api.geetest.com/get.php"></script>
+	<script src="ueditor-min-1.4.3/ueditor.config.js"></script>
+	<script src="ueditor-min-1.4.3/ueditor.all.min.js"></script>
+	<script src="ueditor-min-1.4.3/lang/zh-cn/zh-cn.js"></script>
 	<script src="js/addPost.js"></script>
 </body>
 </html>
