@@ -66,15 +66,16 @@ function addModule() {
 						"visible" : $("#js-visible").prop("checked")
 					},
 					error : function() {
-						alert("添加模块失败!");
+						alert("添加模块失败2!");
 					},
 					success : function(data) {
 						var jsonObj = eval("(" + data + ")");
+						alert(jsonObj.result);
 						if (jsonObj.success) {
-							alert("添加模块成功！");
 							location.reload();
-						} else {
-							alert("添加模块失败！");
+						}
+						if(jsonObj.redirect){
+							location.href="/forum/login.html";
 						}
 					}
 				});

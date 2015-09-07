@@ -1,5 +1,6 @@
 package com.forum.action;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class ModuleAction {
 	private ModuleBiz moduleBiz;
 	
 	/*
-	 * ��ȡ����ģ��
+	 * 获取所有版块
 	 */
 	@RequestMapping("/getAllModule.json")
 	@ResponseBody
@@ -51,33 +52,48 @@ public class ModuleAction {
 	}
 	
 	/*
-	 * ���ģ��
+	 * 添加模块
 	 */
 	@RequestMapping("/addModule.json")
 	@ResponseBody
-	public String addModule(@RequestParam("name") String name,@RequestParam("desc") String desc,@RequestParam("visible") String visible){
-		ModuleVO moduleVO = new ModuleVO();
-		moduleVO.setName(name);
-		moduleVO.setDesc(desc);
-		moduleVO.setSort("");
-		moduleVO.setParentId(0);
-		moduleVO.setVisible(Boolean.parseBoolean(visible));
-		Integer result = moduleBiz.addModule(moduleVO);
-		
+	public String addModule(HttpServletRequest request,
+			@RequestParam("name") String name,
+			@RequestParam("desc") String desc,
+			@RequestParam("visible") String visible) throws IOException {
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
 		JSONObject json = new JSONObject();
-		
-		if(result>0){
-			json.put("success", true);
-		}
-		else{
+
+		if (userVO != null
+				&& userVO.getGroupId() == Constants.GroupType.admin.getValue()) {
+			ModuleVO moduleVO = new ModuleVO();
+			moduleVO.setName(name);
+			moduleVO.setDesc(desc);
+			moduleVO.setSort("");
+			moduleVO.setParentId(0);
+			moduleVO.setVisible(Boolean.parseBoolean(visible));
+			Integer result = moduleBiz.addModule(moduleVO);
+
+			if (result > 0) {
+				json.put("success", true);
+				json.put("result", "添加模块成功！");
+				json.put("redirect", false);
+			} else {
+				json.put("success", false);
+				json.put("result", "添加模块失败！");
+				json.put("redirect", false);
+			}
+		} else {
 			json.put("success", false);
+			json.put("result", "未登录！");
+			json.put("redirect", true);
 		}
-		
+
 		return json.toString();
 	}
 	
 	/*
-	 * �޸�ģ��
+	 * 修改模块
 	 */
 	@RequestMapping("/editModule.json")
 	@ResponseBody
@@ -105,7 +121,7 @@ public class ModuleAction {
 	}
 	
 	/*
-	 * ɾ��ģ��
+	 * 删除模块
 	 */
 	@RequestMapping("/delModule.json")
 	@ResponseBody

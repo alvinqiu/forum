@@ -16,7 +16,8 @@ $(function() {
 		initialFrameHeight : 500,
 		autoSyncData : false
 	});
-
+	
+	
 	// 获取所有版块
 	$.ajax({
 				url : "getAllModule.json",
