@@ -33,7 +33,7 @@ body {
 }
 
 .panel_top_logo img {
-	
+	border-width: 0;
 }
 
 .panel_top_content {

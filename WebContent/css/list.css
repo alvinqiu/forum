@@ -33,7 +33,7 @@ body {
 }
 
 .panel_top_logo img {
-	
+	border-width: 0;
 }
 
 .panel_top_content {
@@ -131,7 +131,7 @@ a:hover {
 	color: red;
 }
 
-/*·ÖÒ³¿ªÊ¼*/
+/*ï¿½ï¿½Ò³ï¿½ï¿½Ê¼*/
 .panel_left_page {
 	padding: 31px 20px;
 	margin: 0px;
@@ -189,7 +189,7 @@ a:hover {
 	background: url(../img/main_icon.png) no-repeat -152px -568px;
 	margin: 9px 0px 0px 0px;
 }
-/*·ÖÒ³½áÊø*/
+/*ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½*/
 .panel_right {
 	width: 28%;
 	display: inline-block;

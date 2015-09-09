@@ -17,7 +17,7 @@ body{
 	display:inline-block;
 }
 .panel_top_logo img{
-	
+	border-width: 0;
 }
 .panel_top_content{
 	display:inline-block;

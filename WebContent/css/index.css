@@ -33,7 +33,7 @@ body {
 }
 
 .panel_top_logo img {
-	
+	border-width: 0;
 }
 
 .panel_top_content {
@@ -143,7 +143,7 @@ a:hover {
 	cursor: auto;
 }
 
-/*Ìû×ÓÇøÓò¿ªÊ¼*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼*/
 .panel_left_list {
 	width: 100%;
 	height: auto;
@@ -217,7 +217,7 @@ a:hover {
 	text-align: justify;
 	text-indent: 2em;
 }
-/*Ìû×ÓÇøÓò½áÊø*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
 
 .panel_right {
 	width: 28%;
