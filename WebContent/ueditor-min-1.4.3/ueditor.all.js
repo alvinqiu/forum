@@ -18631,25 +18631,7 @@ UE.plugin.register('simpleupload', function (){
 
                 domUtils.on(iframe, 'load', callback);
                 form.action = utils.formatUrl(imageActionUrl + (imageActionUrl.indexOf('?') == -1 ? '?':'&') + params);
-                
-                //显示本地图片（预览）
-                var file = input.files[0];
-    			var reader = new FileReader();
-    			reader.onload = function() {
-	    			var img = new Image();
-	    			loader = me.document.getElementById(loadingId);
-	                loader.setAttribute('src', reader.result);
-	                loader.setAttribute('_src', reader.result);
-	                loader.setAttribute('title', '');
-	                loader.setAttribute('alt', '');
-	                loader.setAttribute('width', 'auto');
-	                loader.setAttribute('height', 'auto');
-	                loader.removeAttribute('id');
-	                domUtils.removeClasses(loader, 'loadingclass');
-    			};
-    			reader.readAsDataURL(file);
-                
-                //form.submit();
+                form.submit();
             });
 
             var stateTimer;

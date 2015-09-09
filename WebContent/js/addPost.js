@@ -74,9 +74,6 @@ $(function() {
 
 function checkForm() {
 	
-	
-	
-	
 	var subject = $.trim($("input[name='subject']").val());
 	var moduleId = $.trim($("select[name='moduleId']").val());
 	var type = $.trim($("select[name='type']").val());
