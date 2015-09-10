@@ -51,20 +51,18 @@ body {
 	margin: 0 auto;
 }
 
-.panel_content{
-	padding:10px;
-	width:800px;
-	margin:auto;
-	height:auto;
+.panel_content {
+	padding: 10px;
+	width: 800px;
+	margin: auto;
+	height: auto;
 }
 
-.goBack{
-	margin-bottom:10px;
+.goBack {
+	margin-bottom: 10px;
 }
 
-
-
-.submitPost{
+.submitPost {
 	display: block;
 	width: 96px;
 	height: 36px;
@@ -72,6 +70,6 @@ body {
 	border: 1px solid #32a5e7;
 	border-radius: 2px 2px 2px 2px;
 	color: #FFF;
-	float:left;
-	margin:10px 0;
+	float: left;
+	margin: 10px 0;
 }

@@ -42,8 +42,11 @@ public class LoginAction {
 				HttpSession session = request.getSession();
 				session.setAttribute(Constants.LOGINED_USER, userVOList.get(0));
 			} else {// 用户未激活
-				json.put("result", "账户未激活!");
+				json.put("result", "账户未激活,系统已发送一封邮件至您的邮箱，请点击邮件中链接进行激活操作！");
 				json.put("success", false);
+				
+				//发送激活邮件
+				userBiz.sendActivationMail(userVOList.get(0), request);
 			}
 		} else {// 用户不存在
 			json.put("result", "用户名或密码错误!");

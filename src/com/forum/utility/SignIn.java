@@ -20,39 +20,44 @@ public class SignIn {
 
 	@Autowired
 	private ExpandInfoBiz expandInfoBiz;
-	
+
+	// 是否已签到
+	boolean isSignIn = false;
+
 	/*
-	 * ǩ��
+	 * 签到
 	 */
 	@RequestMapping("/signIn.json")
 	@ResponseBody
-	public String signIn(HttpServletRequest request){
+	public String signIn(HttpServletRequest request) {
 		JSONObject json = new JSONObject();
-		
+
 		HttpSession session = request.getSession();
-		UserVO userVO = (UserVO)session.getAttribute(Constants.LOGINED_USER);
-		
-		if(userVO!=null){
-			// ���10���ڵ������
+		UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
+
+		if (userVO != null) {
+			// 生成随机数
 			Random random = new Random();
-			int point =  random.nextInt(10)+1;
-					
+			int point = random.nextInt(10) + 1;
+
 			Integer result = expandInfoBiz.signIn(point, userVO.getId());
-			
-			if(result>0){
-				json.put("result", "ǩ���ɹ������� "+point+" ���֣�");
+
+			if (result > 0) {
+				json.put("result", "恭喜您获得了  " + point + " 积分！");
 				json.put("success", true);
-			}
-			else {
-				json.put("result", "ǩ��ʧ�ܣ�");
+			} else if (result < 0) {
+				json.put("result", "您已签到");
+				json.put("success", false);
+			} else {
+				json.put("result", "请先完善你的个人信息！");
 				json.put("success", false);
 			}
-		}
-		else{
-			json.put("result", "δ��¼");
+		} else {
+			json.put("result", "需登录才能进行签到！");
 			json.put("success", false);
 		}
-		
+
+		json.put("isSignIn", isSignIn);
 		return json.toString();
 	}
 }

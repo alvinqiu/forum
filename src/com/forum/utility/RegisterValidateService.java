@@ -10,7 +10,7 @@ public class RegisterValidateService {
 		// 添加邮件内容
 		StringBuffer sb = new StringBuffer(
 				"点击下面链接激活账号，24小时内有效，否则重新注册账号，请尽快激活！<br>");
-		sb.append("<a href='http://" + url + "/forum/activate.json?email="
+		sb.append("<a href='" + url + "/forum/activate.json?email="
 				+ email + "' target='_blank'>" + url
 				+ "/forum/activate.json?email=" + email + "</a>");
 

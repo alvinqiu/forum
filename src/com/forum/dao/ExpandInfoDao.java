@@ -1,5 +1,6 @@
 package com.forum.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,39 +13,39 @@ public class ExpandInfoDao {
 
 	@Autowired
 	private ExpandInfoInterface expandInfoInterface;
-	
+
 	/*
 	 * ��ȡ�û���Ϣ(by userId)
 	 */
-	public List<ExpandInfoVO> selExpandInfoByUserId(long userId){
+	public List<ExpandInfoVO> selExpandInfoByUserId(long userId) {
 		return expandInfoInterface.selExpandInfoByUserId(userId);
 	}
-	
+
 	/*
 	 * �����û���Ϣ
 	 */
-	public Integer addExpandInfo(ExpandInfoVO expandInfoVO){
+	public Integer addExpandInfo(ExpandInfoVO expandInfoVO) {
 		return expandInfoInterface.addExpandInfo(expandInfoVO);
 	}
-	
+
 	/*
 	 * �޸��û���Ϣ
 	 */
-	public Integer updateExpandInfoByUserId(ExpandInfoVO expandInfoVO){
+	public Integer updateExpandInfoByUserId(ExpandInfoVO expandInfoVO) {
 		return expandInfoInterface.updateExpandInfoByUserId(expandInfoVO);
 	}
-	
+
 	/*
 	 * �ж��ǳ��Ƿ��Ѵ���
 	 */
-	public List<ExpandInfoVO> checkNickNameIsExist(String nickName){
+	public List<ExpandInfoVO> checkNickNameIsExist(String nickName) {
 		return expandInfoInterface.checkNickNameIsExist(nickName);
 	}
-	
+
 	/*
-	 * ǩ��
+	 * 签到
 	 */
-	public Integer signIn(long point,long userId){
-		return expandInfoInterface.signIn(point, userId);
+	public Integer signIn(long point, long userId, Timestamp pointSignInTime) {
+		return expandInfoInterface.signIn(point, userId, pointSignInTime);
 	}
 }

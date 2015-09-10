@@ -24,9 +24,12 @@ $(function(){
 		return myDate.toString(myDate);
 	});
 	
+	$("#js-signIn").click(signIn);
+	
 	//查询是否登录
 	$.ajax({
 		url:"checkLogin.json",
+		async:true,
 		error:function(){alert("请重新登录！");},
 		success:function(data){
 			var jsonObj = eval("("+data+")");
@@ -40,6 +43,12 @@ $(function(){
 			
 			if(jsonObj.isAdmin){
 				$("#js-manage").show();
+			}
+			
+			if(jsonObj.isSignIn){
+				$("#signin_status").text("已签到");
+			}else{
+				$("#signin_status").text("签 到");
 			}
 		}
 	});
@@ -70,6 +79,7 @@ function signIn(){
 			var jsonObj = eval("("+data+")");
 			if(jsonObj.success){
 				alert(jsonObj.result);
+				$("#signin_status").text("已签到");
 			}
 			else{
 				alert(jsonObj.result);

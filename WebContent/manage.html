@@ -8,23 +8,29 @@
 </head>
 <body>
 
+
 	<div class="panel">
-		
-		<div class="module" id="js-module">
-			模块管理
+		<div class="panel_top">
+			<div class="panel_top_header">
+				<div class="panel_top_logo">
+					<a href="index.html"><img alt="logo" src="img/logo.png" /></a>
+				</div>
+			</div>
 		</div>
-		
-		<div class="post" id="js-post">
-			审核帖子
+
+		<div class="panel_detail">
+			<div class="goBack">
+				<a href="javascript:void(0);" onclick="history.go(-1);">返回上一级</a>
+			</div>
+			<ul>
+				<li class="module" id="js-module">模块管理</li>
+				<li class="post" id="js-post">审核帖子</li>
+				<li class="group" id="js-group">设置身份</li>
+			</ul>
 		</div>
-		
-		<div class="group" id="js-group">
-			设置身份
-		</div>
-		
 	</div>
-	
-	<script src="js/jquery-1.7.2.min.js" ></script>
-	<script src="js/manage.js" ></script>
+
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="js/manage.js"></script>
 </body>
 </html>

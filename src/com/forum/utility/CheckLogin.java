@@ -1,5 +1,6 @@
 package com.forum.utility;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,63 +23,55 @@ public class CheckLogin {
 
 	@Autowired
 	private ExpandInfoBiz expandInfoBiz;
-	
+
+	// 用户名（昵称 or 邮箱地址）
 	public String USERNAME = "";
-	
+	// 是否为管理员
+	boolean isAdmin = false;
+	// 是否已签到
+	boolean isSignIn = false;
+
 	/*
-	 * 是否登录
-	 * return 昵称 or mail
+	 * 是否登录 return 昵称 or mail
 	 */
 	@RequestMapping("/checkLogin.json")
 	@ResponseBody
-	public String checkLogin(HttpServletRequest request){
+	public String checkLogin(HttpServletRequest request) {
 		JSONObject json = new JSONObject();
-		boolean isAdmin = false;
+
 		List<ExpandInfoVO> expandInfoVOList;
 		HttpSession session = request.getSession();
-		UserVO userVO = (UserVO)session.getAttribute(Constants.LOGINED_USER);
-		
-		if(userVO!=null){
-			//用户名
-			expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(userVO.getId());
-			if(expandInfoVOList.size()>0){
+		UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
+
+		if (userVO != null) {
+			// 获取用户个人信息
+			expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(userVO
+					.getId());
+
+			if (expandInfoVOList.size() > 0) {
 				USERNAME = expandInfoVOList.get(0).getNickName();
-			}
-			else{
+
+				// 判断签到时间是否为今天
+				long day = expandInfoBiz.checkSignInTime(expandInfoVOList.get(0).getPointSignInTime());
+
+				if (day == 0) {
+					isSignIn = true;
+				}
+
+			} else {
 				USERNAME = userVO.getMail();
 			}
 			isAdmin = userVO.getGroupId() == GroupType.admin.getValue() ? true
 					: false;
 			json.put("name", USERNAME);
-			json.put("isAdmin", isAdmin);
 			json.put("success", true);
-		}
-		else{
+		} else {
 			json.put("success", false);
-			json.put("isAdmin", isAdmin);
 		}
-		
+
+		json.put("isAdmin", isAdmin);
+		json.put("isSignIn", isSignIn);
 		return json.toString();
 	}
-	
-	
-	/*
-	 * 是否为管理员
-	 
-	@RequestMapping("/checkLogin4Admin.json")
-	@ResponseBody
-	public String checkLogin4Admin(HttpServletRequest request){
-		JSONObject json = new JSONObject();
-		HttpSession session = request.getSession();
-		UserVO userVO = (UserVO)session.getAttribute(Constants.LOGINED_USER);
-		
-		if(userVO!=null && userVO.getGroupId()==1){
-			json.put("success", true);
-		}
-		else{
-			json.put("success", false);
-		}
-		
-		return json.toString();
-	}*/
+
 }

@@ -1,5 +1,6 @@
 package com.forum.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Insert;
@@ -13,7 +14,7 @@ import com.forum.vo.ExpandInfoVO;
 
 public interface ExpandInfoInterface {
 	@Select("select * from tab_expand_info where col_user_id=#{userId}")
-	@Results(value={
+	@Results(value = {
 			@Result(property = "id", column = "col_id"),
 			@Result(property = "mobile", column = "col_mobile"),
 			@Result(property = "head", column = "col_head"),
@@ -22,14 +23,13 @@ public interface ExpandInfoInterface {
 			@Result(property = "gender", column = "col_gender"),
 			@Result(property = "addedTime", column = "col_added_time"),
 			@Result(property = "birthday", column = "col_birthday"),
-			@Result(property = "userId", column = "col_user_id")
-	})
+			@Result(property = "userId", column = "col_user_id"),
+			@Result(property = "pointSignInTime", column = "col_point_signin_time") })
 	public List<ExpandInfoVO> selExpandInfoByUserId(long userId);
 
-	
-	@Insert("insert into tab_expand_info(col_mobile,col_head,col_nickname,col_gender,col_added_time,col_birthday,col_user_id)"
-			+ " values(#{mobile},#{head},#{nickName},#{gender},#{addedTime},#{birthday},#{userId})")
-	@Results(value={
+	@Insert("insert into tab_expand_info(col_mobile,col_head,col_nickname,col_gender,col_added_time,col_birthday,col_user_id,col_point_signin_time)"
+			+ " values(#{mobile},#{head},#{nickName},#{gender},#{addedTime},#{birthday},#{userId},#{pointSignInTime})")
+	@Results(value = {
 			@Result(property = "id", column = "col_id"),
 			@Result(property = "mobile", column = "col_mobile"),
 			@Result(property = "head", column = "col_head"),
@@ -38,13 +38,13 @@ public interface ExpandInfoInterface {
 			@Result(property = "gender", column = "col_gender"),
 			@Result(property = "addedTime", column = "col_added_time"),
 			@Result(property = "birthday", column = "col_birthday"),
-			@Result(property = "userId", column = "col_user_id")
-	})
+			@Result(property = "userId", column = "col_user_id"),
+			@Result(property = "pointSignInTime", column = "col_point_signin_time") })
 	public Integer addExpandInfo(ExpandInfoVO expandInfoVO);
-	
+
 	@Update("update tab_expand_info set col_mobile=#{mobile},col_head=#{head},col_nickname=#{nickName},col_gender=#{gender},col_added_time=#{addedTime},col_birthday=#{birthday}"
 			+ " where col_user_id=#{userId}")
-	@Results(value={
+	@Results(value = {
 			@Result(property = "id", column = "col_id"),
 			@Result(property = "mobile", column = "col_mobile"),
 			@Result(property = "head", column = "col_head"),
@@ -53,12 +53,12 @@ public interface ExpandInfoInterface {
 			@Result(property = "gender", column = "col_gender"),
 			@Result(property = "addedTime", column = "col_added_time"),
 			@Result(property = "birthday", column = "col_birthday"),
-			@Result(property = "userId", column = "col_user_id")
-	})
+			@Result(property = "userId", column = "col_user_id"),
+			@Result(property = "pointSignInTime", column = "col_point_signin_time") })
 	public Integer updateExpandInfoByUserId(ExpandInfoVO expandInfoVO);
-	
+
 	@Select("select * from tab_expand_info where col_nickname=#{nickName}")
-	@Results(value={
+	@Results(value = {
 			@Result(property = "id", column = "col_id"),
 			@Result(property = "mobile", column = "col_mobile"),
 			@Result(property = "head", column = "col_head"),
@@ -67,12 +67,12 @@ public interface ExpandInfoInterface {
 			@Result(property = "gender", column = "col_gender"),
 			@Result(property = "addedTime", column = "col_added_time"),
 			@Result(property = "birthday", column = "col_birthday"),
-			@Result(property = "userId", column = "col_user_id")
-	})
+			@Result(property = "userId", column = "col_user_id"),
+			@Result(property = "pointSignInTime", column = "col_point_signin_time") })
 	public List<ExpandInfoVO> checkNickNameIsExist(String nickName);
-	
-	@Update("update tab_expand_info set col_point = ifnull(col_point,0)+#{point} where col_user_id=#{userId}")
-	@Results(value={
+
+	@Update("update tab_expand_info set col_point = ifnull(col_point,0)+#{point} , col_point_signin_time=#{pointSignInTime} where col_user_id=#{userId}")
+	@Results(value = {
 			@Result(property = "id", column = "col_id"),
 			@Result(property = "mobile", column = "col_mobile"),
 			@Result(property = "head", column = "col_head"),
@@ -81,7 +81,9 @@ public interface ExpandInfoInterface {
 			@Result(property = "gender", column = "col_gender"),
 			@Result(property = "addedTime", column = "col_added_time"),
 			@Result(property = "birthday", column = "col_birthday"),
-			@Result(property = "userId", column = "col_user_id")
-	})
-	public Integer signIn(@Param("point") long point,@Param("userId") long userId);
+			@Result(property = "userId", column = "col_user_id"),
+			@Result(property = "pointSignInTime", column = "col_point_signin_time") })
+	public Integer signIn(@Param("point") long point,
+			@Param("userId") long userId,
+			@Param("pointSignInTime") Timestamp pointSignInTime);
 }

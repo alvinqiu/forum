@@ -35,21 +35,27 @@ public class UserBiz {
 			String darkPassword = MD5.md5(userVO.getDarkPass());
 			userVO.setDarkPass(darkPassword);
 			userVO.setIsActive(0);
-			userVO.setGroupId(Constants.GroupType.user.getValue());//1.管理员  2.版主  3.普通用户
+			userVO.setGroupId(Constants.GroupType.user.getValue());//普通用户
 			result=userDao.addUser(userVO);
 			
 			if(result>0){
 				//发送激活邮件
-				RegisterValidateService rvs = new RegisterValidateService();
-				
-				String url = request.getRequestURL().toString().replace(request.getRequestURI(),"");
-				
-				rvs.processregister(userVO.getMail(),url);
+				sendActivationMail(userVO, request);
 			}
 		}
 		
 		
 		return result;
+	}
+	
+	/*
+	 *  发送激活邮件
+	 */
+	public void sendActivationMail(UserVO userVO, HttpServletRequest request) {
+		RegisterValidateService rvs = new RegisterValidateService();
+		String url = request.getRequestURL().toString()
+				.replace(request.getRequestURI(), "");
+		rvs.processregister(userVO.getMail(), url);
 	}
 	
 	/*
