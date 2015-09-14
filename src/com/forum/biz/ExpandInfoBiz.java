@@ -74,9 +74,12 @@ public class ExpandInfoBiz {
 	 * 判断签到时间是否为今天
 	 */
 	public long checkSignInTime(Timestamp ts) {
-		Timestamp today = new Timestamp(System.currentTimeMillis());
+		long day = -1;
+		if (ts != null) {
+			Timestamp today = new Timestamp(System.currentTimeMillis());
 
-		long day = (today.getTime() - ts.getTime()) / 1000 / 60 / 60 / 24;
+			day = (today.getTime() - ts.getTime()) / 1000 / 60 / 60 / 24;
+		}
 		return day;
 	}
 }
