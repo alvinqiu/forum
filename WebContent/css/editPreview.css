@@ -70,6 +70,12 @@ label, select {
 	margin-bottom: 10px;
 }
 
+.fileTable {
+	display: table;
+	float: right;
+	margin: 0 30px;
+}
+
 .headFile {
 	width: 342px;
 	height: 50px;
@@ -81,13 +87,23 @@ label, select {
 	cursor: pointer;
 }
 
-/* .filePanel {
-	display: inline-block;
-	width: 200px;
-	height: 200px;
+.filePanel {
+	width: 350px;
+	height: 300px;
 	border: 1px solid #dadada;
 	background-color: #dadada;
-} */
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.filePanel img {
+	border: 0;
+	vertical-align: middle;
+	width: 150px;
+	height: 150px;
+}
+
 .nickName input, .mobile input, .tag input {
 	width: 320px;
 	height: 50px;
@@ -108,7 +124,7 @@ label, select {
 	height: 40px;
 }
 
-.tagPanel{
+.tagPanel {
 	
 }
 

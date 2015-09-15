@@ -50,6 +50,8 @@ $(function(){
 			if(data!="{}"){
 				key=0;
 				var jsonObj=eval("("+data+")");
+				$(".filePanel").html("<img src='"+jsonObj.result.head+"' />");
+				$("input[name='head']").val(jsonObj.result.head);
 				$("input[name='nickName']").val(jsonObj.result.nickName);
 				$("input[name='mobile']").val(jsonObj.result.mobile);
 				$("input[type=radio][value="+jsonObj.result.gender+"]").attr("checked",'checked');
@@ -148,7 +150,7 @@ $(function(){
 		            	var domain = up.getOption('domain');
 		            	var res = jQuery.parseJSON(info);
 		            	var sourceLink = "http://"+domain+"/" + res.key; //获取上传成功后的文件的Url
-		            	$("input[name='file']").before("<img src='"+sourceLink+"' />");
+		            	$(".filePanel").html("<img src='"+sourceLink+"' />");
 		            	$("input[name='head']").val(sourceLink);
 		            },
 		            'Error': function(up, err, errTip) {

@@ -28,93 +28,92 @@ public class EditPreviewAction {
 
 	@Autowired
 	private ExpandInfoBiz expandInfoBiz;
-	
+
 	@Autowired
 	private TagBiz tagBiz;
-	
+
 	@Autowired
 	private Verify verify;
 
 	/*
-	 * ���ʸ�����Ϣ����
+	 * 获取个人信息
 	 */
 	@RequestMapping("/preview.json")
 	@ResponseBody
-	public String getPreview(HttpServletRequest request,HttpServletResponse response){
+	public String getPreview(HttpServletRequest request,
+			HttpServletResponse response) {
 		HttpSession session = request.getSession();
-		UserVO userVO = (UserVO)session.getAttribute(Constants.LOGINED_USER);
-		
+		UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
+
 		JSONObject json = new JSONObject();
-		if(userVO!=null){
-			List<ExpandInfoVO> expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(userVO.getId());
-			if(expandInfoVOList.size()>0){
+		if (userVO != null) {
+			List<ExpandInfoVO> expandInfoVOList = expandInfoBiz
+					.selExpandInfoByUserId(userVO.getId());
+			if (expandInfoVOList.size() > 0) {
 				json.put("result", expandInfoVOList.get(0));
 			}
 			List<TagVO> tagVOList = tagBiz.selectTagByUserId(userVO.getId());
-			if(tagVOList.size()>0){
+			if (tagVOList.size() > 0) {
 				json.put("tagVOList", tagVOList);
 			}
 		}
 		return json.toString();
 	}
-	
+
 	/*
-	 * ������Ϣ����
-	 * key   -1==����   0==�޸�
+	 * 新增 or修改个人信息 key -1==新增 0==修改
 	 */
 	@RequestMapping("/editPreview.json")
 	@ResponseBody
-	public String editPreview(HttpServletRequest request,HttpServletResponse response,@RequestParam("key") long key,
-			@RequestParam("tagList") String tagList,ExpandInfoVO expandInfoVO){
+	public String editPreview(HttpServletRequest request,
+			HttpServletResponse response, @RequestParam("key") long key,
+			@RequestParam("tagList") String tagList, ExpandInfoVO expandInfoVO) {
 		JSONObject json = new JSONObject();
 		Integer result = 0;
-		// ��֤�û�
+		// 查询是否登录
 		HttpSession session = request.getSession();
-		UserVO userVO = (UserVO)session.getAttribute(Constants.LOGINED_USER);
-		if (userVO==null) {
+		UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
+		if (userVO == null) {
 			response.setHeader("refresh", "2;url=/forum/login.html");
 			json.put("success", false);
-			json.put("result", "δ��¼��");
-		}
-		else{
-		
+			json.put("result", "您还未登录！");
+		} else {
+
 			String nickName = request.getParameter("nickName");
-			if(nickName!=""){
-				List<ExpandInfoVO> expandInfoVOList = expandInfoBiz.checkNickNameIsExist(nickName);
-				if(expandInfoVOList.size()>0 && key<0){
+			if (nickName != "") {
+				List<ExpandInfoVO> expandInfoVOList = expandInfoBiz
+						.checkNickNameIsExist(nickName);
+				if (expandInfoVOList.size() > 0 && key < 0) {
 					json.put("success", false);
-					json.put("result", "�ǳ��Ѵ��ڣ�");
-				}
-				else{
+					json.put("result", "此昵称已存在！");
+				} else {
 					expandInfoVO.setUserId(userVO.getId());
-					//��ǰʱ��
-					Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+					// 当前时间
+					Timestamp timestamp = new Timestamp(
+							System.currentTimeMillis());
 					expandInfoVO.setAddedTime(timestamp);
-					
-					if(key<0){
+
+					if (key < 0) {
 						result = expandInfoBiz.addExpandInfo(expandInfoVO);
-						
-						//��ӱ�ǩ
-						tagBiz.insertTag(tagList,userVO.getId());
+
+						// 新增标签
+						tagBiz.insertTag(tagList, userVO.getId());
+					} else {
+						result = expandInfoBiz
+								.updateExpandInfoByUserId(expandInfoVO);
 					}
-					else{
-						result = expandInfoBiz.updateExpandInfoByUserId(expandInfoVO);
-					}
-					
-					
-					if(result>0){
+
+					if (result > 0) {
 						json.put("success", true);
-						json.put("result", "��Ϣ��ĳɹ���");
-					}
-					else{
+						json.put("result", "个人信息更新成功！");
+					} else {
 						json.put("success", false);
-						json.put("result", "��Ϣ���ʧ�ܣ�");
+						json.put("result", "个人信息更新失败！");
 					}
 				}
-			}
-			else{
+			} else {
 				json.put("success", false);
-				json.put("result", "�ǳƲ���Ϊ�գ�");
+				json.put("result", "昵称不能为空！");
 			}
 		}
 		return json.toString();
