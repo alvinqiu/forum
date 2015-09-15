@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>帖子列表页</title>
+<link href="img/favicon.ico" rel="icon" type="image/x-icon" />
 <link rel="stylesheet" href="css/list.css" />
 </head>
 <body>
@@ -17,32 +18,30 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="panel_detail">
 			<div class="panel_left">
 				<div class="panel_left_addPost">
 					<a class="addPost" id="js-addPost" href="javascript:void(0);">发表帖子</a>
 				</div>
-				
+
 				<label class='title'>置顶区</label>
 				<div class="panel_left_top"></div>
-				
+
 				<label class='title'>普通区</label>
 				<div class="panel_left_common"></div>
-				
+
 				<!-- 分页 -->
 				<div class="panel_left_page">
 					<div class='pg'></div>
 				</div>
 			</div>
-			
+
 			<div class="panel_right">
-				<div class="panel_right_sign">
-					<a href="javascript:void(0);" id="js-signIn" onclick="signIn()">
-						<div class="panel_right_sign_week" id="js-week"></div>
-						<div class="panel_right_sign_signIn" id="signin_status">签 到</div>
-						<div class="cr"></div>
-					</a>
+				<div class="panel_right_sign" id="js-signIn">
+					<div class="panel_right_sign_week" id="js-week"></div>
+					<div class="panel_right_sign_signIn" id="signin_status">签 到</div>
+					<div class="cr"></div>
 				</div>
 				<div class="panel_right_module">
 					<div class="panel_right_module_title">版块信息</div>
@@ -51,22 +50,21 @@
 					</div>
 				</div>
 				<div class="panel_right_ad">
-					<img alt="ad" src="img/ad.jpg" />
-					<img alt="ad" src="img/ad2.jpg" />
+					<img alt="ad" src="img/ad.jpg" /> <img alt="ad" src="img/ad2.jpg" />
 					<img alt="ad" src="img/ad3.jpg" />
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="scrolltop" id="js-scrolltop"></div>
-		
+
 		<div class="foot">
-			晟越科技<a id="js-manage" href="manage.html" style="display:none">后台管理</a>
+			晟越科技<a id="js-manage" href="manage.html" style="display: none">后台管理</a>
 		</div>
 	</div>
-	
-	<script src="js/jquery-1.7.2.min.js" ></script>
-	<script src="js/list.js" ></script>
-	<script src="js/common.js" ></script>
+
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="js/list.js"></script>
+	<script src="js/common.js"></script>
 </body>
 </html>

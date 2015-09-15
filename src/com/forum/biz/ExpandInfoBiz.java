@@ -1,6 +1,7 @@
 package com.forum.biz;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,13 +56,11 @@ public class ExpandInfoBiz {
 
 		if (expandInfoVOList.size() > 0) {
 			// 判断签到时间是否为今天
-			long day = checkSignInTime(expandInfoVOList.get(0).getPointSignInTime());
-
-			if (day == 0) {
-				return -1;//已签到
+			if (checkSignInTime(expandInfoVOList.get(0).getPointSignInTime())) {
+				return -1;// 已签到
 			}
-		}else{
-			return 0;//无个人信息
+		} else {
+			return 0;// 无个人信息
 		}
 
 		// 获取当前时间
@@ -69,17 +68,41 @@ public class ExpandInfoBiz {
 
 		return expandInfoDao.signIn(point, userId, timestamp);
 	}
-	
+
 	/*
 	 * 判断签到时间是否为今天
 	 */
-	public long checkSignInTime(Timestamp ts) {
-		long day = -1;
-		if (ts != null) {
-			Timestamp today = new Timestamp(System.currentTimeMillis());
+	public boolean checkSignInTime(Timestamp ts) {
 
-			day = (today.getTime() - ts.getTime()) / 1000 / 60 / 60 / 24;
+		if (ts != null) {
+			if (ts.after(getDayBegin()) && ts.before(getDayEnd())) {
+				return true;
+			}
 		}
-		return day;
+		return false;
+	}
+
+	/*
+	 * 获取当天开始时间戳
+	 */
+	public Timestamp getDayBegin() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.MILLISECOND, 001);
+		return new Timestamp(cal.getTimeInMillis());
+	}
+
+	/*
+	 * 获取当天结束时间戳
+	 */
+	public Timestamp getDayEnd() {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR_OF_DAY, 23);
+		cal.set(Calendar.SECOND, 59);
+		cal.set(Calendar.MINUTE, 59);
+		cal.set(Calendar.MILLISECOND, 999);
+		return new Timestamp(cal.getTimeInMillis());
 	}
 }

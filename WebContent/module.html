@@ -3,21 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <title>模块管理</title>
-
+<link href="img/favicon.ico" rel="icon" type="image/x-icon" />
 <link rel="stylesheet" href="css/jquery-ui-1.7.2.custom.css" />
 <link rel="stylesheet" href="css/module.css" />
 </head>
 <body>
 
-	<div class="back"><a href="manage.html">返回管理菜单</a></div>
-	
+	<div class="back">
+		<a href="manage.html">返回管理菜单</a>
+	</div>
+
 	<div class="panel">
 		<a href="javascript:void(0);" id="js-addModule">添加模块</a>
 		<table>
-			<tr><th>ID</th><th>名称</th><th>说明</th><th>排序</th><th>管理员可见</th><th>操作</th></tr>
+			<tr>
+				<th>ID</th>
+				<th>名称</th>
+				<th>说明</th>
+				<th>排序</th>
+				<th>管理员可见</th>
+				<th>操作</th>
+			</tr>
 		</table>
 	</div>
-	
+
 	<!-- module dialog -->
 	<div id="moduleDialog" style="display: none">
 		<form id="moduleForm" name="moduleForm">
@@ -42,8 +51,8 @@
 		</form>
 	</div>
 
-	<script src="js/jquery-1.7.2.min.js" ></script>
-	<script src="js/jquery-ui-1.7.2.custom.min.js" ></script>
-	<script src="js/module.js" ></script>
+	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="js/jquery-ui-1.7.2.custom.min.js"></script>
+	<script src="js/module.js"></script>
 </body>
 </html>

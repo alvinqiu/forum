@@ -23,19 +23,20 @@ public class CheckLogin {
 	@Autowired
 	private ExpandInfoBiz expandInfoBiz;
 
-	// 用户名（昵称 or 邮箱地址）
-	public String USERNAME = "";
-	// 是否为管理员
-	boolean isAdmin = false;
-	// 是否已签到
-	boolean isSignIn = false;
-
 	/*
 	 * 是否登录 return 昵称 or mail
 	 */
 	@RequestMapping("/checkLogin.json")
 	@ResponseBody
 	public String checkLogin(HttpServletRequest request) {
+
+		// 用户名（昵称 or 邮箱地址）
+		String USERNAME = "";
+		// 是否为管理员
+		boolean isAdmin = false;
+		// 是否已签到
+		boolean isSignIn = false;
+
 		JSONObject json = new JSONObject();
 
 		List<ExpandInfoVO> expandInfoVOList;
@@ -51,9 +52,8 @@ public class CheckLogin {
 				USERNAME = expandInfoVOList.get(0).getNickName();
 
 				// 判断签到时间是否为今天
-				long day = expandInfoBiz.checkSignInTime(expandInfoVOList.get(0).getPointSignInTime());
-
-				if (day == 0) {
+				if (expandInfoBiz.checkSignInTime(expandInfoVOList.get(0)
+						.getPointSignInTime())) {
 					isSignIn = true;
 				}
 

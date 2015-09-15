@@ -12,6 +12,9 @@ $(function(){
 	    }
 	});
 	
+	$("#js-headFile").bind("click",function(){
+		$("#pickfiles").click();
+	});
 	
 	var dateTimeNow = new Date();
 	
