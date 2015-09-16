@@ -14,6 +14,7 @@ public class ExpandInfoVO {
 	private String birthday;
 	private long userId;
 	private Timestamp pointSignInTime;
+	private String tags;
 
 	public long getId() {
 		return id;
@@ -93,5 +94,13 @@ public class ExpandInfoVO {
 
 	public void setPointSignInTime(Timestamp pointSignInTime) {
 		this.pointSignInTime = pointSignInTime;
+	}
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 }

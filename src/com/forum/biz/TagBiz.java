@@ -30,12 +30,15 @@ public class TagBiz {
 		for (int i = 0; i < tagArray.length; i++) {
 			str = tagArray[i];
 			if (str != "") {
+				
+				//添加标签
 				tagVO.setName(str);
 				result = tagDao.insert(tagVO);
+				
 				if (result > 0) {
 					tagUserRelationVO.setTagId(tagVO.getId());
 					tagUserRelationVO.setUserId(userId);
-					result = tagDao.saveRelation(tagUserRelationVO);
+					result = tagDao.insertRelation(tagUserRelationVO);
 				}
 			}
 		}

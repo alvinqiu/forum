@@ -15,23 +15,23 @@ public class TagDao {
 	private TagInterface tagInterface;
 	
 	/*
-	 * ��ӱ�ǩ
+	 * 添加标签
 	 */
 	public Integer insert(TagVO tagVO){
-		return tagInterface.save(tagVO);
+		return tagInterface.insert(tagVO);
 	}
 	
 	/*
-	 * ���userId��ѯ��ǩ
+	 * 根据userId查询标签
 	 */
 	public List<TagVO> selectById(long userId){
 		return tagInterface.selectTagByUserId(userId);
 	}
 	
 	/*
-	 * �洢��ǩ���û���Ӧ��ϵ
+	 * 添加user与tag的关系
 	 */
-	public Integer saveRelation(TagUserRelationVO tagUserRelationVO){
-		return tagInterface.saveRelation(tagUserRelationVO);
+	public Integer insertRelation(TagUserRelationVO tagUserRelationVO){
+		return tagInterface.insertRelation(tagUserRelationVO);
 	}
 }

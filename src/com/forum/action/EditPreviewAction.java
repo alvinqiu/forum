@@ -20,7 +20,6 @@ import com.forum.biz.TagBiz;
 import com.forum.utility.Constants;
 import com.forum.utility.Verify;
 import com.forum.vo.ExpandInfoVO;
-import com.forum.vo.TagVO;
 import com.forum.vo.UserVO;
 
 @Controller
@@ -47,15 +46,14 @@ public class EditPreviewAction {
 
 		JSONObject json = new JSONObject();
 		if (userVO != null) {
-			List<ExpandInfoVO> expandInfoVOList = expandInfoBiz
-					.selExpandInfoByUserId(userVO.getId());
+			List<ExpandInfoVO> expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(userVO.getId());
 			if (expandInfoVOList.size() > 0) {
 				json.put("result", expandInfoVOList.get(0));
 			}
-			List<TagVO> tagVOList = tagBiz.selectTagByUserId(userVO.getId());
+			/*List<TagVO> tagVOList = tagBiz.selectTagByUserId(userVO.getId());
 			if (tagVOList.size() > 0) {
 				json.put("tagVOList", tagVOList);
-			}
+			}*/
 		}
 		return json.toString();
 	}
@@ -66,8 +64,7 @@ public class EditPreviewAction {
 	@RequestMapping("/editPreview.json")
 	@ResponseBody
 	public String editPreview(HttpServletRequest request,
-			HttpServletResponse response, @RequestParam("key") long key,
-			@RequestParam("tagList") String tagList, ExpandInfoVO expandInfoVO) {
+			HttpServletResponse response, @RequestParam("key") long key, ExpandInfoVO expandInfoVO) {
 		JSONObject json = new JSONObject();
 		Integer result = 0;
 		// 查询是否登录
@@ -97,14 +94,13 @@ public class EditPreviewAction {
 
 					if (key < 0) {
 						result = expandInfoBiz.addExpandInfo(expandInfoVO);
-
-						// 新增标签
-						tagBiz.insertTag(tagList, userVO.getId());
 					} else {
-						result = expandInfoBiz
-								.updateExpandInfoByUserId(expandInfoVO);
+						result = expandInfoBiz.updateExpandInfoByUserId(expandInfoVO);
 					}
 
+					/*// 替换标签
+					tagBiz.insertTag(tagList, userVO.getId());*/
+					
 					if (result > 0) {
 						json.put("success", true);
 						json.put("result", "个人信息更新成功！");

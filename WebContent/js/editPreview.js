@@ -4,7 +4,7 @@ $(function() {
 					function(e) {
 						if (e.keyCode == 32) {
 							var tag = $.trim($("input[name='tag']").val());
-							var tagList = $.trim($("input[name='tagList']")
+							var tagList = $.trim($("input[name='tags']")
 									.val());
 							if (tag != "") {
 								$(".tagPanel")
@@ -15,7 +15,7 @@ $(function() {
 														+ "<label style='display:none'>"
 														+ tag
 														+ "</label></label>");
-								$("input[name='tagList']").val(
+								$("input[name='tags']").val(
 										tagList + tag + ",");
 								$("input[name='tag']").val("");
 							}
@@ -83,27 +83,24 @@ $(function() {
 								.text(jsonObj.result.point);
 
 						// 标签
+						for (var i = 0, tagLen = jsonObj.result.tags.split(',').length; i < tagLen; i++) {
+							var tagList = $.trim($("input[name='tags']").val());
+							var tag = jsonObj.result.tags.split(',')[i];
 
-						for (var i = 0, tagLen = jsonObj.tagVOList.length; i < tagLen; i++) {
-
-							var tagList = $.trim($("input[name='tagList']")
-									.val());
-							var tag = jsonObj.tagVOList[i].name;
-
-							$(".tagPanel")
-									.append(
-											"<label class='tagStyle'>"
-													+ tag
-													+ "<label class='delTag'><a href='javascript:void(0)' onclick='delTag(this)'>X</a></label><label style='display:none'>"
-													+ tag + "</label></label>");
-							$("input[name='tagList']").val(tagList + tag + ",");
+							if (tag != "") {
+								$(".tagPanel").append("<label class='tagStyle'>"
+														+ tag
+														+ "<label class='delTag'><a href='javascript:void(0)' onclick='delTag(this)'>X</a></label><label style='display:none'>"
+														+ tag
+														+ "</label></label>");
+								$("input[name='tags']").val(tagList + tag + ",");
+							}
 						}
 
 					} else {
 						key = -1;
 					}
-					$("form[name='previewForm']").attr("action",
-							"editPreview.json?key=" + key);
+					$("form[name='previewForm']").attr("action", "editPreview.json?key=" + key);
 				}
 			});
 
@@ -206,8 +203,8 @@ $(function() {
 });
 
 function delTag(data) {
-	var tagList = $.trim($("input[name='tagList']").val());
-	$("input[name='tagList']").val(
+	var tagList = $.trim($("input[name='tags']").val());
+	$("input[name='tags']").val(
 			tagList.replace($(data).parent().next().text() + ",", ""));
 	$(data).parent().parent().remove();
 }
