@@ -83,7 +83,9 @@ public class EditPreviewAction {
 			if (nickName != "") {
 				List<ExpandInfoVO> expandInfoVOList = expandInfoBiz
 						.checkNickNameIsExist(nickName);
-				if (expandInfoVOList.size() > 0 && key < 0) {
+				if (expandInfoVOList.size() > 0
+						&& expandInfoVOList.get(0).getUserId() != userVO
+								.getId()) {
 					json.put("success", false);
 					json.put("result", "此昵称已存在！");
 				} else {

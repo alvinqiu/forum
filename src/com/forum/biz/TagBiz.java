@@ -16,35 +16,37 @@ public class TagBiz {
 
 	@Autowired
 	private TagDao tagDao;
-	
+
 	/*
-	 * ��ӱ�ǩ
+	 * 新增标签
 	 */
-	public Integer insertTag(String tagList,long userId){
+	public Integer insertTag(String tagList, long userId) {
 		TagVO tagVO = new TagVO();
 		TagUserRelationVO tagUserRelationVO = new TagUserRelationVO();
-		String str="";
-		Integer result=0;
+		String str = "";
+		Integer result = 0;
 		String[] tagArray = tagList.split(",");
+		
 		for (int i = 0; i < tagArray.length; i++) {
 			str = tagArray[i];
-			if(str!=""){
+			if (str != "") {
 				tagVO.setName(str);
-				result=tagDao.insert(tagVO);
-				if(result>0){
+				result = tagDao.insert(tagVO);
+				if (result > 0) {
 					tagUserRelationVO.setTagId(tagVO.getId());
 					tagUserRelationVO.setUserId(userId);
-					result=tagDao.saveRelation(tagUserRelationVO);
+					result = tagDao.saveRelation(tagUserRelationVO);
 				}
 			}
 		}
+		
 		return result;
 	}
-	
+
 	/*
-	 * ���userId��ѯ��ǩ
+	 * 根据userId查询标签
 	 */
-	public List<TagVO> selectTagByUserId(long userId){
+	public List<TagVO> selectTagByUserId(long userId) {
 		return tagDao.selectById(userId);
 	}
 }

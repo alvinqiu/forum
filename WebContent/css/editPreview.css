@@ -124,8 +124,40 @@ label, select {
 	height: 40px;
 }
 
+.tagtable {
+	float: right;
+	margin: 0 30px;
+}
+
 .tagPanel {
-	
+	width: 350px;
+	height: auto;
+	min-height: 100px;
+	border: 1px solid #dadada;
+	background-color: #dadada;
+}
+
+.tagPanel .tagStyle {
+	border: 1px solid #32a5e7;
+	display: inline-block;
+	width: auto;
+	min-width: 50px;
+	margin: 5px;
+	text-align: center;
+	background-color: #32a5e7;
+	color: #FFF;
+	font-size: 16px;
+}
+
+.tagPanel .tagStyle .delTag {
+	float: right;
+	width: 15px;
+	background-color: #fff;
+}
+
+.tagPanel .tagStyle .delTag a {
+	text-decoration: none;
+	color: #515151;
 }
 
 .submitPreview {
