@@ -70,20 +70,22 @@ function editPreview(){
 	location.href="/forum/editPreview.html";
 }
 
-//签到
-function signIn(){
+// 签到
+function signIn() {
 	$.ajax({
-		url:"signIn.json",
-		error:function(){alert("签到失败！")},
-		success:function(data){
-			var jsonObj = eval("("+data+")");
-			if(jsonObj.success){
+		url : "signIn.json",
+		error : function() {
+			alert("签到失败！");
+		},
+		success : function(data) {
+			var jsonObj = eval("(" + data + ")");
+			if (jsonObj.success) {
 				alert(jsonObj.result);
 				$("#signin_status").text("已签到");
-			}
-			else{
+			} else {
 				alert(jsonObj.result);
 			}
+
 		}
 	});
 }

@@ -13,7 +13,7 @@ import com.forum.vo.UserVO;
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 	private static final String[] IGNORE_URI = { "getAllPost", "getAllModule",
-			"checkLogin" };
+			"checkLogin", "login" };
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
@@ -31,17 +31,23 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			UserVO userVO = (UserVO) session
 					.getAttribute(Constants.LOGINED_USER);
 			if (userVO != null) {
-				//request.getRequestDispatcher("/login.html").forward(request, response);
-				//response.sendRedirect("/login.html");
+				// request.getRequestDispatcher("/login.html").forward(request,
+				// response);
+				// response.sendRedirect("/login.html");
 				flag = true;
-			}else{
-				String path = request.getContextPath();
-				response.sendRedirect(path+"/login.html");
-				//response.sendRedirect("/login.html");
-				return true;
+			} else {
+				// String path = request.getContextPath();
+				// response.sendRedirect(path+"/login.html");
+				// response.sendRedirect("/login.html");
+				// request.getRequestDispatcher("/login.html").forward(request,
+				// response);
+				// response.getWriter().print("intercept");
+				response.setStatus(911);
+				response.setHeader("sessionstatus", "timeout");
+				response.addHeader("loginPath", "/forum/login.html");
 			}
 		}
-		
+
 		return flag;
 	}
 
@@ -49,6 +55,5 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		super.postHandle(request, response, handler, modelAndView);
 	}
 }
