@@ -146,7 +146,7 @@ $(function() {
 				// false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
 				// save_key: true, // 默认 false。若在服务端生成uptoken的上传策略中指定了
 				// `sava_key`，则开启，SDK会忽略对key的处理
-				domain : '7xil4n.com1.z0.glb.clouddn.com', // bucket
+				domain : '7xjhdq.com2.z0.glb.qiniucdn.com',//'7xil4n.com1.z0.glb.clouddn.com', // bucket
 				// 域名，下载资源时用到，**必需**
 				// container: 'container', //上传区域DOM ID，默认是browser_button的父元素，
 				max_file_size : '2mb', // 最大文件体积限制

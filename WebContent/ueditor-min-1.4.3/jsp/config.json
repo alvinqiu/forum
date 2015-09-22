@@ -21,7 +21,7 @@
     "imageCompressEnable": true, /* 是否压缩图片,默认是true */
     "imageCompressBorder": 1600, /* 图片压缩最长边限制 */
     "imageInsertAlign": "none", /* 插入的图片浮动方式 */
-    "imageUrlPrefix": "http://7xil4n.com1.z0.glb.clouddn.com/@", /* 图片访问路径前缀 */
+    "imageUrlPrefix": "http://7xjhdq.com2.z0.glb.qiniucdn.com/@", /* 图片访问路径前缀 */
     "imagePathFormat": "/images/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
                                 
 	 /* 上传视频配置 */

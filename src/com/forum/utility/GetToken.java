@@ -12,8 +12,8 @@ public class GetToken {
 	@RequestMapping("/getToken.json")
 	@ResponseBody
 	public String getToken() {
-		Auth auth = Auth.create("GBxC6qxubowS0RWEWRm2OvkIIGHnWkNcvQAx4IF6", "XZwqLm4OFHXQowZ831yabromxoX5vq16Z_TUKD_7");
-		System.out.println(auth.uploadToken("a-a1"));
-		return auth.uploadToken("a-a1");
+		Auth auth = Auth.create("LxjOBdjOjosbbQyeBnuTBswi2MpG06llf4wnzIm4", "E1Gx5rNmuGGRPCdcNf_Qs6E7FWnye68FAuc1x92z");
+		//System.out.println(auth.uploadToken("a-a1"));
+		return auth.uploadToken("community");
 	}
 }
