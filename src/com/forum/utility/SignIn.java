@@ -52,9 +52,6 @@ public class SignIn {
 				json.put("result", "请先完善你的个人信息！");
 				json.put("success", false);
 			}
-		} else {
-			json.put("result", "需登录才能进行签到！");
-			json.put("success", false);
 		}
 
 		json.put("isSignIn", isSignIn);

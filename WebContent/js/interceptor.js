@@ -6,10 +6,10 @@ $(function() {
 			var resText = XHR.responseText;
 			var sessionstatus = XHR.getResponseHeader("sessionstatus");
 			var loginPath = XHR.getResponseHeader("loginPath");
-			if (911 == XHR.status && "timeout" == sessionstatus) {
+			if ("intercept" == sessionstatus) {
 				alert("请先登录！");
 				window.location.replace(loginPath);
-				return;
+				//return;
 			}
 		}
 	});

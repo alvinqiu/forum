@@ -42,9 +42,10 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				// request.getRequestDispatcher("/login.html").forward(request,
 				// response);
 				// response.getWriter().print("intercept");
-				response.setStatus(911);
-				response.setHeader("sessionstatus", "timeout");
+				//response.setStatus(911);
+				response.setHeader("sessionstatus", "intercept");
 				response.addHeader("loginPath", "/forum/login.html");
+				flag = true;
 			}
 		}
 
