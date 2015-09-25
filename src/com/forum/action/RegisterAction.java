@@ -49,7 +49,8 @@ public class RegisterAction {
 	 */
 	@RequestMapping(value = "/activate.json")
 	@ResponseBody
-	public String activate(String email, HttpServletResponse response) {
+	public String activate(String email, HttpServletRequest request,
+			HttpServletResponse response) {
 		Integer result = 0;
 		long isActive = 1;
 
@@ -58,7 +59,8 @@ public class RegisterAction {
 		StringBuilder sb = new StringBuilder();
 		if (result > 0) {
 			sb.append("激活成功，3秒后跳转至登录页！");
-			response.setHeader("refresh", "3;url=/forum/login.html");
+			String path = request.getContextPath();
+			response.setHeader("refresh", "3;url=" + path + "/login.html");
 		} else {
 			sb.append("激活失败，请检查链接！");
 		}

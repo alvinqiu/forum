@@ -46,14 +46,15 @@ public class EditPreviewAction {
 
 		JSONObject json = new JSONObject();
 		if (userVO != null) {
-			List<ExpandInfoVO> expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(userVO.getId());
+			List<ExpandInfoVO> expandInfoVOList = expandInfoBiz
+					.selExpandInfoByUserId(userVO.getId());
 			if (expandInfoVOList.size() > 0) {
 				json.put("result", expandInfoVOList.get(0));
 			}
-			/*List<TagVO> tagVOList = tagBiz.selectTagByUserId(userVO.getId());
-			if (tagVOList.size() > 0) {
-				json.put("tagVOList", tagVOList);
-			}*/
+			/*
+			 * List<TagVO> tagVOList = tagBiz.selectTagByUserId(userVO.getId());
+			 * if (tagVOList.size() > 0) { json.put("tagVOList", tagVOList); }
+			 */
 		}
 		return json.toString();
 	}
@@ -64,14 +65,16 @@ public class EditPreviewAction {
 	@RequestMapping("/editPreview.json")
 	@ResponseBody
 	public String editPreview(HttpServletRequest request,
-			HttpServletResponse response, @RequestParam("key") long key, ExpandInfoVO expandInfoVO) {
+			HttpServletResponse response, @RequestParam("key") long key,
+			ExpandInfoVO expandInfoVO) {
 		JSONObject json = new JSONObject();
 		Integer result = 0;
 		// 查询是否登录
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
 		if (userVO == null) {
-			response.setHeader("refresh", "2;url=/forum/login.html");
+			String path = request.getContextPath();
+			response.setHeader("refresh", "2;url=" + path + "/login.html");
 			json.put("success", false);
 			json.put("result", "您还未登录！");
 		} else {
@@ -95,12 +98,14 @@ public class EditPreviewAction {
 					if (key < 0) {
 						result = expandInfoBiz.addExpandInfo(expandInfoVO);
 					} else {
-						result = expandInfoBiz.updateExpandInfoByUserId(expandInfoVO);
+						result = expandInfoBiz
+								.updateExpandInfoByUserId(expandInfoVO);
 					}
 
-					/*// 替换标签
-					tagBiz.insertTag(tagList, userVO.getId());*/
-					
+					/*
+					 * // 替换标签 tagBiz.insertTag(tagList, userVO.getId());
+					 */
+
 					if (result > 0) {
 						json.put("success", true);
 						json.put("result", "个人信息更新成功！");

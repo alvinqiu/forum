@@ -57,7 +57,7 @@ function loginSuccess() {
 			var jsonObj = eval("(" + data + ")");
 
 			if (jsonObj.success) {
-				window.location.href = "/forum/index.html";
+				window.location.href = "./index.html";
 			} else {
 				alert(jsonObj.result);
 			}

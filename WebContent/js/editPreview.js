@@ -120,7 +120,7 @@ $(function() {
 					var jsonObj = eval("(" + data + ")");
 					alert(jsonObj.result);
 					if (jsonObj.success) {
-						window.location.href = "/forum/index.html";
+						window.location.href = "./index.html";
 					}
 				}
 			});

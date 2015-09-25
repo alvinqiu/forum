@@ -21,79 +21,79 @@ public class UserBiz {
 
 	@Autowired
 	private UserDao userDao;
-	
+
 	/*
 	 * 新增用户
 	 */
-	public Integer addUser(UserVO userVO,HttpServletRequest request) throws NoSuchAlgorithmException{
+	public Integer addUser(UserVO userVO, HttpServletRequest request)
+			throws NoSuchAlgorithmException {
 		Integer result = 0;
-		
-		if(userDao.checkEmailExist(userVO.getMail())){
-			result=-1;
-		}
-		else {
+
+		if (userDao.checkEmailExist(userVO.getMail())) {
+			result = -1;
+		} else {
 			String darkPassword = MD5.md5(userVO.getDarkPass());
 			userVO.setDarkPass(darkPassword);
 			userVO.setIsActive(0);
-			userVO.setGroupId(Constants.GroupType.user.getValue());//普通用户
-			result=userDao.addUser(userVO);
-			
-			if(result>0){
-				//发送激活邮件
+			userVO.setGroupId(Constants.GroupType.user.getValue());// 普通用户
+			result = userDao.addUser(userVO);
+
+			if (result > 0) {
+				// 发送激活邮件
 				sendActivationMail(userVO, request);
 			}
 		}
-		
-		
+
 		return result;
 	}
-	
+
 	/*
-	 *  发送激活邮件
+	 * 发送激活邮件
 	 */
 	public void sendActivationMail(UserVO userVO, HttpServletRequest request) {
 		RegisterValidateService rvs = new RegisterValidateService();
 		String url = request.getRequestURL().toString()
 				.replace(request.getRequestURI(), "");
-		rvs.processregister(userVO.getMail(), url);
+		String path = request.getContextPath();
+		rvs.processregister(userVO.getMail(), url + path);
 	}
-	
+
 	/*
 	 * 激活用户
 	 */
-	public Integer updateActive(long isActive,String mail){
-		return userDao.updateActive(isActive,mail);
+	public Integer updateActive(long isActive, String mail) {
+		return userDao.updateActive(isActive, mail);
 	}
-	
+
 	/*
 	 * 查询用户
 	 */
-	public List<UserVO> selectUser(UserVO userVO) throws NoSuchAlgorithmException{
+	public List<UserVO> selectUser(UserVO userVO)
+			throws NoSuchAlgorithmException {
 		String darkPass = MD5.md5(userVO.getDarkPass());
 		return userDao.selectUser(userVO.getMail(), darkPass);
 	}
-	
+
 	/*
 	 * 设置用户类型
 	 */
-	public Integer setGroup(long groupId,String mail){
+	public Integer setGroup(long groupId, String mail) {
 		Integer result = 0;
-		
-		if(userDao.checkEmailExist(mail)){
-			result=userDao.updateGroup(groupId, mail);
+
+		if (userDao.checkEmailExist(mail)) {
+			result = userDao.updateGroup(groupId, mail);
+		} else {
+			result = -1;
 		}
-		else {
-			result=-1;
-		}
-		
+
 		return result;
 	}
-	
+
 	/*
 	 * 查询用户 by groupid
 	 */
-	public List<UserVO> selectUserExcept(long groupId){
+	public List<UserVO> selectUserExcept(long groupId) {
 		return userDao.selectUserExcept(groupId);
 	}
-	
+
 }

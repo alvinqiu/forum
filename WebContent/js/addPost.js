@@ -16,10 +16,10 @@ $(function() {
 		initialFrameHeight : 500,
 		autoSyncData : false
 	});
-	
-	
+
 	// 获取所有版块
-	$.ajax({
+	$
+			.ajax({
 				url : "getAllModule.json",
 				error : function() {
 					alert("获取数据失败！");
@@ -63,7 +63,7 @@ $(function() {
 					var jsonObj = eval("(" + data + ")");
 					alert(jsonObj.result);
 					if (jsonObj.success) {
-						window.location.href = "/forum/index.html";
+						window.location.href = "./index.html";
 					}
 				}
 			});
@@ -73,7 +73,7 @@ $(function() {
 });
 
 function checkForm() {
-	
+
 	var subject = $.trim($("input[name='subject']").val());
 	var moduleId = $.trim($("select[name='moduleId']").val());
 	var type = $.trim($("select[name='type']").val());

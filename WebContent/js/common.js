@@ -78,7 +78,7 @@ Date.prototype.toString = function(showWeek) {
 
 // 修改个人信息
 function editPreview() {
-	location.href = "/forum/editPreview.html";
+	location.href = "./editPreview.html";
 }
 
 // 签到

@@ -75,7 +75,7 @@ function addModule() {
 							location.reload();
 						}
 						if(jsonObj.redirect){
-							location.href="/forum/login.html";
+							location.href="./login.html";
 						}
 					}
 				});

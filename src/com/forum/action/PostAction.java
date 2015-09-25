@@ -40,7 +40,6 @@ public class PostAction {
 	@ResponseBody
 	public String addPost(HttpServletRequest request,PostVO postVO){
 		JSONObject json = new JSONObject();
-		
 		//验证是否登录
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO)session.getAttribute(Constants.LOGINED_USER);

@@ -31,9 +31,9 @@ $(function(){
 				var commentCount = jsonObj.postList[i].commentCount;//回复数
 				var content = jsonObj.postList[i].content;//摘要
 				
-				$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img src='/forum/img/testImg.jpg' /></div>" +
+				$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img src='./img/testImg.jpg' /></div>" +
 						"<div class='dRight'>" +
-								"<a href='/forum/detail.html?id="+id+"'><div class='postTitle'>"+subject+"</div></a><div class='postTime'>"+submitTime+"</div>" +
+								"<a href='./detail.html?id="+id+"'><div class='postTitle'>"+subject+"</div></a><div class='postTime'>"+submitTime+"</div>" +
 								"<div class='postNickName'>"+name+"</div><div class='postCommentCount'>"+commentCount+"</div><div class='postContent'>"+content+"</div>"+
 										"</div></div>");
 			}
@@ -54,7 +54,7 @@ $(function(){
 				var desc = jsonObj.moduleVOList[i].desc;
 				var sort = jsonObj.moduleVOList[i].sort;
 				
-				$(".panel_right_module_content ul").append("<li><a href='/forum/list.html?moduleId="+id+"&page=1'>"+name+"</a></li>");
+				$(".panel_right_module_content ul").append("<li><a href='./list.html?moduleId="+id+"&page=1'>"+name+"</a></li>");
 			}
 		}
 	});

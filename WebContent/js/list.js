@@ -3,7 +3,7 @@ $(function(){
 	var page = getUrlParam('page');
 	
 	$("#js-addPost").click(function(){
-		location.href="/forum/addPost.html";
+		location.href="./addPost.html";
 	});
 	
 	$.ajax({
@@ -54,7 +54,7 @@ $(function(){
 				if(top!=0){
 					if(highLight!=0){
 						if(groupId<3){
-							$(".panel_left_top").append("<div class='hightlight'><a href='/forum/detail.html?id="+id+"'>" +
+							$(".panel_left_top").append("<div class='hightlight'><a href='./detail.html?id="+id+"'>" +
 									"<div class='subject'>"+subject+"</div></a><div class='name'>"+name+"</div>" +
 											"<div class='operate'>" +
 											"<a href='javascript:void(0);' onclick='setHighLight("+id+")'>加精</a>" +
@@ -62,13 +62,13 @@ $(function(){
 											"<a href='javascript:void(0);' onclick='del("+id+")'>删除</a></div></div>");
 						}
 						else{
-							$(".panel_left_top").append("<div class='hightlight'><a href='/forum/detail.html?id="+id+"'>" +
+							$(".panel_left_top").append("<div class='hightlight'><a href='./detail.html?id="+id+"'>" +
 									"<div class='subject'>"+subject+"</div></a><div class='name'>"+name+"</div></div>");
 						}
 					}
 					else{
 						if(groupId<3){
-							$(".panel_left_top").append("<div><a href='/forum/detail.html?id="+id+"'>" +
+							$(".panel_left_top").append("<div><a href='./detail.html?id="+id+"'>" +
 									"<div class='subject'>"+subject+"</div></a><div class='name'>"+name+"</div>" +
 											"<div class='operate'>" +
 											"<a href='javascript:void(0);' onclick='setHighLight("+id+")'>加精</a>" +
@@ -76,7 +76,7 @@ $(function(){
 											"<a href='javascript:void(0);' onclick='del("+id+")'>删除</a></div></div>");
 						}
 						else{
-							$(".panel_left_top").append("<div><a href='/forum/detail.html?id="+id+"'>" +
+							$(".panel_left_top").append("<div><a href='./detail.html?id="+id+"'>" +
 									"<div class='subject'>"+subject+"</div></a><div class='name'>"+name+"</div></div>");
 						}
 					}
@@ -84,7 +84,7 @@ $(function(){
 				else{
 					if(highLight!=0){
 						if(groupId<3){
-							$(".panel_left_common").append("<div class='hightlight'><a href='/forum/detail.html?id="+id+"'>" +
+							$(".panel_left_common").append("<div class='hightlight'><a href='./detail.html?id="+id+"'>" +
 									"<div class='subject'>"+subject+"</div></a><div class='name'>"+name+"</div>" +
 											"<div class='operate'>" +
 											"<a href='javascript:void(0);' onclick='setHighLight("+id+")'>加精</a>" +
@@ -92,13 +92,13 @@ $(function(){
 											"<a href='javascript:void(0);' onclick='del("+id+")'>删除</a></div></div>");
 						}
 						else{
-							$(".panel_left_common").append("<div class='hightlight'><a href='/forum/detail.html?id="+id+"'>" +
+							$(".panel_left_common").append("<div class='hightlight'><a href='./detail.html?id="+id+"'>" +
 									"<div class='subject'>"+subject+"</div></a><div class='name'>"+name+"</div></div>");
 						}
 					}
 					else{
 						if(groupId<3){
-							$(".panel_left_common").append("<div><a href='/forum/detail.html?id="+id+"'>" +
+							$(".panel_left_common").append("<div><a href='./detail.html?id="+id+"'>" +
 									"<div class='subject'>"+subject+"</div></a><div class='name'>"+name+"</div>" +
 											"<div class='operate'>" +
 											"<a href='javascript:void(0);' onclick='setHighLight("+id+")'>加精</a>" +
@@ -106,7 +106,7 @@ $(function(){
 											"<a href='javascript:void(0);' onclick='del("+id+")'>删除</a></div></div>");
 						}
 						else{
-							$(".panel_left_common").append("<div><a href='/forum/detail.html?id="+id+"'>" +
+							$(".panel_left_common").append("<div><a href='./detail.html?id="+id+"'>" +
 									"<div class='subject'>"+subject+"</div></a><div class='name'>"+name+"</div></div>");
 						}
 					}
