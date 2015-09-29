@@ -52,7 +52,7 @@ $(function() {
 		var formDom = $("form[name='postForm']");
 		if (checkForm()) {
 			$.ajax({
-				type : "get",
+				type : "post",
 				url : "addPost.json",
 				data : formDom.serialize(),
 				async : true,
