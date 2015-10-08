@@ -7,6 +7,10 @@ body {
 	background-color: #F2F2F2 !important;
 }
 
+img {
+	border: none;
+}
+
 .panel {
 	width: 100%;
 	min-width: 1366px;
@@ -74,73 +78,76 @@ a:hover {
 	position: relative;
 	height: 300px;
 	overflow: hidden;
-	overflow: hidden;
-	height: 300px;
-	overflow: hidden;
 }
 
 .panel_left_banner_box {
-	width: 100%;
-	margin: auto;
+	width: 686px;
+	margin: 0 auto;
+	overflow: hidden;
+	_height: 100%;
+}
+
+.picbox {
+	width: 686px;
+	height: 278px;
+	overflow: hidden;
 	position: relative;
 }
 
-.panel_left_banner_box .prev, .panel_left_banner_box .next {
-	display: block;
-	z-index: 999;
-	overflow: hidden;
-	cursor: pointer;
-	position: absolute;
-	width: 52px;
-	height: 52px;
-	position: absolute;
-	width: 52px;
-	height: 52px;
-	top: 230px;
+.picbox ul, .pickbox li {
+	padding: 0;
+	list-style: none;
 }
 
-.panel_left_banner_box .prev {
+.piclist {
+	height: 278px;
+	position: absolute;
+	left: 0px;
+	top: 0px
+}
+
+.piclist li {
+	background: #eee;
+	float: left;
+}
+
+.swaplist {
+	position: absolute;
+	left: -3000px;
+	top: 0px;
+}
+
+.og_prev, .og_next {
+	width: 52px;
+	height: 52px;
+	background: url(../img/btn.png) no-repeat;
+	background: url(../img/btn.png) no-repeat\9;
+	position: absolute;
+	top: 120px;
+	z-index: 99;
+	cursor: pointer;
+	filter: alpha(opacity = 70);
+	opacity: 0.7;
+}
+
+.og_prev {
 	background: url(../img/btn.png) left bottom no-repeat;
-	left: 0px
+	left: 0px;
 }
 
-.panel_left_banner_box .next {
+.og_next {
 	background: url(../img/btn.png) right bottom no-repeat;
-	right: 0px
+	right: 0px;
 }
 
-.panel_left_banner_box .prev:hover {
+.og_prev:hover {
 	background-position: left top;
+	left: 0px;
 }
 
-.panel_left_banner_box .next:hover {
+.og_next:hover {
 	background-position: right top;
-}
-
-.banner_inbox {
-	overflow: hidden;
-	position: relative;
-}
-
-.banner_inbox img {
-	width: 100%;
-	height: 100%;
-}
-
-.roundabout-holder {
-	height: 300px;
-	width: 100%;
-}
-
-.roundabout-moveable-item {
-	display: block;
-	height: 300px;
-	width: 70%;
-	cursor: pointer;
-}
-
-.roundabout-in-focus {
-	cursor: auto;
+	right: 0px;
 }
 
 /*��������ʼ*/
@@ -218,7 +225,6 @@ a:hover {
 	text-indent: 2em;
 }
 /*�����������*/
-
 .panel_right {
 	width: 28%;
 	display: inline-block;
@@ -341,8 +347,8 @@ a:hover {
 .scrolltop {
 	position: fixed;
 	display: none;
-	bottom: 80px; background : url("../img/scrolltop.jpg") no-repeat 0
-	-48px;
+	bottom: 80px;
+	background: url("../img/scrolltop.jpg") no-repeat 0 -48px;
 	background-color: #ffffff;
 	width: 48px;
 	height: 48px;
@@ -350,7 +356,8 @@ a:hover {
 }
 
 .foot {
-	margin: auto; width : 1200px;
+	margin: auto;
+	width: 1200px;
 	bottom: 0;
 	height: 130px;
 	border-top: solid 1px #d9d9d9;

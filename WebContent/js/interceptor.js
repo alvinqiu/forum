@@ -9,7 +9,7 @@ $(function() {
 			if ("intercept" == sessionstatus) {
 				alert("请先登录！");
 				window.location.replace(loginPath);
-				//return;
+				//return false;
 			}
 		}
 	});
