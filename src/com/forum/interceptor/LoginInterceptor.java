@@ -13,7 +13,7 @@ import com.forum.vo.UserVO;
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 	private static final String[] IGNORE_URI = { "getAllPost", "getAllModule",
-			"checkLogin", "login", "getToken" };
+			"checkLogin", "login", "getToken","getPostById","getComment" };
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
@@ -46,7 +46,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 				response.setHeader("sessionstatus", "intercept");
 				String path = request.getContextPath();
 				response.addHeader("loginPath", path + "/login.html");
-				flag = true;
+				flag = false;
 			}
 		}
 

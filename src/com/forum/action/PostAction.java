@@ -172,7 +172,7 @@ public class PostAction {
 	}
 	
 	/*
-	 * �������
+	 * 添加评论
 	 */
 	@RequestMapping("/addComment.json")
 	@ResponseBody

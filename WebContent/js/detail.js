@@ -125,14 +125,15 @@ function gt_custom_ajax(result, selector, message) {
 					"id":id
 					},
 				async:false,
-				success:function(data){
-					var jsonObj=eval("("+data+")");
-					if(jsonObj.success){
-						alert("评论成功！");
-						location.reload();
-					}
-					else{
-						alert("评论失败！");
+				success : function(data,XHR, TS) {
+					if (data != "") {
+						var jsonObj = eval("(" + data + ")");
+						if (jsonObj.success) {
+							alert("评论成功！");
+							location.reload();
+						} else {
+							alert("评论失败！");
+						}
 					}
 				}
 			});

@@ -89,13 +89,15 @@ function signIn() {
 			alert("签到失败！");
 		},
 		success : function(data) {
-			var jsonObj = eval("(" + data + ")");
-			if (typeof (jsonObj.result) != "undefined") {
-				alert(jsonObj.result);
-			}
+			if (data != "") {
+				var jsonObj = eval("(" + data + ")");
+				if (typeof (jsonObj.result) != "undefined") {
+					alert(jsonObj.result);
+				}
 
-			if (jsonObj.success) {
-				$("#signin_status").text("已签到");
+				if (jsonObj.success) {
+					$("#signin_status").text("已签到");
+				}
 			}
 		}
 	});
