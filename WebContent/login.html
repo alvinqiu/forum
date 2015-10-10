@@ -5,7 +5,7 @@
 <title>登录</title>
 <link href="img/favicon.ico" rel="icon" type="image/x-icon" />
 <link rel="stylesheet" href="css/login.css" />
-
+<script src="http://api.geetest.com/get.php"></script>
 </head>
 <body>
 	<div class="panel">
@@ -32,7 +32,7 @@
 						placeholder="密码" />
 				</div>
 				<div>
-					<input value="登录" type="submit" id="js-submit" class="submit" />
+					<input value="登录" type="button" id="js-submit" onclick="return checkLogin();" class="submit" />
 					<div class="geetestDiv" id="js-GeetestDiv"></div>
 				</div>
 			</form>
@@ -42,7 +42,6 @@
 	<div class="foot">晟越科技</div>
 
 	<script src="js/jquery-1.7.2.min.js"></script>
-	<script src="http://api.geetest.com/get.php"></script>
 	<script src="js/login.js"></script>
 </body>
 </html>

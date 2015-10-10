@@ -1,47 +1,54 @@
 $(function() {
 	//初始化验证
-	var gt_captcha_obj = new window.Geetest({
+	window.gt_captcha_obj = new window.Geetest({
 		gt : "df6595b204a06069670b68b6e716ca45",
 		product : "popup",
 		https : false
 	});
 	gt_captcha_obj.appendTo("#js-GeetestDiv").bindOn('#js-submit');
 
-	$("input").bind('keydown', function(event) {
+	$("body").bind('keydown', function(event) {
 		if (event.keyCode == 13) {
 			$("#js-submit").trigger("click");
-			return false;
+			//return false;
 		}
 	});
-
-	gt_captcha_obj.onSuccess(function() {
-		var flag = true;
-		// 验证是否为空
-		$("form :input").each(function(i) {
-			if ($.trim($(this).val()) == "") {
-				alert("表单不能为空！");
-				$(this).focus();
-				flag = false;
-				return false;
-			}
-
-		});
-
-		if (flag) {
-			// 验证mail地址
-			var mail = $.trim($("#js-mail").val());
-			var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+(com|cn)$/);
-
-			if (patten.test(mail)) {
-				loginSuccess();
-			} else {
-				alert("邮箱格式不正确！");
-			}
-			return false;
-		}
-	});
-
 });
+
+function checkLogin(){
+	var flag = true;
+	// 验证是否为空
+	$("form input[type='text'],input[type='password']").each(function(i) {
+		if ($.trim($(this).val()) == "") {
+			alert("表单不能为空！");
+			$(this).focus();
+			flag = false;
+			gt_captcha_obj.disable();
+			return false;
+		}
+
+	});
+
+	if (flag) {
+		// 验证mail地址
+		var mail = $.trim($("#js-mail").val());
+		var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+(com|cn)$/);
+
+		if (patten.test(mail)) {
+			gt_captcha_obj.enable();
+			
+			gt_captcha_obj.onSuccess(function() {
+				loginSuccess();
+			});
+			return true;
+			
+		} else {
+			alert("邮箱格式不正确！");
+			gt_captcha_obj.disable();
+			return false;
+		}
+	}
+}
 
 // 登录成功
 function loginSuccess() {
