@@ -1,8 +1,7 @@
 $(function(){
 	//设置banner轮换效果
-	
-	time = window.setInterval(function(){
-		$('.og_next').click();	
+	var time = window.setInterval(function(){
+		nextJump();
 	},5000);
 	
 	linum = $('.mainlist li').length;//图片数量
@@ -11,7 +10,22 @@ $(function(){
 	$('.swaplist').html($('.mainlist').html());//复制内容
 	
 	$('.og_next').click(function(){
-		
+		clearInterval(time);
+		nextJump();
+		time = window.setInterval(function(){
+			nextJump();	
+		},5000);
+	});
+
+	$('.og_prev').click(function(){
+		clearInterval(time);
+		prevJump();
+		time = window.setInterval(function(){
+			nextJump();	
+		},5000);
+	});
+	
+	function nextJump(){
 		if($('.swaplist,.mainlist').is(':animated')){
 			$('.swaplist,.mainlist').stop(true,true);
 		}
@@ -33,9 +47,9 @@ $(function(){
 				}
 			}
 		}
-	});
-	$('.og_prev').click(function(){
-		
+	}
+	
+	function prevJump(){
 		if($('.swaplist,.mainlist').is(':animated')){
 			$('.swaplist,.mainlist').stop(true,true);
 		}
@@ -57,7 +71,7 @@ $(function(){
 				}
 			}
 		}
-	});
+	}
 	
 	//获取最新的5条帖子
 	$.ajax({

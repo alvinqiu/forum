@@ -20,7 +20,11 @@ function checkLogin(){
 	// 验证是否为空
 	$("form input[type='text'],input[type='password']").each(function(i) {
 		if ($.trim($(this).val()) == "") {
-			alert("表单不能为空！");
+			if($(this).attr("type")=="text"){
+				alert("请输入邮箱地址！");
+			}else{
+				alert("请输入密码！");
+			}
 			$(this).focus();
 			flag = false;
 			gt_captcha_obj.disable();

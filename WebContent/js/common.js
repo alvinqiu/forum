@@ -26,35 +26,35 @@ $(function() {
 	$("#js-signIn").click(signIn);
 
 	// 查询是否登录
-	$.ajax({
-				url : "checkLogin.json",
-				async : true,
-				error : function() {
-					alert("请重新登录！");
-				},
-				success : function(data) {
-					var jsonObj = eval("(" + data + ")");
-					$("#js-checkLogin ul").empty();
-					if (jsonObj.success) {
-						$("#js-checkLogin ul").append("<li><a class='editPreview' id='js-editPreview' href='javascript:void(0);' onclick='editPreview()'>"
-								+ jsonObj.name + "</a></li><li><a class='loginOut' href='javascript:void(0);' onclick='loginOut()'>退出</a></li>");
-					} else {
-						$("#js-checkLogin ul")
-								.append(
-										"<li><a href='login.html'>登录</a></li><li> | </li><li><a href='register.html'>注册</a></li>");
-					}
+    $.ajax({
+        url: "checkLogin.json",
+        async: true,
+        error: function() {
+            alert("请重新登录！");
+        },
+        success: function(data) {
+            var jsonObj = eval("(" + data + ")");
+            $("#js-checkLogin ul").empty();
+            if (jsonObj.success) {
+                $("#js-checkLogin ul").append("<li><a class='editPreview' id='js-editPreview' href='javascript:void(0);' onclick='editPreview()'>"
+							+ jsonObj.name + "</a></li><li><a class='loginOut' href='javascript:void(0);' onclick='loginOut()'>退出</a></li>");
+            } else {
+                $("#js-checkLogin ul")
+							.append(
+									"<li><a href='login.html'>登录</a></li><li> | </li><li><a href='register.html'>注册</a></li>");
+            }
 
-					if (jsonObj.isAdmin) {
-						$("#js-manage").show();
-					}
+            if (jsonObj.isAdmin) {
+                $("#js-manage").show();
+            }
 
-					if (jsonObj.isSignIn) {
-						$("#signin_status").text("已签到");
-					} else {
-						$("#signin_status").text("签 到");
-					}
-				}
-			});
+            if (jsonObj.isSignIn) {
+                $("#signin_status").text("已签到");
+            } else {
+                $("#signin_status").text("签 到");
+            }
+        }
+    });
 
 });
 
