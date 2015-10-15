@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>修改个人信息</title>
 <link href="img/favicon.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" href="css/cropper.min.css" />
 <link rel="stylesheet" href="css/editPreview.css" />
 </head>
 <body>
@@ -25,9 +26,10 @@
 					<div class="head">
 						<input type="button" id="js-headFile" class="headFile"
 							value="选择您要上传的头像" /> <input type="file" name="file"
-							id="pickfiles" style="display: none" />
+							id="pickfiles" style="display: none" accept="image/*" />
+						<div class="preview"></div>
 						<div class="fileTable">
-							<div class="filePanel"></div>
+							<div class="filePanel"><img src="" style="display:none"></div>
 						</div>
 						<input type="hidden" name="head" />
 					</div>
@@ -38,8 +40,8 @@
 						<input type="text" name="mobile" placeholder="手机号" />
 					</div>
 					<div class="gender">
-						<label>男 <input type="radio" name="gender" value="1" /></label> <label>女
-							<input type="radio" name="gender" value="2" />
+						<label><input type="radio" name="gender" value="1" /> 男</label> <label>
+							<input type="radio" name="gender" value="2" /> 女
 						</label>
 					</div>
 					<div class="birthday">
@@ -67,8 +69,7 @@
 	</div>
 
 	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
-	<script type="text/javascript" src="js/plupload.full.min.js"></script>
-	<script type="text/javascript" src="js/qiniu.js"></script>
+	<script type="text/javascript" src="js/cropper.min.js"></script>
 	<script src="js/interceptor.js"></script>
 	<script src="js/editPreview.js"></script>
 </body>

@@ -1,4 +1,41 @@
 $(function() {
+	var $image = $(".filePanel img"), $dataX = 0, $dataY = 0, $dataHeight = 100, $dataWidth = 100, $dataRotate = 0, options = {
+		aspectRatio : 1,
+		data : {
+			x : 480,
+			y : 60,
+			width : 200,
+			height : 200
+		},
+		preview : ".preview"
+	};
+	
+	$image.cropper(options);
+	
+	var $inputImage = $("#pickfiles");
+	if (window.FileReader) {
+		$inputImage.change(function() {
+			var fileReader = new FileReader(),
+				files = this.files,
+				file;
+			if (!files.length) {
+				return;
+			}
+			file = files[0];
+			if (/^image\/\w+$/.test(file.type)) {
+				fileReader.readAsDataURL(file);
+				fileReader.onload = function() {
+					$image.cropper("reset", true).cropper("replace", this.result);
+					$inputImage.val("");
+				};
+			} else {
+				alert("请选择图片类型！");
+			}
+		});
+	} else {
+		$inputImage.parent().remove();
+	}	
+	
 	$(document).keydown(
 			function(e) {
 				if (e.keyCode == 32) {
@@ -52,7 +89,7 @@ $(function() {
 				if (data != "{}") {
 					key = 0;
 					var jsonObj = eval("(" + data + ")");
-					$(".filePanel").html("<img src='" + jsonObj.result.head + "' />");
+					$(".preview").html("<img src='" + jsonObj.result.head + "' />");
 					$("input[name='head']").val(jsonObj.result.head);
 					$("input[name='nickName']").val(jsonObj.result.nickName);
 					$("input[name='mobile']").val(jsonObj.result.mobile);
@@ -87,6 +124,9 @@ $(function() {
 	});
 
 	$("#js-submit").click(function() {
+		
+		getDataURL4Head();
+		
 		var nickname = $("input[name='nickName']").val();
 		var formDom = $("form[name='previewForm']");
 		if (nickname != "") {
@@ -111,82 +151,90 @@ $(function() {
 		}
 		return false;
 	});
-
-	$.ajax({
-		url: "getToken.json",
-		type: "get",
-		async: false,
-		success: function(data) {
-			// 上传头像至七牛
-			var uploader = Qiniu.uploader({
-				runtimes: 'html5,flash,html4', // 上传模式,依次退化
-				browse_button: 'pickfiles', // 上传选择的点选按钮，**必需**
-				// uptoken_url: '/token',
-				// //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
-				uptoken: data, // 若未指定uptoken_url,则必须指定 uptoken
-				// ,uptoken由其他程序生成
-				unique_names: true, // 默认
-				// false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
-				// save_key: true, // 默认
-				// false。若在服务端生成uptoken的上传策略中指定了
-				// `sava_key`，则开启，SDK会忽略对key的处理
-				domain: '7xjhdq.com2.z0.glb.qiniucdn.com', // '7xil4n.com1.z0.glb.clouddn.com',
-				// //
-				// bucket
-				// 域名，下载资源时用到，**必需**
-				// container: 'container', //上传区域DOM
-				// ID，默认是browser_button的父元素，
-				max_file_size: '2mb', // 最大文件体积限制
-				max_retries: 3, // 上传失败最大重试次数
-				// dragdrop: true, //开启可拖曳上传
-				// drop_element: 'container',
-				// //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
-				chunk_size: '1mb', // 分块上传时，每片的体积
-				auto_start: true, // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
-				init: {
-					'FilesAdded': function(up, files) {
-						plupload.each(files, function(file) {
-							// 文件添加进队列后,处理相关的事情
-						});
-					},
-					'BeforeUpload': function(up, file) {
-						// 每个文件上传前,处理相关的事情
-					},
-					'UploadProgress': function(up, file) {
-						// 每个文件上传时,处理相关的事情
-					},
-					'FileUploaded': function(up, file, info) {
-						// 每个文件上传成功后,处理相关的事情
-						var domain = up.getOption('domain');
-						var res = jQuery.parseJSON(info);
-						var sourceLink = "http://" + domain + "/" + res.key; // 获取上传成功后的文件的Url
-						$(".filePanel").html("<img src='" + sourceLink + "' onload='AutoResizeImage(150,150,this)' />");
-						$("input[name='head']").val(sourceLink);
-					},
-					'Error': function(up, err, errTip) {
-						alert(errTip);
-						// 上传出错时,处理相关的事情
-					},
-					'UploadComplete': function() {
-						// 队列文件处理完毕后,处理相关的事情
-					},
-					'Key': function(up, file) {
-						// 若想在前端对每个文件的key进行个性化处理，可以配置该函数
-						// 该配置必须要在 unique_names: false ,
-						// save_key: false 时才生效
-
-						var key = "";
-						// do something with key here
-						return key
-					}
-				}
-			});
-			// domain
-			// 为七牛空间（bucket)对应的域名，选择某个空间后，可通过"空间设置->基本设置->域名设置"查看获取
-			// uploader
-			// 为一个plupload对象，继承了所有plupload的方法，参考http://plupload.com/docs
+	
+	function getDataURL4Head() {
+		if ($(".filePanel img").attr("src").trim() == "") {
+			return;
 		}
-	});
+		var dataURL = $image.cropper("getDataURL", "image/jpeg");
+		$("input[name='head']").val(dataURL);
+	}
+
+//	$.ajax({
+//		url: "getToken.json",
+//		type: "get",
+//		async: false,
+//		success: function(data) {
+//			// 上传头像至七牛
+//			var uploader = Qiniu.uploader({
+//				runtimes: 'html5,flash,html4', // 上传模式,依次退化
+//				browse_button: 'pickfiles', // 上传选择的点选按钮，**必需**
+//				// uptoken_url: '/token',
+//				// //Ajax请求upToken的Url，**强烈建议设置**（服务端提供）
+//				uptoken: data, // 若未指定uptoken_url,则必须指定 uptoken
+//				// ,uptoken由其他程序生成
+//				unique_names: true, // 默认
+//				// false，key为文件名。若开启该选项，SDK为自动生成上传成功后的key（文件名）。
+//				// save_key: true, // 默认
+//				// false。若在服务端生成uptoken的上传策略中指定了
+//				// `sava_key`，则开启，SDK会忽略对key的处理
+//				domain: '7xjhdq.com2.z0.glb.qiniucdn.com', // '7xil4n.com1.z0.glb.clouddn.com',
+//				// //
+//				// bucket
+//				// 域名，下载资源时用到，**必需**
+//				// container: 'container', //上传区域DOM
+//				// ID，默认是browser_button的父元素，
+//				max_file_size: '2mb', // 最大文件体积限制
+//				max_retries: 3, // 上传失败最大重试次数
+//				// dragdrop: true, //开启可拖曳上传
+//				// drop_element: 'container',
+//				// //拖曳上传区域元素的ID，拖曳文件或文件夹后可触发上传
+//				chunk_size: '1mb', // 分块上传时，每片的体积
+//				auto_start: true, // 选择文件后自动上传，若关闭需要自己绑定事件触发上传
+//				init: {
+//					'FilesAdded': function(up, files) {
+//						plupload.each(files, function(file) {
+//							// 文件添加进队列后,处理相关的事情
+//						});
+//					},
+//					'BeforeUpload': function(up, file) {
+//						// 每个文件上传前,处理相关的事情
+//					},
+//					'UploadProgress': function(up, file) {
+//						// 每个文件上传时,处理相关的事情
+//					},
+//					'FileUploaded': function(up, file, info) {
+//						// 每个文件上传成功后,处理相关的事情
+//						var domain = up.getOption('domain');
+//						var res = jQuery.parseJSON(info);
+//						var sourceLink = "http://" + domain + "/" + res.key; // 获取上传成功后的文件的Url
+//						$(".filePanel").html("<img src='" + sourceLink + "' onload='AutoResizeImage(150,150,this)' />");
+//						$("input[name='head']").val(sourceLink);
+//					},
+//					'Error': function(up, err, errTip) {
+//						alert(errTip);
+//						// 上传出错时,处理相关的事情
+//					},
+//					'UploadComplete': function() {
+//						// 队列文件处理完毕后,处理相关的事情
+//					},
+//					'Key': function(up, file) {
+//						// 若想在前端对每个文件的key进行个性化处理，可以配置该函数
+//						// 该配置必须要在 unique_names: false ,
+//						// save_key: false 时才生效
+//
+//						var key = "";
+//						// do something with key here
+//						return key
+//					}
+//				}
+//			});
+//			// domain
+//			// 为七牛空间（bucket)对应的域名，选择某个空间后，可通过"空间设置->基本设置->域名设置"查看获取
+//			// uploader
+//			// 为一个plupload对象，继承了所有plupload的方法，参考http://plupload.com/docs
+//		}
+//	});
 });
 
 function delTag(data) {
