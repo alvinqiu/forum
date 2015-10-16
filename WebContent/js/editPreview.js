@@ -1,16 +1,9 @@
 $(function() {
-	var $image = $(".filePanel img"), $dataX = 0, $dataY = 0, $dataHeight = 100, $dataWidth = 100, $dataRotate = 0, options = {
+	var $image = $(".filePanel img");
+	$image.cropper({
 		aspectRatio : 1,
-		data : {
-			x : 480,
-			y : 60,
-			width : 200,
-			height : 200
-		},
 		preview : ".preview"
-	};
-	
-	$image.cropper(options);
+	});
 	
 	var $inputImage = $("#pickfiles");
 	if (window.FileReader) {
@@ -156,8 +149,8 @@ $(function() {
 		if ($(".filePanel img").attr("src").trim() == "") {
 			return;
 		}
-		var dataURL = $image.cropper("getDataURL", "image/jpeg");
-		$("input[name='head']").val(dataURL);
+		result = $image.cropper("getCroppedCanvas", {width:100,height:100}, "undefined");
+		$("input[name='head']").val(result.toDataURL());
 	}
 
 //	$.ajax({
