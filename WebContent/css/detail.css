@@ -100,6 +100,13 @@ a:hover {
 		transparent;
 	color: #999999;
 	text-indent: 1.5em;
+	top: 3px;
+	position: relative;
+}
+
+.panel_left_main .commentCount label {
+	position: relative;
+	top: -2px;
 }
 
 .panel_left_main .content {
@@ -117,9 +124,9 @@ a:hover {
 	border-bottom: 1px solid #e6e6e6;
 }
 
-.commentName,.commentSubmitTime,.commentFloor{
+.commentName, .commentSubmitTime, .commentFloor {
 	display: inline-block;
-	margin:10px;
+	margin: 10px;
 }
 
 .panel_left_comment .commentName {
@@ -132,7 +139,7 @@ a:hover {
 }
 
 .panel_left_comment .commentFloor {
-	float:right;
+	float: right;
 }
 
 .panel_left_comment .commentSummary {
@@ -164,8 +171,8 @@ a:hover {
 	border: 1px solid #32a5e7;
 	border-radius: 2px 2px 2px 2px;
 	color: #FFF;
-	float:right;
-	margin:10px 0;
+	float: right;
+	margin: 10px 0;
 }
 
 .panel_right {

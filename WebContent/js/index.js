@@ -90,11 +90,19 @@ $(function(){
 				var commentCount = jsonObj.postList[i].commentCount;//回复数
 				var content = jsonObj.postList[i].content;//摘要
 				
+				if(commentCount!=0){
 				$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img src='./img/testImg.jpg' /></div>" +
 						"<div class='dRight'>" +
 								"<a href='./detail.html?id="+id+"'><div class='postTitle'>"+subject+"</div></a><div class='postTime'>"+submitTime+"</div>" +
-								"<div class='postNickName'>"+name+"</div><div class='postCommentCount'>"+commentCount+"</div><div class='postContent'>"+content+"</div>"+
+								"<div class='postNickName'>"+name+"</div><div class='postCommentCount'><label>"+commentCount+"<label></div><div class='postContent'>"+content+"</div>"+
 										"</div></div>");
+				}else{
+					$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img src='./img/testImg.jpg' /></div>" +
+							"<div class='dRight'>" +
+									"<a href='./detail.html?id="+id+"'><div class='postTitle'>"+subject+"</div></a><div class='postTime'>"+submitTime+"</div>" +
+									"<div class='postNickName'>"+name+"</div><div class='postContent'>"+content+"</div>"+
+											"</div></div>");
+				}
 			}
 		}
 	});

@@ -59,6 +59,27 @@ a:hover {
 	color: #7f7f7f;
 }
 
+.panel_bars {
+	height: auto;
+	width: 1200px;
+	margin: 20px auto;
+}
+
+.panel_bars_nav {
+	display: inline-block;
+}
+
+.panel_bars_nav ul {
+	margin: 0;
+	padding: 0;
+}
+
+.panel_bars_nav li {
+	display: inline-block;
+	margin: 0 5px;
+	font: 24px;
+}
+
 .panel_detail {
 	height: auto;
 	width: 1200px;
@@ -192,21 +213,15 @@ a:hover {
 	font-weight: bold;
 }
 
-.postTime {
+.postTime, .postNickName {
 	font-size: 14px;
 	line-height: 16px;
-	display: block;
 	height: 16px;
 	color: #9b9b9b;
 }
 
 .postNickName {
-	font-size: 14px;
-	line-height: 16px;
-	display: block;
-	height: 16px;
-	float: left;
-	color: #9b9b9b;
+	display: inline-block;
 }
 
 .postCommentCount {
@@ -217,6 +232,13 @@ a:hover {
 	margin: 2px 16px 0 20px;
 	width: 19px;
 	padding: 0 25px;
+	top: 3px;
+	position: relative;
+}
+
+.postCommentCount label {
+	position: relative;
+	top: -2px;
 }
 
 .postContent {
@@ -225,6 +247,7 @@ a:hover {
 	text-align: justify;
 	text-indent: 2em;
 }
+
 /*�����������*/
 .panel_right {
 	width: 28%;

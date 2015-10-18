@@ -11,12 +11,14 @@ $(function(){
 	var id = getUrlParam('id');
 	
 	$.ajax({
-		url:"getPostById.json",
-		data:{"id":id},
-		async:true,
-		success:function(data){
-			var jsonObj=eval("("+data+")");
-				
+		url: "getPostById.json",
+		data: {
+			"id": id
+		},
+		async: true,
+		success: function(data) {
+			var jsonObj = eval("(" + data + ")");
+
 			var id = jsonObj.PostVO.id;
 			var subject = jsonObj.PostVO.subject;
 			var submitTime = formatDate(new Date(jsonObj.PostVO.submitTime.time));
@@ -24,18 +26,26 @@ $(function(){
 			var groupId = jsonObj.GroupId;
 			var name = jsonObj.PostVO.name;
 			var commentCount = jsonObj.PostVO.commentCount;
-			
-			$(".subject").html(subject);
-			$(".submitTime").html(submitTime);
-			$(".name").html(name);
-			$(".commentCount").html(commentCount);
-			$(".content").html(content);
-			
-			$(".panel_right_user_name").html(name);
-			
-			if(groupId<3){
-				$(".delBtn").append("<a href='javascript:void(0);'onclick='del("+id+")'>删除</a>")
+
+			$(".panel_left_main").append(
+				"<div class='subject'>" + subject + "</div>");
+			$(".panel_left_main").append(
+				"<div class='name'>" + name + "</div>");
+			$(".panel_left_main").append(
+				"<div class='submitTime'>" + submitTime + "</div>");
+			if(commentCount!=0){
+				$(".panel_left_main").append(
+					"<div class='commentCount'><label>" + commentCount + "</label></div>");
 			}
+			$(".panel_left_main").append(
+				"<div class='content'>" + content + "</div>");
+			if (groupId < 3) {
+				$(".panel_left_main").append(
+					"<div class='delBtn'><a href='javascript:void(0);'onclick='del(" + id + ")'>删除</a></div>");
+			}
+
+			$(".panel_right_user_name").html(name);
+
 		}
 	});
 	
