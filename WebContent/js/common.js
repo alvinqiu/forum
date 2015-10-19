@@ -36,12 +36,9 @@ $(function() {
             var jsonObj = eval("(" + data + ")");
             $("#js-checkLogin ul").empty();
             if (jsonObj.success) {
-                $("#js-checkLogin ul").append("<li><a class='editPreview' id='js-editPreview' href='javascript:void(0);' onclick='editPreview()'>"
-							+ jsonObj.name + "</a></li><li><a class='loginOut' href='javascript:void(0);' onclick='loginOut()'>退出</a></li>");
+                $("#js-checkLogin ul").append("<li><a id='username'>" + jsonObj.name + "</a></li>");
             } else {
-                $("#js-checkLogin ul")
-							.append(
-									"<li><a href='login.html'>登录</a></li><li> | </li><li><a href='register.html'>注册</a></li>");
+                $("#js-checkLogin ul").append("<li><a href='login.html'>登录</a></li><li> | </li><li><a href='register.html'>注册</a></li>");
             }
 
             if (jsonObj.isAdmin) {
@@ -53,9 +50,14 @@ $(function() {
             } else {
                 $("#signin_status").text("签 到");
             }
+            
+            //鼠标移入用户名
+            $("#username").mouseover(function(){showMenu(this.id);}).mouseout(function(){showMenu("");});
         }
     });
 
+    
+    
 });
 
 Date.prototype.toString = function(showWeek) {
@@ -66,9 +68,14 @@ Date.prototype.toString = function(showWeek) {
 	}
 }
 
-// 修改个人信息
-function editPreview() {
-	location.href = "./editPreview.html";
+function showMenu(id) {
+	var t;
+	if (id != "") {
+		t = "block";
+	} else {
+		t = "none";
+	}
+	$(".panel_top_content_menu").css("display", t);
 }
 
 //退出

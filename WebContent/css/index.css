@@ -59,6 +59,18 @@ a:hover {
 	color: #7f7f7f;
 }
 
+.panel_top_content_menu {
+	width: 100px;
+	position: absolute;
+	z-index: 999;
+	left: 1490px;
+	top: 65px;
+	display: none;
+	background-color: #fff;
+	text-align: center;
+	border: 1px solid #eee;
+}
+
 .panel_bars {
 	height: auto;
 	width: 1200px;
