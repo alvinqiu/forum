@@ -36,7 +36,13 @@ $(function() {
             var jsonObj = eval("(" + data + ")");
             $("#js-checkLogin ul").empty();
             if (jsonObj.success) {
-                $("#js-checkLogin ul").append("<li><a id='username'>" + jsonObj.name + "</a></li>");
+                $("#js-checkLogin ul").append("<li><a id='username'>" + jsonObj.name + "</a>" +
+                		"<div class='panel_top_content_menu'>" +
+						"<p><a href='./editPreview.html'>我的信息</a></p>" +
+						"<p><a>我的帖子</a></p>" +
+						"<p><a>我的回复</a></p>" +
+						"<p><a href='javascript:void(0);' onclick='loginOut()'>退出账户</a></p>" +
+						"</div></li>");
             } else {
                 $("#js-checkLogin ul").append("<li><a href='login.html'>登录</a></li><li> | </li><li><a href='register.html'>注册</a></li>");
             }
@@ -52,12 +58,15 @@ $(function() {
             }
             
             //鼠标移入用户名
-            $("#username").mouseover(function(){showMenu(this.id);}).mouseout(function(){showMenu("");});
+            $("#username").parent().mouseenter(function(){
+            	$(".panel_top_content_menu").css("display", 'block');
+            }).mouseleave(function(){
+            	$(".panel_top_content_menu").css("display", 'none');
+            });
+            
         }
     });
-
-    
-    
+  
 });
 
 Date.prototype.toString = function(showWeek) {
@@ -66,16 +75,6 @@ Date.prototype.toString = function(showWeek) {
 		var Week = [ '日', '一', '二', '三', '四', '五', '六' ];
 		return '星期' + Week[myDate.getDay()];
 	}
-}
-
-function showMenu(id) {
-	var t;
-	if (id != "") {
-		t = "block";
-	} else {
-		t = "none";
-	}
-	$(".panel_top_content_menu").css("display", t);
 }
 
 //退出

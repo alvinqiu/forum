@@ -40,7 +40,8 @@ img {
 	border-width: 0;
 }
 
-.panel_top_content {
+.panel_top_right, .panel_top_content {
+	position: relative;
 	display: inline-block;
 	float: right;
 }
@@ -48,6 +49,7 @@ img {
 .panel_top_content li {
 	display: inline-block;
 	margin: 0 5px;
+	padding: 5px;
 }
 
 a {
@@ -63,12 +65,12 @@ a:hover {
 	width: 100px;
 	position: absolute;
 	z-index: 999;
-	left: 1490px;
-	top: 65px;
+	left: 30px; top : 40px;
 	display: none;
 	background-color: #fff;
 	text-align: center;
 	border: 1px solid #eee;
+	top: 42px;
 }
 
 .panel_bars {
