@@ -137,7 +137,7 @@ public class PostAction {
 	}
 	
 	/*
-	 * ���id��ȡ����
+	 * 根据id获取帖子
 	 */
 	@RequestMapping("/getPostById.json")
 	@ResponseBody
@@ -153,7 +153,7 @@ public class PostAction {
 				json.put("GroupId", userVO.getGroupId());
 			}
 			else{
-				json.put("GroupId", 3);//���Ϊ��¼��Ĭ��Ϊ��ͨ�û�
+				json.put("GroupId", 3);//普通用户处理
 			}
 			
 			PostVO postVO = postBiz.getPostById(id);
@@ -166,6 +166,60 @@ public class PostAction {
 			postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
 			
 			json.put("PostVO", postVO);
+		}
+		
+		return json.toString();
+	}
+	
+	/*
+	 * 我的帖子
+	 * 根据用户Id获取帖子 （包含未审核帖子）
+	 */
+	@RequestMapping("/getMyPost.json")
+	@ResponseBody
+	public String getMyPost(HttpServletRequest request,@Param("page") long page){
+		JSONObject json = new JSONObject();
+		List<PostVO> postVOList = null;
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO)session.getAttribute(Constants.LOGINED_USER);
+		
+		page = (page<=0)?1:page;
+		
+		if(page>0){
+			long start = Math.abs(1 - page) * PageCount;
+			long end = page * PageCount;
+			
+			if(userVO!=null){
+				postVOList = postBiz.getPostByUserId(userVO.getId(), start, end);
+				
+				int total = postBiz.getPostByUserId(userVO.getId()).size();
+				total = (int)Math.ceil((double)total/PageCount);
+				json.put("Total", total);
+			}
+			
+			List<ExpandInfoVO> expandInfoVOList;
+			String postContent="";
+			if(postVOList.size()>0){
+				for (PostVO postVO : postVOList) {
+					//昵称
+					expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
+					if(expandInfoVOList.size()>0){
+						postVO.setName(expandInfoVOList.get(0).getNickName());
+					}
+					//回复数
+					postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
+					
+					//截取帖子内容一部分
+					postContent = postVO.getContent();
+					if(postContent.length()>=100){
+						postContent = postContent.substring(0, 100);
+					}
+					
+					postVO.setContent(postContent);
+				}
+				
+				json.put("postList", postVOList);
+			}
 		}
 		
 		return json.toString();

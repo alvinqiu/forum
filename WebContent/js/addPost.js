@@ -18,27 +18,24 @@ $(function() {
 	});
 
 	// 获取所有版块
-	$
-			.ajax({
-				url : "getAllModule.json",
-				error : function() {
-					alert("获取数据失败！");
-				},
-				success : function(data) {
-					var jsonObj = eval("(" + data + ")");
+	$.ajax({
+		url: "getAllModule.json",
+		error: function() {
+			alert("获取数据失败！");
+		},
+		success: function(data) {
+			var jsonObj = eval("(" + data + ")");
 
-					for (var i = 0, tagLen = jsonObj.moduleVOList.length; i < tagLen; i++) {
+			for (var i = 0, tagLen = jsonObj.moduleVOList.length; i < tagLen; i++) {
 
-						var id = jsonObj.moduleVOList[i].id;
-						var name = jsonObj.moduleVOList[i].name;
+				var id = jsonObj.moduleVOList[i].id;
+				var name = jsonObj.moduleVOList[i].name;
 
-						$(".module select").append(
-								"<option value='" + id + "'>" + name
-										+ "</option>");
-
-					}
-				}
-			});
+				$(".module select").append(
+					"<option value='" + id + "'>" + name + "</option>");
+			}
+		}
+	});
 
 	$("input[type='checkbox']").click(function() {
 		if ($(this).is(":checked")) {

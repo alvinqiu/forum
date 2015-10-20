@@ -16,8 +16,8 @@ public class PostVO {
 	private Timestamp submitTime;
 	private long moduleId;
 	private long userId;
-	private String name;//��ʱ�洢(�������ǳ�)
-	private long commentCount;//��ʱ�洢(�ظ���)
+	private String name;//昵称(临时)
+	private long commentCount;//回复数(临时)
 
 	public long getCommentCount() {
 		return commentCount;
