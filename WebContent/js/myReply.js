@@ -36,17 +36,18 @@ $(function(){
 
 					for (var i = 0, tagLen = jsonObj.postList.length; i < tagLen; i++) {
 
+						var id = jsonObj.postList[i].id;//评论ID
 						var parentId = jsonObj.postList[i].parentId;//帖子ID
-						var content = jsonObj.postList[i].content;//回复摘要
+						var content = "我的回复： " + jsonObj.postList[i].content;//回复摘要
 						var parentContentSummary = jsonObj.postList[i].parentContentSummary;//帖子摘要
 						var subject = jsonObj.postList[i].subject;//帖子标题
 						var submitTime = formatDate(new Date(jsonObj.postList[i].submitTime.time));//回复时间
 
-						$(".panel_left_top").append("<div><a href='./detail.html?id=" + parentId + "'>" +
+						$(".panel_left_top").append("<div><a href='./detail.html?id=" + parentId + "#"+id+"anchor'>" +
 							"<div class='subject'>" + subject + "</div>" +
-									"<div class='parentContentSummary'>" + parentContentSummary + "</div>" +
-											"<div class='content'>" + content + "</div>" +
-													"<div class='submitTime'>" + submitTime + "</div></a></div>");
+								"<div class='submitTime'>" + submitTime + "</div>" +
+									"<div class='parentContentSummary'>\"" + parentContentSummary + "...\"</div>" +
+										"<div class='content'>" + content + "</div></a></div>");
 					}
 
 				} else {

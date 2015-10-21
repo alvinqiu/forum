@@ -52,7 +52,7 @@ $(function(){
 	$.ajax({
 		url:"getComment.json",
 		data:{"id":id},
-		async:true,
+		async:false,
 		success:function(data){
 			var jsonObj=eval("("+data+")");
 			
@@ -65,7 +65,7 @@ $(function(){
 				var parentContentSummary = jsonObj.postVOList[i].parentContentSummary;
 				var name = jsonObj.postVOList[i].name;
 				
-				$(".panel_left_comment").append("<div>" +
+				$(".panel_left_comment").append("<div id='"+id+"anchor' name='"+id+"anchor'>" +
 										"<div class='commentName'>"+name+"</div>" +
 										"<div class='commentSubmitTime'>"+submitTime+"</div>" +
 										"<div class='commentFloor'>"+(i+1)+"楼</div>" +

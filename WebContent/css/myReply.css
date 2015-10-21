@@ -30,25 +30,35 @@
 .panel_left_top>div {
 	border-bottom: 1px solid #E6E6E6;
 	margin-bottom: 5px;
-	height: 60px;
+	height: auto;
 	line-height: 60px;
 	font-size: 16px;
 }
 
 .subject {
-	float: left;
+	display: inline-block;
+	margin-right: 15px;
+	font-size: 18pt;
 }
 
-.parentContentSummary{
-	
+.submitTime {
+	display: inline-block;
 }
 
-.content{
-	
+.parentContentSummary {
+	width: 70%;
+	height: 50px;
+	line-height: 50px;
+	background-color: #FFFFE0;
+	border-radius: 25px;
+	padding: 10px;
+	overflow: hidden;
 }
 
-.submitTime{
-	
+.content {
+	font-size: 16px;
+	line-height: 32px;
+	text-indent: 2em;
 }
 
 .panel_left_page {
@@ -125,10 +135,10 @@
 	margin: 20px auto;
 	text-align: center;
 	width: 60%;
-	padding:10px;
+	padding: 10px;
 }
 
-.myReply{
+.myReply {
 	background-color: #32a5e7;
 }
 

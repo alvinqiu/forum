@@ -48,7 +48,6 @@ img {
 
 .panel_top_content li {
 	display: inline-block;
-	margin: 0 5px;
 	padding: 5px;
 }
 
@@ -65,7 +64,8 @@ a:hover {
 	width: 100px;
 	position: absolute;
 	z-index: 999;
-	left: 30px; top : 40px;
+	left: 30px;
+	top: 40px;
 	display: none;
 	background-color: #fff;
 	text-align: center;

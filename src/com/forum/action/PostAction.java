@@ -265,8 +265,8 @@ public class PostAction {
 					
 					//截取帖子内容一部分
 					postContent = postVO.getContent();
-					if(postContent.length()>=100){
-						postContent = postContent.substring(0, 100);
+					if(postContent.length()>=30){
+						postContent = postContent.substring(0, 30);
 					}
 					
 					postVO.setContent(postContent);
@@ -284,7 +284,9 @@ public class PostAction {
 	 */
 	@RequestMapping("/addComment.json")
 	@ResponseBody
-	public String addComment(@RequestParam("content") String content,@RequestParam("id") long id){
+	public String addComment(HttpServletRequest request,@RequestParam("content") String content,@RequestParam("id") long id){
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO)session.getAttribute(Constants.LOGINED_USER);
 		JSONObject json = new JSONObject();
 		if(id>0){
 			PostVO postVO = postBiz.getPostById(id);
@@ -298,7 +300,9 @@ public class PostAction {
 			postVOClone.setContent(content);
 			postVOClone.setParentId(id);
 			postVOClone.setParentContentSummary(postContent);
-			//��ǰʱ��
+			postVOClone.setUserId(userVO.getId());
+			
+			//获取当前时间
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			postVOClone.setSubmitTime(timestamp);
 			
