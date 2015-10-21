@@ -226,6 +226,60 @@ public class PostAction {
 	}
 	
 	/*
+	 * 我的回复
+	 * 根据用户Id获取评论
+	 */
+	@RequestMapping("/getMyReply.json")
+	@ResponseBody
+	public String getMyReply(HttpServletRequest request,@Param("page") long page){
+		JSONObject json = new JSONObject();
+		List<PostVO> postVOList = null;
+		HttpSession session = request.getSession();
+		UserVO userVO = (UserVO)session.getAttribute(Constants.LOGINED_USER);
+		
+		page = (page<=0)?1:page;
+		
+		if(page>0){
+			long start = Math.abs(1 - page) * PageCount;
+			long end = page * PageCount;
+			
+			if(userVO!=null){
+				postVOList = postBiz.getAllCommentByUserId(userVO.getId(), start, end);
+				
+				int total = postBiz.getAllCommentByUserId(userVO.getId()).size();
+				total = (int)Math.ceil((double)total/PageCount);
+				json.put("Total", total);
+			}
+			
+			List<ExpandInfoVO> expandInfoVOList;
+			String postContent="";
+			if(postVOList.size()>0){
+				for (PostVO postVO : postVOList) {
+					//昵称
+					expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
+					if(expandInfoVOList.size()>0){
+						postVO.setName(expandInfoVOList.get(0).getNickName());
+					}
+					//回复数
+					postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
+					
+					//截取帖子内容一部分
+					postContent = postVO.getContent();
+					if(postContent.length()>=100){
+						postContent = postContent.substring(0, 100);
+					}
+					
+					postVO.setContent(postContent);
+				}
+				
+				json.put("postList", postVOList);
+			}
+		}
+		
+		return json.toString();
+	}
+	
+	/*
 	 * 添加评论
 	 */
 	@RequestMapping("/addComment.json")
@@ -263,7 +317,7 @@ public class PostAction {
 	}
 	
 	/*
-	 * ���post id��ȡ����
+	 * 获取评论
 	 */
 	@RequestMapping("/getComment.json")
 	@ResponseBody
@@ -287,7 +341,7 @@ public class PostAction {
 	}
 	
 	/*
-	 * ��ȡ���������
+	 * 获取所有待审核的帖子
 	 */
 	@RequestMapping("/getAllPostByHold.json")
 	@ResponseBody
@@ -301,14 +355,14 @@ public class PostAction {
 	}
 	
 	/*
-	 * ������� ��by id��
+	 * 审核帖子
 	 */
 	@RequestMapping("/passPost.json")
 	@ResponseBody
 	public String passPost(@RequestParam("id") long id){
 		JSONObject json = new JSONObject();
 		if(id!=0){
-			String type = "2"; //��ͨ��
+			String type = "2"; //设为普通贴
 			Integer result = postBiz.passPost(type, id);
 			if(result>0){
 				json.put("success", true);
@@ -320,7 +374,7 @@ public class PostAction {
 	}
 	
 	/*
-	 * ���ø��� (by id)
+	 * 设置高亮 (by id)
 	 */
 	@RequestMapping("/setHighLight.json")
 	@ResponseBody
@@ -340,7 +394,7 @@ public class PostAction {
 	}
 	
 	/*
-	 * �����ö� (by id)
+	 * 设置置顶 (by id)
 	 */
 	@RequestMapping("/setTop.json")
 	@ResponseBody
@@ -360,7 +414,7 @@ public class PostAction {
 	}
 	
 	/*
-	 * ɾ�� (by id)
+	 * 删除帖子 (by id)
 	 */
 	@RequestMapping("/del.json")
 	@ResponseBody

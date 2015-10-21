@@ -40,7 +40,7 @@ $(function() {
                 		"<div class='panel_top_content_menu'>" +
 						"<p><a href='./editPreview.html'>我的信息</a></p>" +
 						"<p><a href='./myPost.html?page=1'>我的帖子</a></p>" +
-						"<p><a>我的回复</a></p>" +
+						"<p><a href='./myReply.html?page=1'>我的回复</a></p>" +
 						"<p><a href='javascript:void(0);' onclick='loginOut()'>退出账户</a></p>" +
 						"</div></li>");
             } else {

@@ -75,6 +75,20 @@ public class PostDao {
 	public List<PostVO> getPostByUserId(long userId) {
 		return postInterface.getPostByUserId(userId);
 	}
+	
+	/*
+	 * 根据用户Id获取一个范围的评论
+	 */
+	public List<PostVO> getAllCommentByUserId(long userId, long start, long end) {
+		return postInterface.getAllCommentByUserIdLimit(userId, start, end);
+	}
+	
+	/*
+	 * 根据用户Id获取评论
+	 */
+	public List<PostVO> getAllCommentByUserId(long userId) {
+		return postInterface.getAllCommentByUserId(userId);
+	}
 
 	/*
 	 * ���post id ��ȡ����
