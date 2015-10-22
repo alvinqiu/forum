@@ -1,0 +1,20 @@
+.panel_detail {
+	height: auto;
+	width: 1200px;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+.panel_detail>div {
+	border-bottom: 1px solid #E6E6E6;
+}
+
+.panel_detail .title {
+	height: 40px;
+	width: 1200px;
+	background-color: #E6E6E6;
+}
+
+.panel_detail .title label {
+	
+}

@@ -141,27 +141,3 @@
 .myReply {
 	background-color: #32a5e7;
 }
-
-.scrolltop {
-	position: fixed;
-	display: none;
-	bottom: 80px;
-	background: url("../img/scrolltop.jpg") no-repeat 0 -48px;
-	background-color: #ffffff;
-	width: 48px;
-	height: 48px;
-	background: url("../img/scrolltop.jpg") no-repeat 0 -48px;
-}
-
-.foot {
-	margin: auto;
-	width: 1200px;
-	bottom: 0;
-	height: 130px;
-	border-top: solid 1px #d9d9d9;
-	color: black;
-	text-align: center;
-	line-height: 130px;
-	clear: both;
-	width: 1200px;
-}

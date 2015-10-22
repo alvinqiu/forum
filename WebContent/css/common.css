@@ -93,3 +93,57 @@ a:hover {
 	margin: 0 5px;
 	font: 24px;
 }
+
+.panel_bars_search {
+	height: 34px;
+	background: url(../img/main_icon.png) no-repeat 0 0;
+	display: inline-block;
+	float: right;
+}
+
+.panel_bars_search .search_content {
+	width: 170px;
+	height: 34px;
+	padding: 0px 0px 0px 10px;
+	outline: none;
+	font-size: 14px;
+	border: none;
+	background: none transparent;
+	float: left;
+}
+
+.panel_bars_search .search_btn {
+	width: 40px;
+	height: 34px;
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: none transparent;
+	cursor: pointer;
+	float: left;
+	height: 34px;
+}
+
+.scrolltop {
+	position: fixed;
+	display: none;
+	bottom: 80px;
+	background: url("../img/scrolltop.jpg") no-repeat 0 -48px;
+	background-color: #ffffff;
+	width: 48px;
+	height: 48px;
+	background: url("../img/scrolltop.jpg") no-repeat 0 -48px;
+}
+
+.foot {
+	margin: auto;
+	width: 1200px;
+	bottom: 0;
+	height: 130px;
+	border-top: solid 1px #d9d9d9;
+	color: black;
+	text-align: center;
+	line-height: 130px;
+	clear: both;
+	width: 1200px;
+}

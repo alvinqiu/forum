@@ -23,8 +23,19 @@ $(function() {
 		return myDate.toString(myDate);
 	});
 
+	//签到
 	$("#js-signIn").click(signIn);
 
+	//搜索
+	$("#js_search_btn").click(search);
+	
+	//绑定搜索框
+	$("#js_search_content").bind('keydown', function(event) {
+		if (event.keyCode == 13) {
+			$("#js_search_btn").trigger("click");
+		}
+	});
+	
 	// 查询是否登录
     $.ajax({
         url: "checkLogin.json",
@@ -115,4 +126,14 @@ function signIn() {
 			}
 		}
 	});
+}
+
+//搜索
+function search(){
+	var _this = $.trim($(this).prev().val());
+	if(_this!=""){
+		location.href="./search.html?kw=" + _this;
+	}else{
+		alert("请输入要搜索的内容！");
+	}
 }
