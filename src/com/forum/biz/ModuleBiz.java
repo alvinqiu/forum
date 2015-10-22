@@ -31,6 +31,13 @@ public class ModuleBiz {
 	}
 	
 	/*
+	 * 根据Id查询版块
+	 */
+	public ModuleVO selectModuleById(long id){
+		return moduleDao.selectModuleById(id);
+	}
+	
+	/*
 	 * ���ģ��
 	 */
 	public Integer addModule(ModuleVO moduleVO){

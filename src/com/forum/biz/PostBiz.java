@@ -68,21 +68,21 @@ public class PostBiz {
 	public List<PostVO> getPostByUserId(long userId, long start, long end) {
 		return postDao.getPostByUserId(userId, start, end);
 	}
-	
+
 	/*
 	 * 根据用户Id获取帖子 （包含未审核帖子）
 	 */
 	public List<PostVO> getPostByUserId(long userId) {
 		return postDao.getPostByUserId(userId);
 	}
-	
+
 	/*
 	 * 根据用户Id获取一个范围的评论
 	 */
 	public List<PostVO> getAllCommentByUserId(long userId, long start, long end) {
 		return postDao.getAllCommentByUserId(userId, start, end);
 	}
-	
+
 	/*
 	 * 根据用户Id获取评论
 	 */
@@ -130,5 +130,28 @@ public class PostBiz {
 	 */
 	public Integer del(long id) {
 		return postDao.del(id);
+	}
+
+	/*
+	 * 模糊查询(limit) visible true:是管理员; false:普通用户
+	 */
+	public List<PostVO> search4Limit(String kw, long start, long end,
+			boolean visible) {
+		if (visible) {
+			return postDao.search4LimitToAdmin(kw, start, end);
+		} else {
+			return postDao.search4Limit(kw, start, end);
+		}
+	}
+
+	/*
+	 * 模糊查询 visible true:是管理员; false:普通用户
+	 */
+	public List<PostVO> search(String kw, boolean visible) {
+		if (visible) {
+			return postDao.searchToAdmin(kw);
+		} else {
+			return postDao.search(kw);
+		}
 	}
 }

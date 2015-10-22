@@ -13,7 +13,7 @@ import com.forum.vo.UserVO;
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 	private static final String[] IGNORE_URI = { "getAllPost", "getAllModule",
-			"checkLogin","loginOut", "login", "getToken","getPostById","getComment" };
+			"checkLogin","loginOut", "login", "getToken","getPostById","getComment","search" };
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,

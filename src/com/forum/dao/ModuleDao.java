@@ -28,6 +28,13 @@ public class ModuleDao {
 	}
 	
 	/*
+	 * 根据id查询版块
+	 */
+	public ModuleVO selectModuleById(long id){
+		return moduleInterface.selectModuleById(id);
+	}
+	
+	/*
 	 * ���ģ��
 	 */
 	public Integer addModule(ModuleVO moduleVO){

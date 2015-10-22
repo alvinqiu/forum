@@ -68,21 +68,21 @@ public class PostDao {
 	public List<PostVO> getPostByUserId(long userId, long start, long end) {
 		return postInterface.getPostByUserIdLimit(userId, start, end);
 	}
-	
+
 	/*
 	 * 根据用户Id获取帖子 （包含未审核帖子）
 	 */
 	public List<PostVO> getPostByUserId(long userId) {
 		return postInterface.getPostByUserId(userId);
 	}
-	
+
 	/*
 	 * 根据用户Id获取一个范围的评论
 	 */
 	public List<PostVO> getAllCommentByUserId(long userId, long start, long end) {
 		return postInterface.getAllCommentByUserIdLimit(userId, start, end);
 	}
-	
+
 	/*
 	 * 根据用户Id获取评论
 	 */
@@ -130,5 +130,37 @@ public class PostDao {
 	 */
 	public Integer del(long id) {
 		return postInterface.del(id);
+	}
+
+	/*
+	 * 模糊查询(limit)
+	 * 管理员
+	 */
+	public List<PostVO> search4LimitToAdmin(String subject, long start, long end) {
+		return postInterface.getAllPostByParam4LimitToAdmin(subject, start, end);
+	}
+	
+	/*
+	 * 模糊查询(limit)
+	 * 普通用户
+	 */
+	public List<PostVO> search4Limit(String subject, long start, long end) {
+		return postInterface.getAllPostByParam4Limit(subject, start, end);
+	}
+
+	/*
+	 * 模糊查询
+	 * 管理员
+	 */
+	public List<PostVO> searchToAdmin(String kw) {
+		return postInterface.getAllPostByParamToAdmin(kw);
+	}
+	
+	/*
+	 * 模糊查询
+	 * 普通用户
+	 */
+	public List<PostVO> search(String kw) {
+		return postInterface.getAllPostByParam(kw);
 	}
 }

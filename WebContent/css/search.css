@@ -5,16 +5,91 @@
 	padding: 10px;
 }
 
-.panel_detail>div {
-	border-bottom: 1px solid #E6E6E6;
+.panel_detail .content {
+	width: 1200px;
+}
+
+.panel_detail .content>div {
+	border-top: 1px solid #E6E6E6;
+	height: 50px;
+	line-height: 50px;
 }
 
 .panel_detail .title {
 	height: 40px;
 	width: 1200px;
 	background-color: #E6E6E6;
+	font-size: 20px;
+	line-height: 40px;
 }
 
-.panel_detail .title label {
-	
+.panel_detail label {
+	display: inline-block;
+	width: 150px;
+}
+
+.subject {
+	width: 576px !important;
+}
+
+.content .comments {
+	text-align: center;
+}
+
+.panel_left_page {
+	padding: 31px 20px;
+	margin: 0px;
+	overflow: hidden;
+	border: none;
+}
+
+.pg {
+	line-height: 26px;
+	float: left;
+}
+
+.prev {
+	margin-left: 0px;
+}
+
+.next {
+	margin-right: 10px;
+}
+
+.pg strong, .pg a {
+	float: left;
+	font-size: 18px;
+	display: inline-block;
+	height: 34px;
+	line-height: 34px;
+	margin-left: 10px;
+	padding: 0px 12px;
+	color: #333333;
+	overflow: hidden;
+	text-decoration: none;
+	background-color: #F3F3F3;
+	border: 1px solid #F0F0F0;
+	border-radius: 18px 18px 18px 18px;
+}
+
+.pg strong {
+	color: #FFFFFF;
+	background-color: #32a5e7;
+	border: 1px solid #32a5e7;
+}
+
+.previcon {
+	display: inline-block;
+	width: 10px;
+	height: 17px;
+	background: url(../img/main_icon.png) no-repeat -124px -568px;
+	margin: 9px 0px 0px 0px;
+}
+
+.nxticon {
+	display: inline-block;
+	width: 10px;
+	height: 17px;
+	background: url(../img/main_icon.png) no-repeat -152px -568px;
+	margin: 9px 0px 0px 0px;
 }

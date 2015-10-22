@@ -35,6 +35,17 @@ public interface ModuleInterface {
 	})
 	public List<ModuleVO> selectAllByVisible(boolean visible);
 	
+	@Select("select * from tab_module where col_id=#{id}")
+	@Results(value={
+			@Result(property = "id", column = "col_id"),
+			@Result(property = "name", column = "col_name"),
+			@Result(property = "sort", column = "col_sort"),
+			@Result(property = "desc", column = "col_desc"),
+			@Result(property = "parentId", column = "col_parent_id"),
+			@Result(property = "visible", column = "col_visible")
+	})
+	public ModuleVO selectModuleById(long id);
+	
 	@Insert("insert into tab_module(col_name,col_sort,col_desc,col_parent_id,col_visible) values(#{name},#{sort},#{desc},#{parentId},#{visible})")
 	@Results(value={
 			@Result(property = "id", column = "col_id"),

@@ -16,8 +16,17 @@ public class PostVO {
 	private Timestamp submitTime;
 	private long moduleId;
 	private long userId;
-	private String name;//昵称(临时)
-	private long commentCount;//回复数(临时)
+	private String name;// 昵称(临时)
+	private long commentCount;// 回复数(临时)
+	private String moduleName;// 版块名称(临时)
+
+	public String getModuleName() {
+		return moduleName;
+	}
+
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
+	}
 
 	public long getCommentCount() {
 		return commentCount;

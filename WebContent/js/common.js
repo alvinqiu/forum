@@ -132,7 +132,7 @@ function signIn() {
 function search(){
 	var _this = $.trim($(this).prev().val());
 	if(_this!=""){
-		location.href="./search.html?kw=" + _this;
+		location.href = "./search.html?kw=" + _this + "&page=1";
 	}else{
 		alert("请输入要搜索的内容！");
 	}
