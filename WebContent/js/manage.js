@@ -12,7 +12,7 @@ $(function(){
 				}
 			} else {
 				alert("请先登录！");
-				history.go(-1);
+				location.href="./login.html";
 			}
 		}
 	});

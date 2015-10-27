@@ -9,16 +9,24 @@ $(function(){
 				if (!jsonObj.isAdmin) {
 					alert("您还没有权限访问，请联系管理员！");
 					history.go(-1);
+				}else{
+					getAllModule();
 				}
 			} else {
 				alert("请先登录！");
-				history.go(-1);
+				location.href="./login.html";
+				return false;
 			}
 		}
 	});
 	
+	$("#js-addModule").click(addModule);
+});
+
+function getAllModule(){
 	$.ajax({
 		url:"getAllModule.json",
+		async : false,
 		error:function(){alert("获取数据失败！");},
 		success:function(data){
 			var jsonObj=eval("("+data+")");
@@ -39,10 +47,7 @@ $(function(){
 			$("a[id^='js-delModule']").click(delModule);
 		}
 	});
-	
-	
-	$("#js-addModule").click(addModule);
-});
+}
 
 function addModule() {
 	$("#moduleDialog input,#moduleDialog textarea").attr("value","");
@@ -66,16 +71,18 @@ function addModule() {
 						"visible" : $("#js-visible").prop("checked")
 					},
 					error : function() {
-						alert("添加模块失败2!");
+						alert("添加模块失败!");
 					},
 					success : function(data) {
-						var jsonObj = eval("(" + data + ")");
-						alert(jsonObj.result);
-						if (jsonObj.success) {
-							location.reload();
-						}
-						if(jsonObj.redirect){
-							location.href="./login.html";
+						if(data!=""){
+							var jsonObj = eval("(" + data + ")");
+							alert(jsonObj.result);
+							if (jsonObj.success) {
+								location.reload();
+							}
+							if(jsonObj.redirect){
+								location.href="./login.html";
+							}
 						}
 					}
 				});
@@ -120,12 +127,14 @@ function editModule() {
 						alert("修改模块失败!");
 					},
 					success : function(data) {
-						var jsonObj = eval("(" + data + ")");
-						if (jsonObj.success) {
-							alert("修改模块成功！");
-							location.reload();
-						} else {
-							alert("修改模块失败！");
+						if(data!=""){
+							var jsonObj = eval("(" + data + ")");
+							if (jsonObj.success) {
+								alert("修改模块成功！");
+								location.reload();
+							} else {
+								alert("修改模块失败！");
+							}
 						}
 					}
 				});
@@ -150,12 +159,14 @@ function delModule() {
 			alert("删除模块失败!");
 		},
 		success : function(data) {
-			var jsonObj = eval("(" + data + ")");
-			if (jsonObj.success) {
-				alert("删除模块成功！");
-				location.reload();
-			} else {
-				alert("删除模块失败！");
+			if(data!=""){
+				var jsonObj = eval("(" + data + ")");
+				if (jsonObj.success) {
+					alert("删除模块成功！");
+					location.reload();
+				} else {
+					alert("删除模块失败！");
+				}
 			}
 		}
 	});
@@ -166,6 +177,7 @@ function prevMoveTrOpra(obj) {
 	var $jqObj = jQuery(obj).parent().parent(); //获得本身tr的信息
 	var $trOObjt = jQuery("#hide_tr_id").append($jqObj.html()); //把本身tr放入临时信息
 	var $jqSublObj = jQuery(obj).parent().parent().prev(); //获得上一个tr的信息
+	
 	$jqSublObj.find(".td_num").text(
 			Number($jqSublObj.find(".td_num").text()) + 1); //把上一个tr序号加1
 	$jqObj.html("").append($jqSublObj.html()); //把本身tr清空并插入上一个信息
