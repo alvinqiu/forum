@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,29 +36,28 @@ public class LoginAction {
 	/*
 	 * 登录
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/login.json")
 	@ResponseBody
 	public String login(UserVO userVO, HttpServletRequest request,
 			HttpServletResponse response) throws NoSuchAlgorithmException, IOException {
 
-		URL url = new URL("http://api.singwin.cn/comm/user/login");
-		URLConnection urlConnection = url.openConnection();
-		urlConnection.setDoOutput(true);
-		OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream(), "utf-8"); 
-		out.write("username="+userVO.getMail()+"&password="+userVO.getDarkPass());
-		out.flush();
-		out.close();
+		Map<String, Object> map = new HashMap<String, Object>();
+		String result = loginRemote(userVO);
+		map = json2Map(result, map);
 		
-		BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+		String code = map.get("code").toString();
 		
-		String line = null; 
-		StringBuffer content= new StringBuffer(); 
-		while((line = in.readLine()) != null) 
-		{
-		    content.append(line); 
-		} 
-
-		in.close();
+		String msg = map.get("msg").toString();
+		System.out.println(msg);
+		
+		String id = null;
+		String username = null;
+		if(code.equals("1")){
+			map = (Map<String, Object>) map.get("user");
+			id = map.get("id").toString();
+			username = map.get("username").toString();
+		}
 		
 		
 		List<UserVO> userVOList = userBiz.selectUser(userVO);
@@ -82,4 +83,62 @@ public class LoginAction {
 
 		return json.toString();
 	}
+	
+	public String loginRemote(UserVO userVO) throws IOException {
+		URL url = new URL("http://api.singwin.cn/comm/user/login");
+		URLConnection urlConnection = url.openConnection();
+		urlConnection.setDoOutput(true);
+		OutputStreamWriter out = new OutputStreamWriter(urlConnection.getOutputStream(), "utf-8");
+		out.write("username=" + userVO.getMail() + "&password=" + userVO.getDarkPass());
+		out.flush();
+		out.close();
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+		String line = in.readLine();
+
+		return line;
+	}	
+	
+	/**
+	*json字符串转map集合
+	*@author ducc
+	*@param jsonStrjson字符串
+	*@param map接收的map
+	*@return
+	*/
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> json2Map(String jsonStr, Map<String, Object> map) {
+		JSONObject jsonObject = JSONObject.fromObject(jsonStr);
+		map = JSONObject.fromObject(jsonObject);
+		// 递归map的value,如果
+		for (Entry<String, Object> entry : map.entrySet()) {
+			json2map1(entry, map);
+		}
+		return map;
+	}
+	
+	
+	/**
+	*json转map,递归调用的方法
+	*@author ducc
+	*@param entry
+	*@param map
+	*@return
+	*/
+	@SuppressWarnings("unchecked")
+	public Map<String, Object> json2map1(Entry<String, Object> entry,
+			Map<String, Object> map) {
+		if (entry.getValue() instanceof Map) {
+			JSONObject jsonObject = JSONObject.fromObject(entry.getValue());
+
+			Map<String, Object> map1 = JSONObject.fromObject(jsonObject);
+
+			for (Entry<String, Object> entry1 : map1.entrySet()) {
+				map1 = json2map1(entry1, map1);
+				map.put(entry.getKey(), map1);
+			}
+		}
+		return map;
+	}
+	
 }
