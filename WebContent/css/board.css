@@ -1,0 +1,39 @@
+.panel_detail {
+	height: auto;
+	width: 1200px;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+.panel_detail_content {
+	width: 1200px;
+}
+
+.panel_detail_content .item {
+	width: 400px;
+	height: 200px;
+	display: inline-block;
+	margin: 10px 0;
+	background-color: #FEFEFE;
+}
+
+.panel_detail_content .item .img {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	background-color: #07BCF7;
+	margin: 20px auto;
+}
+
+.panel_detail_content .item .name {
+	width: 100px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 18px;
+}
+
+.panel_detail_content .item .desc {
+	width: 100px;
+	margin: 0 auto;
+	text-align: center;
+}

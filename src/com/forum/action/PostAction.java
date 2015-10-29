@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.forum.biz.ExpandInfoBiz;
 import com.forum.biz.ModuleBiz;
 import com.forum.biz.PostBiz;
+import com.forum.biz.UserBiz;
 import com.forum.utility.Constants;
 import com.forum.vo.ExpandInfoVO;
 import com.forum.vo.ModuleVO;
@@ -29,6 +30,9 @@ public class PostAction {
 
 	@Autowired
 	private PostBiz postBiz;
+	
+	@Autowired
+	private UserBiz userBiz;
 
 	@Autowired
 	private ExpandInfoBiz expandInfoBiz;
@@ -93,10 +97,8 @@ public class PostAction {
 			long end = page * PageCount;
 
 			HttpSession session = request.getSession();
-			UserVO userVO = (UserVO) session
-					.getAttribute(Constants.LOGINED_USER);
-			long groupId = userVO != null ? userVO.getGroupId()
-					: Constants.GroupType.user.getValue();// 如未登录则视为普通用户处理
+			UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
+			long groupId = userVO != null ? userVO.getGroupId() : Constants.GroupType.user.getValue();// 如未登录则视为普通用户处理
 			json.put("GroupId", groupId);
 
 			List<PostVO> postVOList;
@@ -119,10 +121,12 @@ public class PostAction {
 			if (postVOList.size() > 0) {
 				for (PostVO postVO : postVOList) {
 					// 昵称
-					expandInfoVOList = expandInfoBiz
-							.selExpandInfoByUserId(postVO.getUserId());
+					expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 					if (expandInfoVOList.size() > 0) {
 						postVO.setName(expandInfoVOList.get(0).getNickName());
+					}else{
+						userVO = userBiz.selectUserById(postVO.getUserId(), "");
+						postVO.setName(userVO.getMail());
 					}
 					// 回复数
 					postVO.setCommentCount(postBiz.getCommentByPostId(
@@ -166,15 +170,17 @@ public class PostAction {
 			}
 
 			PostVO postVO = postBiz.getPostById(id);
-			// �ǳ�
-			expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO
-					.getUserId());
+			// 昵称
+			expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 			if (expandInfoVOList.size() > 0) {
 				postVO.setName(expandInfoVOList.get(0).getNickName());
+			}else{
+				userVO = userBiz.selectUserById(postVO.getUserId(), "");
+				postVO.setName(userVO.getMail());
 			}
-			// �ظ���
-			postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId())
-					.size());
+			
+			// 回复数
+			postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
 
 			json.put("PostVO", postVO);
 		}
@@ -200,8 +206,7 @@ public class PostAction {
 			long end = page * PageCount;
 
 			if (userVO != null) {
-				postVOList = postBiz
-						.getPostByUserId(userVO.getId(), start, end);
+				postVOList = postBiz.getPostByUserId(userVO.getId(), start, end);
 
 				int total = postBiz.getPostByUserId(userVO.getId()).size();
 				total = (int) Math.ceil((double) total / PageCount);
@@ -213,14 +218,16 @@ public class PostAction {
 			if (postVOList.size() > 0) {
 				for (PostVO postVO : postVOList) {
 					// 昵称
-					expandInfoVOList = expandInfoBiz
-							.selExpandInfoByUserId(postVO.getUserId());
+					expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 					if (expandInfoVOList.size() > 0) {
 						postVO.setName(expandInfoVOList.get(0).getNickName());
+					}else{
+						userVO = userBiz.selectUserById(postVO.getUserId(), "");
+						postVO.setName(userVO.getMail());
 					}
+					
 					// 回复数
-					postVO.setCommentCount(postBiz.getCommentByPostId(
-							postVO.getId()).size());
+					postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
 
 					// 截取帖子内容一部分
 					postContent = postVO.getContent();
@@ -257,11 +264,9 @@ public class PostAction {
 			long end = page * PageCount;
 
 			if (userVO != null) {
-				postVOList = postBiz.getAllCommentByUserId(userVO.getId(),
-						start, end);
+				postVOList = postBiz.getAllCommentByUserId(userVO.getId(), start, end);
 
-				int total = postBiz.getAllCommentByUserId(userVO.getId())
-						.size();
+				int total = postBiz.getAllCommentByUserId(userVO.getId()).size();
 				total = (int) Math.ceil((double) total / PageCount);
 				json.put("Total", total);
 			}
@@ -271,14 +276,16 @@ public class PostAction {
 			if (postVOList.size() > 0) {
 				for (PostVO postVO : postVOList) {
 					// 昵称
-					expandInfoVOList = expandInfoBiz
-							.selExpandInfoByUserId(postVO.getUserId());
+					expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 					if (expandInfoVOList.size() > 0) {
 						postVO.setName(expandInfoVOList.get(0).getNickName());
+					}else{
+						userVO = userBiz.selectUserById(postVO.getUserId(), "");
+						postVO.setName(userVO.getMail());
 					}
+					
 					// 回复数
-					postVO.setCommentCount(postBiz.getCommentByPostId(
-							postVO.getId()).size());
+					postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
 
 					// 截取帖子内容一部分
 					postContent = postVO.getContent();
@@ -348,11 +355,13 @@ public class PostAction {
 			List<PostVO> postVOList = postBiz.getCommentByPostId(id);
 
 			for (PostVO postVO : postVOList) {
-				// �ǳ�
-				expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO
-						.getUserId());
+				// 昵称
+				expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 				if (expandInfoVOList.size() > 0) {
 					postVO.setName(expandInfoVOList.get(0).getNickName());
+				}else{
+					UserVO userVO = userBiz.selectUserById(postVO.getUserId(), "");
+					postVO.setName(userVO.getMail());
 				}
 			}
 
@@ -495,7 +504,11 @@ public class PostAction {
 						expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 						if (expandInfoVOList.size() > 0) {
 							postVO.setName(expandInfoVOList.get(0).getNickName());
+						}else{
+							userVO = userBiz.selectUserById(postVO.getUserId(), "");
+							postVO.setName(userVO.getMail());
 						}
+						
 						// 回复数
 						postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
 

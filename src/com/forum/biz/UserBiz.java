@@ -77,9 +77,18 @@ public class UserBiz {
 	/*
 	 * 查询用户 by id
 	 */
-	public UserVO selectUserById(long id){
-		
-		return userDao.selectUserById(id);
+	public UserVO selectUserById(long id, String username) {
+
+		UserVO userVO = userDao.selectUserById(id);
+		if (userVO == null) {
+			userVO = new UserVO();
+			userVO.setId(id);
+			userVO.setMail(username);
+			userVO.setIsActive(0);
+			userVO.setGroupId(Constants.GroupType.user.getValue());// 普通用户
+			userDao.addUser(userVO);
+		}
+		return userVO;
 	}
 
 	/*

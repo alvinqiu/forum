@@ -51,13 +51,16 @@ public class LoginAction {
 		System.out.println(msg);
 
 		String id = null;
+		String username = null;
 		JSONObject json = new JSONObject();
 
 		if (code.equals("1")) {// 用户存在
 			map = (Map<String, Object>) map.get("user");
 			id = map.get("id").toString();
+			username = map.get("username").toString();
 
-			userVO = userBiz.selectUserById(Integer.parseInt(id));
+			userVO = userBiz.selectUserById(Integer.parseInt(id), username);
+			
 			if (userVO.getIsActive() > 0) {// 已激活
 				json.put("success", true);
 				HttpSession session = request.getSession();
