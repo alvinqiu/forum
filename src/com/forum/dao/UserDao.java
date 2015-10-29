@@ -38,10 +38,17 @@ public class UserDao {
 	}
 	
 	/*
-	 * ��ѯ�û�
+	 * 查询用户
 	 */
 	public List<UserVO> selectUser(String mail,String darkPass){
 		return userInterface.selectUser(mail, darkPass);
+	}
+	
+	/*
+	 * 查询用户 by id
+	 */
+	public UserVO selectUserById(long id){
+		return userInterface.selectUserById(id);
 	}
 	
 	/*

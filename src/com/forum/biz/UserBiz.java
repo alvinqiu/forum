@@ -73,6 +73,14 @@ public class UserBiz {
 		String darkPass = MD5.md5(userVO.getDarkPass());
 		return userDao.selectUser(userVO.getMail(), darkPass);
 	}
+	
+	/*
+	 * 查询用户 by id
+	 */
+	public UserVO selectUserById(long id){
+		
+		return userDao.selectUserById(id);
+	}
 
 	/*
 	 * 设置用户类型

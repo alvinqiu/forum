@@ -13,8 +13,8 @@ import com.forum.vo.UserVO;
 
 public interface UserInterface {
 	
-	@Insert("insert into tab_user(col_email,col_dark_pass,col_group_id,col_is_active)"
-			+ " values(#{mail},#{darkPass},#{groupId},#{isActive})")
+	@Insert("insert into tab_user(col_id,col_email,col_dark_pass,col_group_id,col_is_active)"
+			+ " values(#{id},#{mail},#{darkPass},#{groupId},#{isActive})")
 	@Results(value={
 			@Result(property = "id", column = "col_id"),
 			@Result(property = "mail", column = "col_email"),
@@ -53,6 +53,16 @@ public interface UserInterface {
 			@Result(property = "isActive", column = "col_is_active")
 	})
 	public List<UserVO> selectUser(@Param("mail") String mail,@Param("darkPass") String darkPass);
+	
+	@Select("select * from tab_user where col_id=#{id}")
+	@Results(value={
+			@Result(property = "id", column = "col_id"),
+			@Result(property = "mail", column = "col_email"),
+			@Result(property = "darkPass", column = "col_dark_pass"),
+			@Result(property = "groupId", column = "col_group_id"),
+			@Result(property = "isActive", column = "col_is_active")
+	})
+	public UserVO selectUserById(long id);
 	
 	@Update("update tab_user set col_group_id=#{groupId} where col_email=#{mail}")
 	@Results(value={

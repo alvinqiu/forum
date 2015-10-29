@@ -11,6 +11,7 @@ function registerSuccess(){
         success: function(data) {
         	var jsonObj=eval("("+data+")");
         	alert(jsonObj.result);
+        	location.href="./login.html";
         }
      });
 }

@@ -1,6 +1,14 @@
 package com.forum.action;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.forum.biz.UserBiz;
+import com.forum.utility.Constants;
 import com.forum.vo.UserVO;
 
 @Controller
@@ -24,18 +33,32 @@ public class RegisterAction {
 	/*
 	 * 注册
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/register.json")
 	@ResponseBody
 	public String add(UserVO userVO, HttpServletRequest request)
-			throws NoSuchAlgorithmException {
-		Integer result = 0;
+			throws NoSuchAlgorithmException, IOException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String jsonStr = registerRemote(userVO);
+		map = Constants.json2Map(jsonStr, map);
 
-		result = userBiz.addUser(userVO, request);
+		String code = map.get("code").toString();
 
+		String msg = map.get("msg").toString();
+		System.out.println(msg);
+
+		String id = null;
 		JSONObject json = new JSONObject();
-		if (result > 0) {
+
+		if (code.equals("1")) {
+			map = (Map<String, Object>) map.get("user");
+			id = map.get("id").toString();
+
+			userVO.setId(Integer.parseInt(id));
+			userBiz.addUser(userVO, request);
+
 			json.put("result", "注册成功，系统会发送一封邮件至您的邮箱，请查阅邮件并点击内容中链接进行激活！");
-		} else if (result < 0) {
+		} else if (code.equals("100")) {
 			json.put("result", "此邮箱地址已被注册！");
 		} else {
 			json.put("result", "注册失败，请联系管理员！");
@@ -65,5 +88,26 @@ public class RegisterAction {
 			sb.append("激活失败，请检查链接！");
 		}
 		return sb.toString();
+	}
+
+	/*
+	 * 公共服务器注册
+	 */
+	public String registerRemote(UserVO userVO) throws IOException {
+		URL url = new URL("http://api.singwin.cn/comm/user/sign_in");
+		URLConnection urlConnection = url.openConnection();
+		urlConnection.setDoOutput(true);
+		OutputStreamWriter out = new OutputStreamWriter(
+				urlConnection.getOutputStream(), "utf-8");
+		out.write("username=" + userVO.getMail() + "&password="
+				+ userVO.getDarkPass());
+		out.flush();
+		out.close();
+
+		BufferedReader in = new BufferedReader(new InputStreamReader(
+				urlConnection.getInputStream()));
+		String line = in.readLine();
+
+		return line;
 	}
 }

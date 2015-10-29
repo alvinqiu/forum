@@ -12,7 +12,7 @@ import com.forum.vo.UserVO;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
-	private static final String[] IGNORE_URI = { "getAllPost", "getAllModule",
+	private static final String[] IGNORE_URI = { "register","activate","getAllPost", "getAllModule",
 			"checkLogin","loginOut", "login", "getToken","getPostById","getComment","search" };
 
 	@Override
