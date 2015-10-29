@@ -74,9 +74,12 @@ function checkForm() {
 	var subject = $.trim($("input[name='subject']").val());
 	var moduleId = $.trim($("select[name='moduleId']").val());
 	var type = $.trim($("select[name='type']").val());
-	$("input[name='content']")
-			.val($.trim(UE.getEditor('editor').getPlainTxt()));
+	
+	$("input[name='content']").val($.trim(UE.getEditor('editor').getContent()));
+	$("input[name='contentText']").val($.trim(UE.getEditor('editor').getContentTxt()));
+	
 	var content = $.trim($("input[name='content']").val());
+	var contentText = $.trim($("input[name='contentText']").val());
 
 	if (subject == "") {
 		alert("标题不能为空！");
@@ -87,7 +90,7 @@ function checkForm() {
 	} else if (type == "0") {
 		alert("请选择类型！");
 		return false;
-	} else if (content == "") {
+	} else if (content == "" || contentText == "") {
 		alert("请输入内容！");
 		return false;
 	} else {

@@ -128,8 +128,8 @@ public class PostAction {
 					postVO.setCommentCount(postBiz.getCommentByPostId(
 							postVO.getId()).size());
 
-					// 截取帖子内容一部分
-					postContent = postVO.getContent();
+					// 截取帖子内容一部分（纯文本）
+					postContent = postVO.getContentText();
 					if (postContent.length() >= 100) {
 						postContent = postContent.substring(0, 100);
 					}
@@ -308,7 +308,7 @@ public class PostAction {
 		JSONObject json = new JSONObject();
 		if (id > 0) {
 			PostVO postVO = postBiz.getPostById(id);
-			String postContent = postVO.getContent();
+			String postContent = postVO.getContentText();
 			if (postContent.length() >= 30) {
 				postContent = postContent.substring(0, 30);
 			}

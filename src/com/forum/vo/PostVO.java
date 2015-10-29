@@ -7,6 +7,7 @@ public class PostVO {
 	private long id;
 	private String subject;
 	private String content;
+	private String contentText;
 	private String type;
 	private String highLight;
 	private String top;
@@ -66,6 +67,14 @@ public class PostVO {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+	
+	public String getContentText() {
+		return contentText;
+	}
+
+	public void setContentText(String contentText) {
+		this.contentText = contentText;
 	}
 
 	public String getType() {
