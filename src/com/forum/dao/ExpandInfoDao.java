@@ -22,7 +22,7 @@ public class ExpandInfoDao {
 	}
 
 	/*
-	 * �����û���Ϣ
+	 * 添加个人信息
 	 */
 	public Integer addExpandInfo(ExpandInfoVO expandInfoVO) {
 		return expandInfoInterface.addExpandInfo(expandInfoVO);
@@ -47,5 +47,12 @@ public class ExpandInfoDao {
 	 */
 	public Integer signIn(long point, long userId, Timestamp pointSignInTime) {
 		return expandInfoInterface.signIn(point, userId, pointSignInTime);
+	}
+	
+	/*
+	 * 添加积分
+	 */
+	public Integer addPoint(long point, long userId) {
+		return expandInfoInterface.addPoint(point, userId);
 	}
 }

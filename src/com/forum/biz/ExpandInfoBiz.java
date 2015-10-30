@@ -26,7 +26,7 @@ public class ExpandInfoBiz {
 	}
 
 	/*
-	 * �����û���Ϣ
+	 * 添加个人信息
 	 */
 	public Integer addExpandInfo(ExpandInfoVO expandInfoVO) {
 		return expandInfoDao.addExpandInfo(expandInfoVO);
@@ -44,6 +44,13 @@ public class ExpandInfoBiz {
 	 */
 	public List<ExpandInfoVO> checkNickNameIsExist(String nickName) {
 		return expandInfoDao.checkNickNameIsExist(nickName);
+	}
+	
+	/*
+	 * 添加积分
+	 */
+	public Integer addPoint(long point, long userId){
+		return expandInfoDao.addPoint(point, userId);
 	}
 
 	/*

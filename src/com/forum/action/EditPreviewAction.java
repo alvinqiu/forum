@@ -46,15 +46,10 @@ public class EditPreviewAction {
 
 		JSONObject json = new JSONObject();
 		if (userVO != null) {
-			List<ExpandInfoVO> expandInfoVOList = expandInfoBiz
-					.selExpandInfoByUserId(userVO.getId());
+			List<ExpandInfoVO> expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(userVO.getId());
 			if (expandInfoVOList.size() > 0) {
 				json.put("result", expandInfoVOList.get(0));
 			}
-			/*
-			 * List<TagVO> tagVOList = tagBiz.selectTagByUserId(userVO.getId());
-			 * if (tagVOList.size() > 0) { json.put("tagVOList", tagVOList); }
-			 */
 		}
 		return json.toString();
 	}
@@ -81,30 +76,21 @@ public class EditPreviewAction {
 
 			String nickName = request.getParameter("nickName");
 			if (nickName != "") {
-				List<ExpandInfoVO> expandInfoVOList = expandInfoBiz
-						.checkNickNameIsExist(nickName);
-				if (expandInfoVOList.size() > 0
-						&& expandInfoVOList.get(0).getUserId() != userVO
-								.getId()) {
+				List<ExpandInfoVO> expandInfoVOList = expandInfoBiz.checkNickNameIsExist(nickName);
+				if (expandInfoVOList.size() > 0 && expandInfoVOList.get(0).getUserId() != userVO.getId()) {
 					json.put("success", false);
 					json.put("result", "此昵称已存在！");
 				} else {
 					expandInfoVO.setUserId(userVO.getId());
 					// 当前时间
-					Timestamp timestamp = new Timestamp(
-							System.currentTimeMillis());
+					Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 					expandInfoVO.setAddedTime(timestamp);
 
 					if (key < 0) {
 						result = expandInfoBiz.addExpandInfo(expandInfoVO);
 					} else {
-						result = expandInfoBiz
-								.updateExpandInfoByUserId(expandInfoVO);
+						result = expandInfoBiz.updateExpandInfoByUserId(expandInfoVO);
 					}
-
-					/*
-					 * // 替换标签 tagBiz.insertTag(tagList, userVO.getId());
-					 */
 
 					if (result > 0) {
 						json.put("success", true);

@@ -12,8 +12,19 @@ import com.forum.vo.UserVO;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
-	private static final String[] IGNORE_URI = { "register","activate","getAllPost", "getAllModule",
-			"checkLogin","loginOut", "login", "getToken","getPostById","getComment","search" };
+	private static final String[] IGNORE_URI = { 
+		"register", 
+		"activate",
+		"getAllPost",
+		"getAllModule",
+		"checkLogin",
+		"loginOut",
+		"login",
+		"getToken",
+		"getPostById",
+		"getComment",
+		"search"
+		};
 
 	@Override
 	public boolean preHandle(HttpServletRequest request,
@@ -31,18 +42,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			UserVO userVO = (UserVO) session
 					.getAttribute(Constants.LOGINED_USER);
 			if (userVO != null) {
-				// request.getRequestDispatcher("/login.html").forward(request,
-				// response);
-				// response.sendRedirect("/login.html");
 				flag = true;
 			} else {
-				// String path = request.getContextPath();
-				// response.sendRedirect(path+"/login.html");
-				// response.sendRedirect("/login.html");
-				// request.getRequestDispatcher("/login.html").forward(request,
-				// response);
-				// response.getWriter().print("intercept");
-				// response.setStatus(911);
 				response.setHeader("sessionstatus", "intercept");
 				String path = request.getContextPath();
 				response.addHeader("loginPath", path + "/login.html");

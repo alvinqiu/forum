@@ -20,8 +20,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.forum.biz.ExpandInfoBiz;
 import com.forum.biz.UserBiz;
 import com.forum.utility.Constants;
+import com.forum.vo.ExpandInfoVO;
 import com.forum.vo.UserVO;
 
 @Controller
@@ -29,6 +31,9 @@ public class RegisterAction {
 
 	@Autowired
 	private UserBiz userBiz;
+	
+	@Autowired
+	private ExpandInfoBiz expandInfoBiz;
 
 	/*
 	 * 注册
@@ -48,15 +53,23 @@ public class RegisterAction {
 		System.out.println(msg);
 
 		String id = null;
+		String username = null;
 		JSONObject json = new JSONObject();
 
 		if (code.equals("1")) {
 			map = (Map<String, Object>) map.get("user");
 			id = map.get("id").toString();
+			username = map.get("username").toString();
 
 			userVO.setId(Integer.parseInt(id));
 			userBiz.addUser(userVO, request);
 
+			//添加个人信息
+			ExpandInfoVO expandInfoVO = new ExpandInfoVO();
+			expandInfoVO.setUserId(Integer.parseInt(id));
+			expandInfoVO.setNickName(username);
+			expandInfoBiz.addExpandInfo(expandInfoVO);
+				
 			json.put("result", "注册成功，系统会发送一封邮件至您的邮箱，请查阅邮件并点击内容中链接进行激活！");
 		} else if (code.equals("100")) {
 			json.put("result", "此邮箱地址已被注册！");

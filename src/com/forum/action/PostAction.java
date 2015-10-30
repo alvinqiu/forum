@@ -41,6 +41,12 @@ public class PostAction {
 	private ModuleBiz moduleBiz;
 
 	private long PageCount = 10;// 每页显示10条数据
+	
+	private long AddPostPoint = 3;// 发帖获得积分
+
+	private long AddCommentPoint = 2;// 评论获得积分
+	
+	private long BudgetPoint = 50;// 发帖积分标准，小于则需审核帖子；大于或等于则无需审核帖子
 
 	/*
 	 * 添加帖子
@@ -52,9 +58,18 @@ public class PostAction {
 		// 验证是否登录
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
+		
 		if (userVO != null) {
-			postVO.setUserId(userVO.getId());
-			postVO.setType("3");// 设置为待审核状态
+			
+			long userId = userVO.getId();
+			postVO.setUserId(userId);
+			
+			List<ExpandInfoVO> expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(userId);
+			if (expandInfoVOList.size() > 0 && expandInfoVOList.get(0).getPoint() >= BudgetPoint) {
+				postVO.setType(Constants.PostType.common.getValue());// 设置为已审核状态
+			}else{
+				postVO.setType(Constants.PostType.authstr.getValue());// 设置为待审核状态
+			}
 
 			// 获取当前时间
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -63,8 +78,20 @@ public class PostAction {
 			Integer result = postBiz.addPost(postVO);
 
 			if (result > 0) {
+				
+				//获得发帖积分
+				expandInfoBiz.addPoint(AddPostPoint, userVO.getId());
+				
 				json.put("success", true);
-				json.put("result", "发布成功！");
+				
+				if (postVO.getType() == Constants.PostType.common.getValue()) {
+					json.put("result", "发布成功！");
+				} else {
+					json.put("result", "帖子提交成功,待管理员审核！");
+					
+					//发送邮件给管理员
+					
+				}
 			} else {
 				json.put("success", false);
 				json.put("result", "发布失败！");
@@ -334,6 +361,10 @@ public class PostAction {
 			Integer result = postBiz.addPost(postVOClone);
 
 			if (result > 0) {
+				
+				//获得评论积分
+				expandInfoBiz.addPoint(AddCommentPoint, userVO.getId());
+				
 				json.put("success", true);
 			} else {
 				json.put("success", false);

@@ -54,22 +54,26 @@ $(function(){
 		data:{"id":id},
 		async:false,
 		success:function(data){
-			var jsonObj=eval("("+data+")");
+			var jsonObj = eval("(" + data + ")");
+			var id, subject, submitTime, content, parentContentSummary, name, floor;
 			
 			for(var i=0,tagLen = jsonObj.postVOList.length;i<tagLen;i++){
 				
-				var id = jsonObj.postVOList[i].id;
-				var subject = jsonObj.postVOList[i].subject;
-				var submitTime = formatDate(new Date(jsonObj.postVOList[i].submitTime.time));
-				var content = jsonObj.postVOList[i].content;
-				var parentContentSummary = jsonObj.postVOList[i].parentContentSummary;
-				var name = jsonObj.postVOList[i].name;
+				id = jsonObj.postVOList[i].id;
+				subject = jsonObj.postVOList[i].subject;
+				submitTime = formatDate(new Date(jsonObj.postVOList[i].submitTime.time));
+				content = jsonObj.postVOList[i].content;
+				parentContentSummary = jsonObj.postVOList[i].parentContentSummary;
+				name = jsonObj.postVOList[i].name;
+				
+				//评论楼层
+				floor = ((i + 1) == 1) ? "沙发" : "" + (i + 1) + "楼";
 				
 				$(".panel_left_comment").append("<div id='"+id+"anchor' name='"+id+"anchor'>" +
 										"<div class='commentName'>"+name+"</div>" +
 										"<div class='commentSubmitTime'>"+submitTime+"</div>" +
-										"<div class='commentFloor'>"+(i+1)+"楼</div>" +
-										"<div class='commentSummary'>"+parentContentSummary+"</div>" +
+										"<div class='commentFloor'>"+floor+"</div>" +
+										"<div class='commentSummary'>\"" + parentContentSummary + "...\"</div>" +
 										"<div class='commentContent'>"+content+"</div>" +
 										"</div>");
 			}

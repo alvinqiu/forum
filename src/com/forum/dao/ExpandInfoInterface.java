@@ -91,4 +91,20 @@ public interface ExpandInfoInterface {
 	public Integer signIn(@Param("point") long point,
 			@Param("userId") long userId,
 			@Param("pointSignInTime") Timestamp pointSignInTime);
+	
+	@Update("update tab_expand_info set col_point = ifnull(col_point,0)+#{point} where col_user_id=#{userId}")
+	@Results(value = {
+			@Result(property = "id", column = "col_id"),
+			@Result(property = "mobile", column = "col_mobile"),
+			@Result(property = "head", column = "col_head"),
+			@Result(property = "nickName", column = "col_nickname"),
+			@Result(property = "point", column = "col_point"),
+			@Result(property = "gender", column = "col_gender"),
+			@Result(property = "addedTime", column = "col_added_time"),
+			@Result(property = "birthday", column = "col_birthday"),
+			@Result(property = "userId", column = "col_user_id"),
+			@Result(property = "pointSignInTime", column = "col_point_signin_time"),
+			@Result(property = "tags", column = "col_tags") })
+	public Integer addPoint(@Param("point") long point,
+			@Param("userId") long userId);
 }
