@@ -7,7 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.forum.dao.PostDao;
+import com.forum.dao.UserDao;
+import com.forum.utility.Constants;
+import com.forum.utility.SendMail;
 import com.forum.vo.PostVO;
+import com.forum.vo.UserVO;
 
 @Service
 @Transactional
@@ -15,12 +19,42 @@ public class PostBiz {
 
 	@Autowired
 	private PostDao postDao;
+	
+	@Autowired
+	private UserDao userDao;
 
 	/*
 	 * 新增帖子
 	 */
 	public Integer addPost(PostVO postVO) {
 		return postDao.addPost(postVO);
+	}
+	
+	/*
+	 * 发送审核提醒邮件
+	 */
+	public void sendMsgMail(PostVO postVO) {
+		// 添加邮件标题
+		String subject = "有待审核帖子，请尽快至管理后台进行帖子审核！";
+
+		// 添加邮件内容
+		StringBuffer sb = new StringBuffer();
+		sb.append("请登录晟越科技用户论坛管理后台审核以下帖子：<br/>");
+		sb.append("标题: " + postVO.getSubject() + "<br/>");
+		sb.append("作者: " + postVO.getName() + "<br/>");
+
+		StringBuffer toEmail = new StringBuffer();
+		// 获取管理员邮箱
+		List<UserVO> userVOList = userDao.selectUserByGroupId(Constants.GroupType.admin.getValue());
+		for (UserVO userVO : userVOList) {
+			if (toEmail.length() != 0) {
+				toEmail.append(",");
+			}
+			toEmail.append(userVO.getMail());
+		}
+
+		// 发送邮件
+		SendMail.send(toEmail.toString(), subject, sb.toString());
 	}
 
 	/*

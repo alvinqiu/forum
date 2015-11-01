@@ -52,8 +52,7 @@ public class UserBiz {
 	 */
 	public void sendActivationMail(UserVO userVO, HttpServletRequest request) {
 		RegisterValidateService rvs = new RegisterValidateService();
-		String url = request.getRequestURL().toString()
-				.replace(request.getRequestURI(), "");
+		String url = request.getRequestURL().toString().replace(request.getRequestURI(), "");
 		String path = request.getContextPath();
 		rvs.processregister(userVO.getMail(), url + path);
 	}
@@ -107,10 +106,17 @@ public class UserBiz {
 	}
 
 	/*
-	 * 查询用户 by groupid
+	 * 查询用户 除了 groupid
 	 */
 	public List<UserVO> selectUserExcept(long groupId) {
 		return userDao.selectUserExcept(groupId);
+	}
+	
+	/*
+	 * 查询用户 by groupid
+	 */
+	public List<UserVO> selectUserByGroupId(long groupId) {
+		return userDao.selectUserByGroupId(groupId);
 	}
 
 }

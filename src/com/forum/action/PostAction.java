@@ -67,8 +67,12 @@ public class PostAction {
 			List<ExpandInfoVO> expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(userId);
 			if (expandInfoVOList.size() > 0 && expandInfoVOList.get(0).getPoint() >= BudgetPoint) {
 				postVO.setType(Constants.PostType.common.getValue());// 设置为已审核状态
+				
+				postVO.setName(expandInfoVOList.get(0).getNickName());
 			}else{
 				postVO.setType(Constants.PostType.authstr.getValue());// 设置为待审核状态
+				
+				postVO.setName(userVO.getMail());
 			}
 
 			// 获取当前时间
@@ -89,8 +93,8 @@ public class PostAction {
 				} else {
 					json.put("result", "帖子提交成功,待管理员审核！");
 					
-					//发送邮件给管理员
-					
+					//发送提醒邮件给管理员
+					postBiz.sendMsgMail(postVO);
 				}
 			} else {
 				json.put("success", false);

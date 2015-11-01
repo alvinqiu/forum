@@ -57,10 +57,12 @@ $(function() {
 					alert("发布帖子失败！" + request);
 				},
 				success : function(data) {
-					var jsonObj = eval("(" + data + ")");
-					alert(jsonObj.result);
-					if (jsonObj.success) {
-						window.location.href = "./index.html";
+					if (data != "") {
+						var jsonObj = eval("(" + data + ")");
+						alert(jsonObj.result);
+						if (jsonObj.success) {
+							window.location.href = "./index.html";
+						}
 					}
 				}
 			});

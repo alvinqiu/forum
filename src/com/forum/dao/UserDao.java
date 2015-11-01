@@ -59,9 +59,16 @@ public class UserDao {
 	}
 	
 	/*
-	 *  ��ȡ�����û� ���� groupId ���⣩
+	 *  获取用户 除了 groupid
 	 */
 	public List<UserVO> selectUserExcept(long groupId){
 		return userInterface.selectUserExcept(groupId);
+	}
+	
+	/*
+	 *  获取用户 by groupid
+	 */
+	public List<UserVO> selectUserByGroupId(long groupId){
+		return userInterface.selectUserByGroupId(groupId);
 	}
 }

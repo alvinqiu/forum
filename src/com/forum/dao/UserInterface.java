@@ -83,4 +83,14 @@ public interface UserInterface {
 			@Result(property = "isActive", column = "col_is_active")
 	})
 	public List<UserVO> selectUserExcept(long groupId);
+	
+	@Select("select * from tab_user where col_group_id=#{groupId} and col_is_active=1")
+	@Results(value={
+			@Result(property = "id", column = "col_id"),
+			@Result(property = "mail", column = "col_email"),
+			@Result(property = "darkPass", column = "col_dark_pass"),
+			@Result(property = "groupId", column = "col_group_id"),
+			@Result(property = "isActive", column = "col_is_active")
+	})
+	public List<UserVO> selectUserByGroupId(long groupId);
 }
