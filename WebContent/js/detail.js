@@ -18,36 +18,38 @@ $(function(){
 		async: true,
 		success: function(data) {
 			var jsonObj = eval("(" + data + ")");
+			var obj = $(".panel_left_main");
+			var id, subject, submitTime, content, groupId, name, commentCount, praise;
+			
+			id = jsonObj.PostVO.id;
+			subject = jsonObj.PostVO.subject;
+			submitTime = formatDate(new Date(jsonObj.PostVO.submitTime.time));
+			content = jsonObj.PostVO.content;
+			groupId = jsonObj.GroupId;
+			name = jsonObj.PostVO.name;// 昵称
+			commentCount = jsonObj.PostVO.commentCount;// 回复数
+			praise = jsonObj.PostVO.praise;// 点赞数
 
-			var id = jsonObj.PostVO.id;
-			var subject = jsonObj.PostVO.subject;
-			var submitTime = formatDate(new Date(jsonObj.PostVO.submitTime.time));
-			var content = jsonObj.PostVO.content;
-			var groupId = jsonObj.GroupId;
-			var name = jsonObj.PostVO.name;
-			var commentCount = jsonObj.PostVO.commentCount;
-
-			$(".panel_left_main").append(
-				"<div class='subject'>" + subject + "</div>");
-			$(".panel_left_main").append(
-				"<div class='name'>" + name + "</div>");
-			$(".panel_left_main").append(
-				"<div class='submitTime'>" + submitTime + "</div>");
-			if(commentCount!=0){
-				$(".panel_left_main").append(
-					"<div class='commentCount'><label>" + commentCount + "</label></div>");
+			obj.append("<div class='subject'>" + subject + "</div>");
+			obj.append("<div class='name'>" + name + "</div>");
+			obj.append("<div class='submitTime'>" + submitTime + "</div>");
+			if (commentCount != 0) {
+				obj.append("<div class='commentCount'><label>" + commentCount + "</label></div>");
 			}
-			$(".panel_left_main").append(
-				"<div class='content'>" + content + "</div>");
+			obj.append("<div class='content'>" + content + "</div>");
+			obj.append("<div class='praise' onclick='praise(" + id + ")'><label>" + praise + "</label></div>");
+			
 			if (groupId < 3) {
-				$(".panel_left_main").append(
-					"<div class='delBtn'><a href='javascript:void(0);'onclick='del(" + id + ")'>删除</a></div>");
+				//删除按钮
+				$(".panel_left_main").append("<div class='delBtn'><a href='javascript:void(0);'onclick='del(" + id + ")'>删除</a></div>");
 			}
-
+			
+			//右侧用户名称
 			$(".panel_right_user_name").html(name);
-
 		}
 	});
+	
+	
 	
 	$.ajax({
 		url:"getComment.json",
@@ -56,8 +58,8 @@ $(function(){
 		success:function(data){
 			var jsonObj = eval("(" + data + ")");
 			var id, subject, submitTime, content, parentContentSummary, name, floor;
-			
-			for(var i=0,tagLen = jsonObj.postVOList.length;i<tagLen;i++){
+
+			for (var i = 0, tagLen = jsonObj.postVOList.length; i < tagLen; i++) {
 				
 				id = jsonObj.postVOList[i].id;
 				subject = jsonObj.postVOList[i].subject;
@@ -85,18 +87,42 @@ $(function(){
 //删除帖子
 function del(id){
 	$.ajax({
-		url:"del.json",
-		data:{"Id":id},
-		error:function(){alert("删除失败！");},
-		success:function(data){
-			var jsonObj = eval("("+data+")");
-			if(jsonObj.success){
-				alert("删除成功！");
-				history.go(-1);
-				location.reload();
+		url : "del.json",
+		data : { "Id" : id },
+		error : function() { alert("删除失败！"); },
+		success : function(data){
+			if (data != "") {
+				var jsonObj = eval("(" + data + ")");
+				if(jsonObj.success){
+					alert("删除成功！");
+					history.go(-1);
+					location.reload();
+				}
+				else{
+					alert("删除失败！");
+				}
 			}
-			else{
-				alert("删除失败！");
+		}
+	});
+}
+
+//点赞   （局部刷新+1）
+function praise(id){
+	$.ajax({
+		url : "praise.json",
+		data : { "Id" : id },
+		error : function() { alert("点赞失败！"); },
+		success : function(data){
+			if (data != "") {
+				var jsonObj = eval("(" + data + ")");
+				if(jsonObj.success){
+					var count = $(".praise label").text();
+					$(".praise label").text(parseInt(count) + 1);
+					$(".praise").attr("class", "praiseAnother").removeAttr("onclick");
+				}
+				else{
+					alert("点赞失败！");
+				}
 			}
 		}
 	});

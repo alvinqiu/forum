@@ -45,23 +45,20 @@ public class CheckLogin {
 
 		if (userVO != null) {
 			// 获取用户个人信息
-			expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(userVO
-					.getId());
+			expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(userVO.getId());
 
 			if (expandInfoVOList.size() > 0) {
 				USERNAME = expandInfoVOList.get(0).getNickName();
 
 				// 判断签到时间是否为今天
-				if (expandInfoBiz.checkSignInTime(expandInfoVOList.get(0)
-						.getPointSignInTime())) {
+				if (expandInfoBiz.checkSignInTime(expandInfoVOList.get(0).getPointSignInTime())) {
 					isSignIn = true;
 				}
 
 			} else {
 				USERNAME = userVO.getMail();
 			}
-			isAdmin = userVO.getGroupId() == GroupType.admin.getValue() ? true
-					: false;
+			isAdmin = userVO.getGroupId() == GroupType.admin.getValue() ? true : false;
 			json.put("name", USERNAME);
 			json.put("success", true);
 		} else {

@@ -19,7 +19,7 @@ public class PostBiz {
 
 	@Autowired
 	private PostDao postDao;
-	
+
 	@Autowired
 	private UserDao userDao;
 
@@ -29,7 +29,7 @@ public class PostBiz {
 	public Integer addPost(PostVO postVO) {
 		return postDao.addPost(postVO);
 	}
-	
+
 	/*
 	 * 发送审核提醒邮件
 	 */
@@ -45,7 +45,8 @@ public class PostBiz {
 
 		StringBuffer toEmail = new StringBuffer();
 		// 获取管理员邮箱
-		List<UserVO> userVOList = userDao.selectUserByGroupId(Constants.GroupType.admin.getValue());
+		List<UserVO> userVOList = userDao
+				.selectUserByGroupId(Constants.GroupType.admin.getValue());
 		for (UserVO userVO : userVOList) {
 			if (toEmail.length() != 0) {
 				toEmail.append(",");
@@ -164,6 +165,13 @@ public class PostBiz {
 	 */
 	public Integer del(long id) {
 		return postDao.del(id);
+	}
+
+	/*
+	 * 点赞 (by id)
+	 */
+	public Integer addPraise(long praise, long id) {
+		return postDao.addPraise(praise, id);
 	}
 
 	/*

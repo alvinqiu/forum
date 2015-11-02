@@ -126,39 +126,43 @@ public class PostDao {
 	}
 
 	/*
-	 * ɾ�� ��by id��
+	 * 删除帖子 (by id)
 	 */
 	public Integer del(long id) {
 		return postInterface.del(id);
 	}
 
 	/*
-	 * 模糊查询(limit)
-	 * 管理员
+	 * 点赞 (by id)
+	 */
+	public Integer addPraise(long praise, long id) {
+		return postInterface.addPraise(praise, id);
+	}
+
+	/*
+	 * 模糊查询(limit) 管理员
 	 */
 	public List<PostVO> search4LimitToAdmin(String subject, long start, long end) {
-		return postInterface.getAllPostByParam4LimitToAdmin(subject, start, end);
+		return postInterface
+				.getAllPostByParam4LimitToAdmin(subject, start, end);
 	}
-	
+
 	/*
-	 * 模糊查询(limit)
-	 * 普通用户
+	 * 模糊查询(limit) 普通用户
 	 */
 	public List<PostVO> search4Limit(String subject, long start, long end) {
 		return postInterface.getAllPostByParam4Limit(subject, start, end);
 	}
 
 	/*
-	 * 模糊查询
-	 * 管理员
+	 * 模糊查询 管理员
 	 */
 	public List<PostVO> searchToAdmin(String kw) {
 		return postInterface.getAllPostByParamToAdmin(kw);
 	}
-	
+
 	/*
-	 * 模糊查询
-	 * 普通用户
+	 * 模糊查询 普通用户
 	 */
 	public List<PostVO> search(String kw) {
 		return postInterface.getAllPostByParam(kw);

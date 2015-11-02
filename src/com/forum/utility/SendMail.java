@@ -61,7 +61,7 @@ public class SendMail {
 			String[] receivers = toEmail.split(",");
 			if (receivers != null) {
 				// 为每个邮件接收者创建一个地址
-				address = new InternetAddress[receivers.length + 1];
+				address = new InternetAddress[receivers.length];
 				for (int i = 0; i < receivers.length; i++) {
 					address[i] = new InternetAddress(receivers[i]);
 				}

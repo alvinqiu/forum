@@ -30,38 +30,52 @@
 					</div>
 
 					<div class="subject">
-						<label>标题：</label><label><input type="text" name="subject" /></label>
+						<label>标题：</label>
+						<label>
+							<input type="text" name="subject" />
+						</label>
 					</div>
 					<div class="module">
-						<label>版块：</label> <label> <select name="moduleId">
+						<label>版块：</label>
+						<label>
+							<select name="moduleId">
 								<option value="0" selected="selected">请选择</option>
-						</select>
+							</select>
 						</label>
 					</div>
 					<div class="type">
-						<label>类型：</label> <label> <select name="type">
-								<option value="0" selected="selected">请选择</option>
-								<option value="1">公告</option>
-								<option value="2">普通帖</option>
-						</select>
+						<label>类型：</label>
+						<label>
+							<select name="type"></select>
 						</label>
 					</div>
 					<div class="content">
-						<label>内容：</label> <label> <script type="text/plain"
-								id="editor"></script> <input type="hidden" name="content" /><input
-							type="hidden" name="contentText" />
+						<label>内容：</label>
+						<label>
+							<script type="text/plain" id="editor"></script>
+							<input type="hidden" name="content" />
+							<input type="hidden" name="contentText" />
 						</label>
 					</div>
 					<div class="highLight">
-						<label>高亮：</label><label><input type="checkbox" /><input
-							type="hidden" name="highLight" value="0" /></label>
+						<label>高亮：</label>
+						<label>
+							<input type="checkbox" />
+							<input type="hidden" name="highLight" value="0" />
+						</label>
 					</div>
 					<div class="top">
-						<label>置顶：</label><label><input type="checkbox" /><input
-							type="hidden" name="top" value="0" /></label>
+						<label>置顶：</label>
+						<label>
+							<input type="checkbox" />
+							<input type="hidden" name="top" value="0" />
+						</label>
 					</div>
 					<div class="attach">
-						<label>附件：</label><label><input type="file" name="attach" /></label>
+						<label>附件：</label>
+						<label>
+							<input type="file" name="attach" />
+						</label>
 					</div>
 					<input type="submit" id="js-submit" class="submitPost" value="发布" />
 					<div class="geetestDiv" id="js-GeetestDiv"></div>

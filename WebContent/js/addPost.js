@@ -17,11 +17,28 @@ $(function() {
 		autoSyncData : false
 	});
 
+	// 获取所有类型
+	$.ajax({
+		url:"checkLogin.json",
+		async : true,
+		error:function(){alert("获取类型失败！");},
+		success:function(data){
+			var jsonObj = eval("(" + data + ")");
+			if(jsonObj.success){
+				if(jsonObj.isAdmin){
+					$(".type select").append("<option value='1'>公告</option>");
+				}
+				$(".type select").append("<option value='2' selected='selected'>普通帖</option>");
+			}
+		}
+	});
+	
 	// 获取所有版块
 	$.ajax({
 		url: "getAllModule.json",
+		async : true,
 		error: function() {
-			alert("获取数据失败！");
+			alert("获取版块失败！");
 		},
 		success: function(data) {
 			var jsonObj = eval("(" + data + ")");
@@ -31,8 +48,7 @@ $(function() {
 				var id = jsonObj.moduleVOList[i].id;
 				var name = jsonObj.moduleVOList[i].name;
 
-				$(".module select").append(
-					"<option value='" + id + "'>" + name + "</option>");
+				$(".module select").append("<option value='" + id + "'>" + name + "</option>");
 			}
 		}
 	});

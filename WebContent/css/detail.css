@@ -16,7 +16,7 @@
 	background-color: #FEFEFE;
 }
 
-.name, .submitTime, .commentCount {
+.name, .submitTime, .commentCount, .praise, .praiseAnother {
 	display: inline-block;
 	margin: 5px;
 }
@@ -54,6 +54,33 @@
 
 .panel_left_main .content {
 	
+}
+
+.panel_left_main .praise, .praiseAnother {
+	background: url("../img/main_icon.png") no-repeat scroll -153px -121px
+		transparent;
+	color: #999999;
+	text-indent: 1.5em;
+	top: 3px;
+	margin: 10px;
+	position: relative;
+}
+
+.panel_left_main .praise:hover {
+	background: url("../img/main_icon.png") no-repeat scroll -117px -121px
+		transparent;
+	cursor: pointer;
+}
+
+.panel_left_main .praiseAnother {
+	background: url("../img/main_icon.png") no-repeat scroll -189px -121px
+		transparent;
+}
+
+.panel_left_main .praise label, .praiseAnother label {
+	position: relative;
+	top: -2px;
+	left: 10px;
 }
 
 .panel_left_main .delBtn {

@@ -17,6 +17,7 @@ public class PostVO {
 	private Timestamp submitTime;
 	private long moduleId;
 	private long userId;
+	private long praise;
 	private String name;// 昵称(临时)
 	private long commentCount;// 回复数(临时)
 	private String moduleName;// 版块名称(临时)
@@ -147,5 +148,13 @@ public class PostVO {
 
 	public void setUserId(long userId) {
 		this.userId = userId;
+	}
+	
+	public long getPraise() {
+		return praise;
+	}
+
+	public void setPraise(long praise) {
+		this.praise = praise;
 	}
 }

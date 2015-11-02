@@ -191,13 +191,12 @@ public class PostAction {
 		if (id > 0) {
 
 			HttpSession session = request.getSession();
-			UserVO userVO = (UserVO) session
-					.getAttribute(Constants.LOGINED_USER);
+			UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
 
 			if (userVO != null) {
 				json.put("GroupId", userVO.getGroupId());
 			} else {
-				json.put("GroupId", 3);// 普通用户处理
+				json.put("GroupId", Constants.GroupType.user.getValue());// 普通用户处理
 			}
 
 			PostVO postVO = postBiz.getPostById(id);
@@ -487,6 +486,26 @@ public class PostAction {
 		JSONObject json = new JSONObject();
 		if (id != 0) {
 			Integer result = postBiz.del(id);
+
+			if (result > 0) {
+				json.put("success", true);
+			} else {
+				json.put("success", false);
+			}
+		}
+		return json.toString();
+	}
+	
+	/*
+	 * 点赞 
+	 */
+	@RequestMapping("/praise.json")
+	@ResponseBody
+	public String praise(@RequestParam("Id") long id) {
+		JSONObject json = new JSONObject();
+		long praise = 1;// 点赞+1
+		if (id != 0) {
+			Integer result = postBiz.addPraise(praise, id);
 
 			if (result > 0) {
 				json.put("success", true);
