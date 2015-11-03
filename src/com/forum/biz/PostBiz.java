@@ -1,16 +1,22 @@
 package com.forum.biz;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.forum.dao.PostDao;
+import com.forum.dao.PraiseUserRelationDao;
 import com.forum.dao.UserDao;
 import com.forum.utility.Constants;
+import com.forum.utility.EmailSender;
 import com.forum.utility.SendMail;
 import com.forum.vo.PostVO;
+import com.forum.vo.PraiseUserRelationVO;
 import com.forum.vo.UserVO;
 
 @Service
@@ -22,6 +28,13 @@ public class PostBiz {
 
 	@Autowired
 	private UserDao userDao;
+
+	@Autowired
+	private PraiseUserRelationDao praiseUserRelationDao;
+
+	public static final String HOST = "smtp.ym.163.com";
+	public static final String FROM = "singwin@singwin.cn";
+	public static final String PWD = "Sing5Win7";
 
 	/*
 	 * 新增帖子
@@ -43,19 +56,22 @@ public class PostBiz {
 		sb.append("标题: " + postVO.getSubject() + "<br/>");
 		sb.append("作者: " + postVO.getName() + "<br/>");
 
-		StringBuffer toEmail = new StringBuffer();
+		List<String> toEmail = new ArrayList<String>();
 		// 获取管理员邮箱
 		List<UserVO> userVOList = userDao
 				.selectUserByGroupId(Constants.GroupType.admin.getValue());
 		for (UserVO userVO : userVOList) {
-			if (toEmail.length() != 0) {
-				toEmail.append(",");
+			if (userVO != null) {
+				toEmail.add(userVO.getMail());
 			}
-			toEmail.append(userVO.getMail());
 		}
 
 		// 发送邮件
-		SendMail.send(toEmail.toString(), subject, sb.toString());
+		EmailSender e = new EmailSender();
+		JavaMailSenderImpl javaSender = e.configur(HOST, FROM, PWD);
+		e.sendEmail(FROM, subject, toEmail.toArray(new String[toEmail.size()]),
+				sb.toString(), javaSender);
+		// SendMail.send(toEmail.toString(), subject, sb.toString());
 	}
 
 	/*
@@ -170,8 +186,38 @@ public class PostBiz {
 	/*
 	 * 点赞 (by id)
 	 */
-	public Integer addPraise(long praise, long id) {
-		return postDao.addPraise(praise, id);
+	public Integer addPraise(long userId, long praise, long postId) {
+		Integer result = 0;
+		if (checkPraiseExist(userId, postId)) {
+			result = -1;
+		} else {
+			PraiseUserRelationVO praiseUserRelationVO = new PraiseUserRelationVO();
+			praiseUserRelationVO.setUserId(userId);
+			praiseUserRelationVO.setPostId(postId);
+			// 获取当前时间
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			praiseUserRelationVO.setPraiseTime(timestamp);
+
+			result = praiseUserRelationDao.addRelation(praiseUserRelationVO);
+
+			if (result > 0) {
+				result = postDao.addPraise(praise, postId);
+			} else {
+				result = -1;
+			}
+		}
+
+		return result;
+	}
+
+	/*
+	 * 查询用户是否已有点赞记录 by user id & by post id
+	 */
+	public boolean checkPraiseExist(long userId, long postId) {
+		List<PraiseUserRelationVO> result = praiseUserRelationDao
+				.checkPraiseExist(userId, postId);
+
+		return result.size() > 0 ? true : false;
 	}
 
 	/*

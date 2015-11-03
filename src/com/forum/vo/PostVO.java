@@ -21,6 +21,24 @@ public class PostVO {
 	private String name;// 昵称(临时)
 	private long commentCount;// 回复数(临时)
 	private String moduleName;// 版块名称(临时)
+	private boolean checkPraise;// 当前用户是否已点赞(临时)
+	private String imgStr;// 首页图片路径
+
+	public String getImgStr() {
+		return imgStr;
+	}
+
+	public void setImgStr(String imgStr) {
+		this.imgStr = imgStr;
+	}
+
+	public boolean isCheckPraise() {
+		return checkPraise;
+	}
+
+	public void setCheckPraise(boolean checkPraise) {
+		this.checkPraise = checkPraise;
+	}
 
 	public String getModuleName() {
 		return moduleName;
@@ -69,7 +87,7 @@ public class PostVO {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
+
 	public String getContentText() {
 		return contentText;
 	}
@@ -149,7 +167,7 @@ public class PostVO {
 	public void setUserId(long userId) {
 		this.userId = userId;
 	}
-	
+
 	public long getPraise() {
 		return praise;
 	}

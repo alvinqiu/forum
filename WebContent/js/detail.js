@@ -29,6 +29,7 @@ $(function(){
 			name = jsonObj.PostVO.name;// 昵称
 			commentCount = jsonObj.PostVO.commentCount;// 回复数
 			praise = jsonObj.PostVO.praise;// 点赞数
+			checkPraise = jsonObj.PostVO.checkPraise;// 是否已点赞
 
 			obj.append("<div class='subject'>" + subject + "</div>");
 			obj.append("<div class='name'>" + name + "</div>");
@@ -37,7 +38,13 @@ $(function(){
 				obj.append("<div class='commentCount'><label>" + commentCount + "</label></div>");
 			}
 			obj.append("<div class='content'>" + content + "</div>");
-			obj.append("<div class='praise' onclick='praise(" + id + ")'><label>" + praise + "</label></div>");
+			
+			//点赞
+			if(checkPraise){
+				obj.append("<div class='praiseAnother'><label>" + praise + "</label></div>");
+			}else{
+				obj.append("<div class='praise' onclick='praise(" + id + ")'><label>" + praise + "</label></div>");
+			}
 			
 			if (groupId < 3) {
 				//删除按钮
