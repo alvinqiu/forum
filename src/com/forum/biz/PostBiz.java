@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +12,6 @@ import com.forum.dao.PostDao;
 import com.forum.dao.PraiseUserRelationDao;
 import com.forum.dao.UserDao;
 import com.forum.utility.Constants;
-import com.forum.utility.EmailSender;
 import com.forum.utility.SendMail;
 import com.forum.vo.PostVO;
 import com.forum.vo.PraiseUserRelationVO;
@@ -31,10 +29,6 @@ public class PostBiz {
 
 	@Autowired
 	private PraiseUserRelationDao praiseUserRelationDao;
-
-	public static final String HOST = "smtp.ym.163.com";
-	public static final String FROM = "singwin@singwin.cn";
-	public static final String PWD = "Sing5Win7";
 
 	/*
 	 * 新增帖子
@@ -56,22 +50,20 @@ public class PostBiz {
 		sb.append("标题: " + postVO.getSubject() + "<br/>");
 		sb.append("作者: " + postVO.getName() + "<br/>");
 
-		List<String> toEmail = new ArrayList<String>();
+		StringBuffer toEmail = new StringBuffer();
 		// 获取管理员邮箱
-		List<UserVO> userVOList = userDao
-				.selectUserByGroupId(Constants.GroupType.admin.getValue());
+		List<UserVO> userVOList = userDao.selectUserByGroupId(Constants.GroupType.admin.getValue());
 		for (UserVO userVO : userVOList) {
 			if (userVO != null) {
-				toEmail.add(userVO.getMail());
+				if(toEmail.length()>0){
+					toEmail.append(",");
+				}
+				toEmail.append(userVO.getMail());
 			}
 		}
 
 		// 发送邮件
-		EmailSender e = new EmailSender();
-		JavaMailSenderImpl javaSender = e.configur(HOST, FROM, PWD);
-		e.sendEmail(FROM, subject, toEmail.toArray(new String[toEmail.size()]),
-				sb.toString(), javaSender);
-		// SendMail.send(toEmail.toString(), subject, sb.toString());
+		SendMail.send(toEmail.toString(), subject, sb.toString());
 	}
 
 	/*

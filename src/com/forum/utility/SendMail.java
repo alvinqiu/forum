@@ -1,8 +1,6 @@
 package com.forum.utility;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -39,6 +37,7 @@ public class SendMail {
 		return session;
 	}
 
+	@SuppressWarnings("null")
 	public static void send(String toEmail, String subject, String content) {
 		Session session = getSession();
 		try {
