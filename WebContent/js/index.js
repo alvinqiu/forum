@@ -92,13 +92,13 @@ $(function(){
 				var imgStr = jsonObj.postList[i].imgStr;//图片路径
 				
 				if(commentCount!=0){
-				$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img "+imgStr+" /></div>" +
+				$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img "+imgStr+" onload='AutoResizeImage(300,200,this)' /></div>" +
 						"<div class='dRight'>" +
 								"<a href='./detail.html?id="+id+"'><div class='postTitle'>"+subject+"</div></a><div class='postTime'>"+submitTime+"</div>" +
 								"<div class='postNickName'>"+name+"</div><div class='postCommentCount'><label>"+commentCount+"<label></div><div class='postContent'>"+content+"</div>"+
 										"</div></div>");
 				}else{
-					$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img "+imgStr+" /></div>" +
+					$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img "+imgStr+" onload='AutoResizeImage(300,200,this)' /></div>" +
 							"<div class='dRight'>" +
 									"<a href='./detail.html?id="+id+"'><div class='postTitle'>"+subject+"</div></a><div class='postTime'>"+submitTime+"</div>" +
 									"<div class='postNickName'>"+name+"</div><div class='postContent'>"+content+"</div>"+
@@ -138,4 +138,33 @@ function formatDate(now) {
 	var second = now.getSeconds();
 	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":"
 			+ second;
+}
+
+function AutoResizeImage(maxWidth, maxHeight, objImg) {
+	var img = new Image();
+	img.src = objImg.src;
+	var hRatio;
+	var wRatio;
+	var Ratio = 1;
+	var w = img.width;
+	var h = img.height;
+	wRatio = maxWidth / w;
+	hRatio = maxHeight / h;
+	if (maxWidth == 0 && maxHeight == 0) {
+		Ratio = 1;
+	} else if (maxWidth == 0) {//
+		if (hRatio < 1)
+			Ratio = hRatio;
+	} else if (maxHeight == 0) {
+		if (wRatio < 1)
+			Ratio = wRatio;
+	} else if (wRatio < 1 || hRatio < 1) {
+		Ratio = (wRatio <= hRatio ? wRatio : hRatio);
+	}
+	if (Ratio < 1) {
+		w = w * Ratio;
+		h = h * Ratio;
+	}
+	objImg.height = h;
+	objImg.width = w;
 }

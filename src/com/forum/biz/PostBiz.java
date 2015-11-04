@@ -1,7 +1,6 @@
 package com.forum.biz;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +41,11 @@ public class PostBiz {
 	 */
 	public void sendMsgMail(PostVO postVO) {
 		// 添加邮件标题
-		String subject = "有待审核帖子，请尽快至管理后台进行帖子审核！";
+		String subject = "审核帖子";
 
 		// 添加邮件内容
-		StringBuffer sb = new StringBuffer();
-		sb.append("请登录晟越科技用户论坛管理后台审核以下帖子：<br/>");
-		sb.append("标题: " + postVO.getSubject() + "<br/>");
-		sb.append("作者: " + postVO.getName() + "<br/>");
+		StringBuffer sb = new StringBuffer("审核以下帖子：<br/>");
+		sb.append("标题: " + postVO.getSubject() + "<br/>" + "作者: " + postVO.getName());
 
 		StringBuffer toEmail = new StringBuffer();
 		// 获取管理员邮箱
@@ -206,8 +203,7 @@ public class PostBiz {
 	 * 查询用户是否已有点赞记录 by user id & by post id
 	 */
 	public boolean checkPraiseExist(long userId, long postId) {
-		List<PraiseUserRelationVO> result = praiseUserRelationDao
-				.checkPraiseExist(userId, postId);
+		List<PraiseUserRelationVO> result = praiseUserRelationDao.checkPraiseExist(userId, postId);
 
 		return result.size() > 0 ? true : false;
 	}

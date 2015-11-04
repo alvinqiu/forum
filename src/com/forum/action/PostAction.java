@@ -63,24 +63,25 @@ public class PostAction {
 		// 验证是否登录
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
-
+		String name = "";
+		
 		if (userVO != null) {
-
 			long userId = userVO.getId();
 			postVO.setUserId(userId);
 
-			List<ExpandInfoVO> expandInfoVOList = expandInfoBiz
-					.selExpandInfoByUserId(userId);
-			if (expandInfoVOList.size() > 0
-					&& expandInfoVOList.get(0).getPoint() >= BudgetPoint) {
-				postVO.setType(Constants.PostType.common.getValue());// 设置为已审核状态
-
-				postVO.setName(expandInfoVOList.get(0).getNickName());
+			List<ExpandInfoVO> expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(userId);
+			if (expandInfoVOList.size() > 0) {
+				if(expandInfoVOList.get(0).getPoint() >= BudgetPoint){
+					postVO.setType(Constants.PostType.common.getValue());// 设置为已审核状态
+				}else{
+					postVO.setType(Constants.PostType.authstr.getValue());// 设置为待审核状态					
+				}
+				name = expandInfoVOList.get(0).getNickName();
 			} else {
 				postVO.setType(Constants.PostType.authstr.getValue());// 设置为待审核状态
-
-				postVO.setName(userVO.getMail());
 			}
+			
+			postVO.setName(name != "" ? name : userVO.getMail());
 
 			// 获取当前时间
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -208,33 +209,31 @@ public class PostAction {
 		if (id > 0) {
 
 			HttpSession session = request.getSession();
-			UserVO userVO = (UserVO) session
-					.getAttribute(Constants.LOGINED_USER);
-
+			UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
+			PostVO postVO = postBiz.getPostById(id);
+			
 			if (userVO != null) {
 				json.put("GroupId", userVO.getGroupId());
 			} else {
 				json.put("GroupId", Constants.GroupType.user.getValue());// 普通用户处理
 			}
 
-			PostVO postVO = postBiz.getPostById(id);
 			// 昵称
-			expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO
-					.getUserId());
+			String name = "";
+			expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 			if (expandInfoVOList.size() > 0) {
-				postVO.setName(expandInfoVOList.get(0).getNickName());
-			} else {
+				name = expandInfoVOList.get(0).getNickName();
+			}else{
 				userVO = userBiz.selectUserById(postVO.getUserId(), "");
-				postVO.setName(userVO.getMail());
+				name = userVO.getMail();
 			}
+			postVO.setName(name != "" ? name : userVO.getMail());
 
 			// 回复数
-			postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId())
-					.size());
+			postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
 
 			// 是否点赞
-			postVO.setCheckPraise(postBiz.checkPraiseExist(userVO.getId(),
-					postVO.getId()));
+			postVO.setCheckPraise(postBiz.checkPraiseExist(userVO.getId(), postVO.getId()));
 
 			json.put("PostVO", postVO);
 		}
