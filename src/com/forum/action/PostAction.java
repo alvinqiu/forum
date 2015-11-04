@@ -218,22 +218,24 @@ public class PostAction {
 				json.put("GroupId", Constants.GroupType.user.getValue());// 普通用户处理
 			}
 
+			// 回复数
+			postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
+
+			// 是否点赞
+			if(userVO!=null){
+				postVO.setCheckPraise(postBiz.checkPraiseExist(userVO.getId(), postVO.getId()));				
+			}else{
+				postVO.setCheckPraise(false);
+			}
+			
 			// 昵称
 			String name = "";
 			expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 			if (expandInfoVOList.size() > 0) {
 				name = expandInfoVOList.get(0).getNickName();
-			}else{
-				userVO = userBiz.selectUserById(postVO.getUserId(), "");
-				name = userVO.getMail();
 			}
-			postVO.setName(name != "" ? name : userVO.getMail());
-
-			// 回复数
-			postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
-
-			// 是否点赞
-			postVO.setCheckPraise(postBiz.checkPraiseExist(userVO.getId(), postVO.getId()));
+			postVO.setName(name != "" ? name : userBiz.selectUserById(postVO.getUserId(), "").getMail());
+			
 
 			json.put("PostVO", postVO);
 		}
