@@ -85,11 +85,13 @@ $(function() {
 						var jsonObj = eval("(" + data + ")");
 
 						var txt = jsonObj.result;
-						window.wxc.xcConfirm(txt, "success");
-
-						if (jsonObj.success) {
-							window.location.href = "./index.html";
-						}
+						window.wxc.xcConfirm(txt, "success", {
+							onOk : function() {
+								if (jsonObj.success) {
+									window.location.href = "./index.html";
+								}
+							}
+						});
 					}
 				}
 			});
