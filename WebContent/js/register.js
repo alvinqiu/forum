@@ -1,19 +1,24 @@
 // 验证成功  注册
-function registerSuccess(){
+function registerSuccess() {
 	$.ajax({
-		type: "Get",	
-        url:"register.json",
-        data:$("form[name='registerForm']").serialize(),
-        async: false,
-        error: function(request) {
-        	alert("注册失败！"+request);
-        },
-        success: function(data) {
-        	var jsonObj=eval("("+data+")");
-        	alert(jsonObj.result);
-        	location.href="./login.html";
-        }
-     });
+		type: "Get",
+		url: "register.json",
+		data: $("form[name='registerForm']").serialize(),
+		async: false,
+		error: function(request) {
+			var txt = "注册失败！";
+			window.wxc.xcConfirm(txt, "error");
+		},
+		success: function(data) {
+			var jsonObj = eval("(" + data + ")");
+			var txt = jsonObj.result;
+			window.wxc.xcConfirm(txt, "info", {
+				onOk : function() {
+					location.href = "./login.html";
+				}
+			});
+		}
+	});
 }
 
 //按钮触发  进行简单验证
@@ -22,7 +27,8 @@ $("#js-submit").click(function() {
 	// 验证是否为空
 	$("form :input").each(function(i) {
 		if ($.trim($(this).val()) == "") {
-			alert("表单不能为空！");
+			var txt = "表单不能为空！";
+			window.wxc.xcConfirm(txt, "info");
 			$(this).focus();
 			flag = false;
 			return false;
@@ -43,12 +49,15 @@ $("#js-submit").click(function() {
 				// 注册成功
 				registerSuccess();
 			} else {
-				alert("密码不一致！");
+				var txt = "密码不一致！";
+				window.wxc.xcConfirm(txt, "info");
+
 				$("#js-password_confirm").focus();
 			}
 
 		} else {
-			alert("邮箱格式不正确！");
+			var txt = "邮箱格式不正确！";
+			window.wxc.xcConfirm(txt, "info");
 			$("#js-mail").focus();
 		}
 	}

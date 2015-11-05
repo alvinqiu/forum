@@ -1,5 +1,5 @@
-$(function(){
-	
+$(function() {
+
 	$.ajax({
 		url: "checkLogin.json",
 		async: false,
@@ -7,18 +7,32 @@ $(function(){
 			var jsonObj = eval("(" + data + ")");
 			if (jsonObj.success) {
 				if (!jsonObj.isAdmin) {
-					alert("您还没有权限访问，请联系管理员！");
-					history.go(-1);
+					var txt = "您还没有权限访问，请联系管理员！";
+					window.wxc.xcConfirm(txt, "info", {
+						onOk : function() {
+							history.go(-1);
+						},
+						onClose : function() {
+							history.go(-1);
+						}
+					});
 				} else {
 					getAllPostByHold();
 				}
 			} else {
-				alert("请先登录！");
-				location.href = "./login.html";
+				var txt = "请先登录！";
+				window.wxc.xcConfirm(txt, "info", {
+					onOk : function() {
+						location.href = "./login.html";
+					},
+					onClose : function() {
+						location.href = "./login.html";
+					}
+				});
 			}
 		}
 	});
-	
+
 });
 
 function getAllPostByHold() {
@@ -26,7 +40,8 @@ function getAllPostByHold() {
 		url: "getAllPostByHold.json",
 		async: true,
 		error: function(request) {
-			alert("获取待审核帖子列表失败！");
+			var txt = "获取待审核帖子列表失败！";
+			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
 			if (data != "") {
@@ -59,16 +74,23 @@ function getAllPostByHold() {
 							"id": id
 						},
 						error: function(request) {
-							alert("审核帖子失败！");
+							var txt = "审核帖子失败！";
+							window.wxc.xcConfirm(txt, "error");
 						},
 						success: function(data) {
-							if(data!=""){
+							if (data != "") {
 								var jsonObj = eval("(" + data + ")");
+								var txt;
 								if (jsonObj.success) {
-									alert("审核帖子成功！");
-									location.reload();
+									txt = "审核帖子成功！";
+									window.wxc.xcConfirm(txt, "success", {
+										onOk: function(){
+											location.reload();
+										}
+									});
 								} else {
-									alert("审核帖子失败！");
+									txt = "审核帖子失败！";
+									window.wxc.xcConfirm(txt, "info");
 								}
 							}
 						}

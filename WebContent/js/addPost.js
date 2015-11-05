@@ -2,43 +2,50 @@ $(function() {
 
 	// 初始化验证
 	var gt_captcha_obj = new window.Geetest({
-		gt : "df6595b204a06069670b68b6e716ca45",
-		product : "popup",
-		https : false
+		gt: "df6595b204a06069670b68b6e716ca45",
+		product: "popup",
+		https: false
 	});
 	gt_captcha_obj.appendTo("#js-GeetestDiv").bindOn('#js-submit');
 
 	// 实例化UEditor编辑器
 	var ue = UE.getEditor('editor', {
-		toolbars : [ [ 'fontsize', 'fontfamily', 'bold', 'undo', 'cleardoc',
-				'forecolor', 'simpleupload' ] ],
-		initialFrameWidth : 790,
-		initialFrameHeight : 500,
-		autoSyncData : false
+		toolbars: [
+			['fontsize', 'fontfamily', 'bold', 'undo', 'cleardoc',
+				'forecolor', 'simpleupload'
+			]
+		],
+		initialFrameWidth: 790,
+		initialFrameHeight: 500,
+		autoSyncData: false
 	});
 
 	// 获取所有类型
 	$.ajax({
-		url:"checkLogin.json",
-		async : true,
-		error:function(){alert("获取类型失败！");},
-		success:function(data){
+		url: "checkLogin.json",
+		async: true,
+		error: function() {
+			var txt = "获取类型失败！";
+			window.wxc.xcConfirm(txt, "error");
+		},
+		success: function(data) {
 			var jsonObj = eval("(" + data + ")");
-			if(jsonObj.success){
-				if(jsonObj.isAdmin){
+			if (jsonObj.success) {
+				if (jsonObj.isAdmin) {
 					$(".type select").append("<option value='1'>公告</option>");
 				}
 				$(".type select").append("<option value='2' selected='selected'>普通帖</option>");
 			}
 		}
 	});
-	
+
 	// 获取所有版块
 	$.ajax({
 		url: "getAllModule.json",
-		async : true,
+		async: true,
 		error: function() {
-			alert("获取版块失败！");
+			var txt = "获取版块失败！";
+			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
 			var jsonObj = eval("(" + data + ")");
@@ -65,17 +72,21 @@ $(function() {
 		var formDom = $("form[name='postForm']");
 		if (checkForm()) {
 			$.ajax({
-				type : "post",
-				url : "addPost.json",
-				data : formDom.serialize(),
-				async : true,
-				error : function(request) {
-					alert("发布帖子失败！" + request);
+				type: "post",
+				url: "addPost.json",
+				data: formDom.serialize(),
+				async: true,
+				error: function(request) {
+					var txt = "发布帖子失败！";
+					window.wxc.xcConfirm(txt, "error");
 				},
-				success : function(data) {
+				success: function(data) {
 					if (data != "") {
 						var jsonObj = eval("(" + data + ")");
-						alert(jsonObj.result);
+
+						var txt = jsonObj.result;
+						window.wxc.xcConfirm(txt, "success");
+
 						if (jsonObj.success) {
 							window.location.href = "./index.html";
 						}
@@ -88,28 +99,32 @@ $(function() {
 });
 
 function checkForm() {
-
 	var subject = $.trim($("input[name='subject']").val());
 	var moduleId = $.trim($("select[name='moduleId']").val());
 	var type = $.trim($("select[name='type']").val());
-	
+
 	$("input[name='content']").val($.trim(UE.getEditor('editor').getContent()));
 	$("input[name='contentText']").val($.trim(UE.getEditor('editor').getContentTxt()));
-	
+
 	var content = $.trim($("input[name='content']").val());
 	var contentText = $.trim($("input[name='contentText']").val());
+	var txt;
 
 	if (subject == "") {
-		alert("标题不能为空！");
+		txt = "标题不能为空！";
+		window.wxc.xcConfirm(txt, "info");
 		return false;
 	} else if (moduleId == "0") {
-		alert("请选择版块！");
+		txt = "请选择版块！";
+		window.wxc.xcConfirm(txt, "info");
 		return false;
 	} else if (type == "0") {
-		alert("请选择类型！");
+		txt = "请选择类型！";
+		window.wxc.xcConfirm(txt, "info");
 		return false;
 	} else if (content == "" || contentText == "") {
-		alert("请输入内容！");
+		txt = "请输入内容！";
+		window.wxc.xcConfirm(txt, "info");
 		return false;
 	} else {
 		return true;

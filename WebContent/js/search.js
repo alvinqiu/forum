@@ -1,17 +1,18 @@
-$(function(){
+$(function() {
 	var kw = getUrlParam('kw');
 	var page = getUrlParam('page');
 	$("#js_search_content").val(kw);
-	
+
 	$.ajax({
 		url: "search.json",
 		async: true,
-		data : {
-			"kw" : kw,
-			"page" : page
+		data: {
+			"kw": kw,
+			"page": page
 		},
 		error: function() {
-			alert("查询帖子失败！");
+			var txt = "查询帖子失败！";
+			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
 			if (data != "") {
@@ -48,11 +49,11 @@ $(function(){
 						var moduleName = jsonObj.postList[i].moduleName;
 
 						$(".content").append("<div><a href='./detail.html?id=" + id + "'>" +
-									"<label class='subject'>" + subject + "</label></a>" +
-									"<label class='module'>" + moduleName + "</label>" +
-									"<label class='author'>" + name + "</label>" +
-									"<label class='time'>" + submitTime + "</label>" +
-									"<label class='comments'>" + commentCount + "</label></div>");	
+							"<label class='subject'>" + subject + "</label></a>" +
+							"<label class='module'>" + moduleName + "</label>" +
+							"<label class='author'>" + name + "</label>" +
+							"<label class='time'>" + submitTime + "</label>" +
+							"<label class='comments'>" + commentCount + "</label></div>");
 					}
 
 				} else {
@@ -61,7 +62,7 @@ $(function(){
 			}
 		}
 	});
-	
+
 });
 
 function formatDate(now) {
@@ -71,18 +72,18 @@ function formatDate(now) {
 	var hour = now.getHours();
 	var minute = now.getMinutes();
 	var second = now.getSeconds();
-	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":"
-			+ second;
+	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
 }
 
 //获取完整url（除参数外）
-function getUrl(){
-	return window.location.origin+window.location.pathname;
+function getUrl() {
+	return window.location.origin + window.location.pathname;
 }
 
 //获取url中的参数
 function getUrlParam(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-    var r = decodeURI(window.location.search).substr(1).match(reg);  //匹配目标参数
-    if (r != null) return unescape(r[2]); return null; //返回参数值
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	var r = decodeURI(window.location.search).substr(1).match(reg); //匹配目标参数
+	if (r != null) return unescape(r[2]);
+	return null; //返回参数值
 }

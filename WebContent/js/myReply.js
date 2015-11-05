@@ -1,12 +1,15 @@
-$(function(){
+$(function() {
 	var page = getUrlParam('page');
-	
+
 	$.ajax({
 		url: "getMyReply.json",
 		async: true,
-		data:{ "page" : page },
+		data: {
+			"page": page
+		},
 		error: function() {
-			alert("获取评论失败！");
+			var txt = "获取评论失败！";
+			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
 			if (data != "") {
@@ -36,18 +39,18 @@ $(function(){
 
 					for (var i = 0, tagLen = jsonObj.postList.length; i < tagLen; i++) {
 
-						var id = jsonObj.postList[i].id;//评论ID
-						var parentId = jsonObj.postList[i].parentId;//帖子ID
-						var content = "我的回复： " + jsonObj.postList[i].content;//回复摘要
-						var parentContentSummary = jsonObj.postList[i].parentContentSummary;//帖子摘要
-						var subject = jsonObj.postList[i].subject;//帖子标题
-						var submitTime = formatDate(new Date(jsonObj.postList[i].submitTime.time));//回复时间
+						var id = jsonObj.postList[i].id; //评论ID
+						var parentId = jsonObj.postList[i].parentId; //帖子ID
+						var content = "我的回复： " + jsonObj.postList[i].content; //回复摘要
+						var parentContentSummary = jsonObj.postList[i].parentContentSummary; //帖子摘要
+						var subject = jsonObj.postList[i].subject; //帖子标题
+						var submitTime = formatDate(new Date(jsonObj.postList[i].submitTime.time)); //回复时间
 
-						$(".panel_left_top").append("<div><a href='./detail.html?id=" + parentId + "#"+id+"anchor'>" +
+						$(".panel_left_top").append("<div><a href='./detail.html?id=" + parentId + "#" + id + "anchor'>" +
 							"<div class='subject'>" + subject + "</div>" +
-								"<div class='submitTime'>" + submitTime + "</div>" +
-									"<div class='parentContentSummary'>\"" + parentContentSummary + "...\"</div>" +
-										"<div class='content'>" + content + "</div></a></div>");
+							"<div class='submitTime'>" + submitTime + "</div>" +
+							"<div class='parentContentSummary'>\"" + parentContentSummary + "...\"</div>" +
+							"<div class='content'>" + content + "</div></a></div>");
 					}
 
 				} else {
@@ -56,7 +59,7 @@ $(function(){
 			}
 		}
 	});
-	
+
 });
 
 function formatDate(now) {
@@ -66,18 +69,18 @@ function formatDate(now) {
 	var hour = now.getHours();
 	var minute = now.getMinutes();
 	var second = now.getSeconds();
-	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":"
-			+ second;
+	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
 }
 
 //获取完整url（除参数外）
-function getUrl(){
-	return window.location.origin+window.location.pathname;
+function getUrl() {
+	return window.location.origin + window.location.pathname;
 }
 
 //获取url中的参数
 function getUrlParam(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-    if (r != null) return unescape(r[2]); return null; //返回参数值
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	var r = window.location.search.substr(1).match(reg); //匹配目标参数
+	if (r != null) return unescape(r[2]);
+	return null; //返回参数值
 }

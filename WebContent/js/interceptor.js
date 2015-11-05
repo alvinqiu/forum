@@ -7,8 +7,13 @@ $(function() {
 			var sessionstatus = XHR.getResponseHeader("sessionstatus");
 			var loginPath = XHR.getResponseHeader("loginPath");
 			if ("intercept" == sessionstatus) {
-				alert("请先登录！");
-				window.location.replace(loginPath);
+				var txt = "请先登录,确定要跳转至登录页吗？";
+				window.wxc.xcConfirm(txt, "confirm", {
+					onOk : function() {
+						window.location.replace(loginPath);
+					}
+				});
+
 				return false;
 			}
 		}

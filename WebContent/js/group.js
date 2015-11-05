@@ -1,5 +1,4 @@
 $(function() {
-
 	$.ajax({
 		url: "checkLogin.json",
 		async: false,
@@ -7,14 +6,29 @@ $(function() {
 			var jsonObj = eval("(" + data + ")");
 			if (jsonObj.success) {
 				if (!jsonObj.isAdmin) {
-					alert("您还没有权限访问，请联系管理员！");
-					history.go(-1);
+					var txt = "您还没有权限访问，请联系管理员！";
+					window.wxc.xcConfirm(txt, "info", {
+						onOk : function() {
+							history.go(-1)
+						},
+						onClose : function() {
+							history.go(-1)
+						}
+					});
+
 				} else {
 					getData();
 				}
 			} else {
-				alert("请先登录！");
-				location.href = "./login.html";
+				var txt = "请先登录！";
+				window.wxc.xcConfirm(txt, "info", {
+					onOk : function() {
+						location.href = "./login.html"
+					},
+					onClose : function() {
+						location.href = "./login.html"
+					}
+				});
 			}
 		}
 	});
@@ -30,24 +44,33 @@ $(function() {
 				},
 				async: true,
 				error: function() {
-					alert("设置身份类型失败！");
+					var txt = "设置身份类型失败！";
+					window.wxc.xcConfirm(txt, "error");
 				},
 				success: function(data) {
 					if (data != "") {
 						var jsonObj = eval("(" + data + ")");
+						var txt;
 						if (jsonObj.result < 0) {
-							alert("此用户名不存在！");
+							txt = "此用户名不存在！";
+							window.wxc.xcConfirm(txt, "info");
 						} else if (jsonObj.result > 0) {
-							alert("设置成功！");
-							location.reload();
+							txt = "设置成功！";
+							window.wxc.xcConfirm(txt, "success", {
+								onOk : function() {
+									location.reload()
+								}
+							});
 						} else {
-							alert("设置失败！");
+							txt = "设置失败！";
+							window.wxc.xcConfirm(txt, "info");
 						}
 					}
 				}
 			});
-		}else{
-			alert("请输入用户名");
+		} else {
+			var txt = "请输入用户名！";
+			window.wxc.xcConfirm(txt, "info");
 		}
 	});
 });
@@ -58,7 +81,8 @@ function getData() {
 		url: "getAllGroupExceptUser.json",
 		async: true,
 		error: function() {
-			alert("获取非普通用户身份类型失败！");
+			var txt = "获取非普通用户身份类型失败！";
+			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
 			if (data != "") {
@@ -80,7 +104,8 @@ function getData() {
 		url: "getAllGroup.json",
 		async: true,
 		error: function() {
-			alert("获取身份类型失败！");
+			var txt = "获取身份类型失败！";
+			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
 			if (data != "") {

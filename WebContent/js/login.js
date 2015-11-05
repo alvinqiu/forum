@@ -1,9 +1,9 @@
 $(function() {
 	//初始化验证
 	window.gt_captcha_obj = new window.Geetest({
-		gt : "df6595b204a06069670b68b6e716ca45",
-		product : "popup",
-		https : false
+		gt: "df6595b204a06069670b68b6e716ca45",
+		product: "popup",
+		https: false
 	});
 	gt_captcha_obj.appendTo("#js-GeetestDiv").bindOn('#js-submit');
 
@@ -15,17 +15,23 @@ $(function() {
 	});
 });
 
-function checkLogin(){
+function checkLogin() {
 	var flag = true;
 	// 验证是否为空
 	$("form input[type='text'],input[type='password']").each(function(i) {
-		if ($.trim($(this).val()) == "") {
-			if($(this).attr("type")=="text"){
-				alert("请输入邮箱地址！");
-			}else{
-				alert("请输入密码！");
+		var _this = $(this);
+		if ($.trim(_this.val()) == "") {
+			var txt;
+			if (_this.attr("type") == "text") {
+				txt = "请输入邮箱地址！";
+			} else {
+				txt = "请输入密码！";
 			}
-			$(this).focus();
+			window.wxc.xcConfirm(txt, "info", {
+				onOk : function() {
+					_this.focus();
+				}
+			});
 			flag = false;
 			gt_captcha_obj.disable();
 			return false;
@@ -40,14 +46,20 @@ function checkLogin(){
 
 		if (patten.test(mail)) {
 			gt_captcha_obj.enable();
-			
+
 			gt_captcha_obj.onSuccess(function() {
 				loginSuccess();
 			});
 			return true;
-			
+
 		} else {
-			alert("邮箱格式不正确！");
+			var txt = "邮箱格式不正确！";
+			window.wxc.xcConfirm(txt, "info", {
+				onOk : function() {
+					$("#js-mail").focus();
+				}
+			});
+
 			gt_captcha_obj.disable();
 			return false;
 		}
@@ -57,20 +69,22 @@ function checkLogin(){
 // 登录成功
 function loginSuccess() {
 	$.ajax({
-		type : "Get",
-		url : "login.json",
-		data : $("form[name='loginForm']").serialize(),
-		async : false,
-		error : function(request) {
-			alert("登录失败！" + request);
+		type: "Get",
+		url: "login.json",
+		data: $("form[name='loginForm']").serialize(),
+		async: false,
+		error: function(request) {
+			var txt = "登录失败！";
+			window.wxc.xcConfirm(txt, "error");
 		},
-		success : function(data) {
+		success: function(data) {
 			var jsonObj = eval("(" + data + ")");
 
 			if (jsonObj.success) {
 				window.location.href = "./index.html";
 			} else {
-				alert(jsonObj.result);
+				var txt = jsonObj.result;
+				window.wxc.xcConfirm(txt, "info");
 			}
 		}
 	});

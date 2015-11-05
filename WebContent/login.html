@@ -4,21 +4,22 @@
 <meta charset="UTF-8">
 <title>登录</title>
 <link href="img/favicon.ico" rel="icon" type="image/x-icon" />
+<link rel="stylesheet" href="css/common.css" />
 <link rel="stylesheet" href="css/login.css" />
 <script src="http://api.geetest.com/get.php"></script>
 </head>
 <body>
 	<div class="panel">
 		<div class="panel_top">
-			<div class="panel_top_logo">
-				<a href="index.html"><img alt="logo" src="img/logo.png" /></a>
-			</div>
-			<div class="panel_top_content">
-				<ul>
-					<li><a href="login.html">登录</a></li>
-					<li>|</li>
-					<li><a href="register.html">注册</a></li>
-				</ul>
+			<div class="panel_top_header">
+				<div class="panel_top_logo">
+					<a href="index.html"><img alt="logo" src="img/logo.png" /></a>
+				</div>
+				<div class="panel_top_right">
+					<div class="panel_top_content" id="js-checkLogin">
+						<ul></ul>
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -32,16 +33,23 @@
 						placeholder="密码" />
 				</div>
 				<div>
-					<input value="登录" type="button" id="js-submit" onclick="return checkLogin();" class="submit" />
+					<input value="登录" type="button" id="js-submit"
+						onclick="return checkLogin();" class="submit" />
 					<div class="geetestDiv" id="js-GeetestDiv"></div>
 				</div>
 			</form>
 		</div>
 
+		<div class="scrolltop" id="js-scrolltop"></div>
+
+		<div class="foot">
+			晟越科技<a id="js-manage" href="manage.html" style="display: none">后台管理</a>
+		</div>
+
 	</div>
-	<div class="foot">晟越科技</div>
 
 	<script src="js/jquery-1.7.2.min.js"></script>
+	<script src="js/common.js"></script>
 	<script src="js/login.js"></script>
 </body>
 </html>

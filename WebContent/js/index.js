@@ -1,132 +1,161 @@
-$(function(){
+$(function() {
 	//设置banner轮换效果
-	var time = window.setInterval(function(){
+	var time = window.setInterval(function() {
 		nextJump();
-	},5000);
-	
-	linum = $('.mainlist li').length;//图片数量
-	w = linum * 840;//ul宽度
-	$('.piclist').css('width', w + 'px');//ul宽度
-	$('.swaplist').html($('.mainlist').html());//复制内容
-	
-	$('.og_next').click(function(){
+	}, 5000);
+
+	linum = $('.mainlist li').length; //图片数量
+	w = linum * 840; //ul宽度
+	$('.piclist').css('width', w + 'px'); //ul宽度
+	$('.swaplist').html($('.mainlist').html()); //复制内容
+
+	$('.og_next').click(function() {
 		clearInterval(time);
 		nextJump();
-		time = window.setInterval(function(){
-			nextJump();	
-		},5000);
+		time = window.setInterval(function() {
+			nextJump();
+		}, 5000);
 	});
 
-	$('.og_prev').click(function(){
+	$('.og_prev').click(function() {
 		clearInterval(time);
 		prevJump();
-		time = window.setInterval(function(){
-			nextJump();	
-		},5000);
+		time = window.setInterval(function() {
+			nextJump();
+		}, 5000);
 	});
-	
-	function nextJump(){
-		if($('.swaplist,.mainlist').is(':animated')){
-			$('.swaplist,.mainlist').stop(true,true);
+
+	function nextJump() {
+		if ($('.swaplist,.mainlist').is(':animated')) {
+			$('.swaplist,.mainlist').stop(true, true);
 		}
-		
-		if($('.mainlist li').length>2){//多于2张图片
-			ml = parseInt($('.mainlist').css('left'));//默认图片ul位置
-			sl = parseInt($('.swaplist').css('left'));//交换图片ul位置
-			if(ml<=0 && ml>w*-1){//默认图片显示时
-				$('.swaplist').css({left: '840px'});//交换图片放在显示区域右侧
-				$('.mainlist').animate({left: ml - 840 + 'px'},'slow');//默认图片滚动				
-				if(ml==(w-840)*-1){//默认图片最后一屏时
-					$('.swaplist').animate({left: '0px'},'slow');//交换图片滚动
+
+		if ($('.mainlist li').length > 2) { //多于2张图片
+			ml = parseInt($('.mainlist').css('left')); //默认图片ul位置
+			sl = parseInt($('.swaplist').css('left')); //交换图片ul位置
+			if (ml <= 0 && ml > w * -1) { //默认图片显示时
+				$('.swaplist').css({
+					left: '840px'
+				}); //交换图片放在显示区域右侧
+				$('.mainlist').animate({
+					left: ml - 840 + 'px'
+				}, 'slow'); //默认图片滚动				
+				if (ml == (w - 840) * -1) { //默认图片最后一屏时
+					$('.swaplist').animate({
+						left: '0px'
+					}, 'slow'); //交换图片滚动
 				}
-			}else{//交换图片显示时
-				$('.mainlist').css({left: '840px'})//默认图片放在显示区域右
-				$('.swaplist').animate({left: sl - 840 + 'px'},'slow');//交换图片滚动
-				if(sl==(w-840)*-1){//交换图片最后一屏时
-					$('.mainlist').animate({left: '0px'},'slow');//默认图片滚动
+			} else { //交换图片显示时
+				$('.mainlist').css({
+						left: '840px'
+					}) //默认图片放在显示区域右
+				$('.swaplist').animate({
+					left: sl - 840 + 'px'
+				}, 'slow'); //交换图片滚动
+				if (sl == (w - 840) * -1) { //交换图片最后一屏时
+					$('.mainlist').animate({
+						left: '0px'
+					}, 'slow'); //默认图片滚动
 				}
 			}
 		}
 	}
-	
-	function prevJump(){
-		if($('.swaplist,.mainlist').is(':animated')){
-			$('.swaplist,.mainlist').stop(true,true);
+
+	function prevJump() {
+		if ($('.swaplist,.mainlist').is(':animated')) {
+			$('.swaplist,.mainlist').stop(true, true);
 		}
-		
-		if($('.mainlist li').length>2){
+
+		if ($('.mainlist li').length > 2) {
 			ml = parseInt($('.mainlist').css('left'));
 			sl = parseInt($('.swaplist').css('left'));
-			if(ml<=0 && ml>w*-1){
-				$('.swaplist').css({left: w * -1 + 'px'});
-				$('.mainlist').animate({left: ml + 840 + 'px'},'slow');				
-				if(ml==0){
-					$('.swaplist').animate({left: (w - 840) * -1 + 'px'},'slow');
+			if (ml <= 0 && ml > w * -1) {
+				$('.swaplist').css({
+					left: w * -1 + 'px'
+				});
+				$('.mainlist').animate({
+					left: ml + 840 + 'px'
+				}, 'slow');
+				if (ml == 0) {
+					$('.swaplist').animate({
+						left: (w - 840) * -1 + 'px'
+					}, 'slow');
 				}
-			}else{
-				$('.mainlist').css({left: (w - 840) * -1 + 'px'});
-				$('.swaplist').animate({left: sl + 840 + 'px'},'slow');
-				if(sl==0){
-					$('.mainlist').animate({left: '0px'},'slow');
+			} else {
+				$('.mainlist').css({
+					left: (w - 840) * -1 + 'px'
+				});
+				$('.swaplist').animate({
+					left: sl + 840 + 'px'
+				}, 'slow');
+				if (sl == 0) {
+					$('.mainlist').animate({
+						left: '0px'
+					}, 'slow');
 				}
 			}
 		}
 	}
-	
+
 	//获取最新的5条帖子
 	$.ajax({
-		url:"getAllPost.json",
-		async:true,
-		data:{"page":1},//最新的帖子
-		success:function(data){
-			var jsonObj=eval("("+data+")");
-			
-			for(var i=0,tagLen = jsonObj.postList.length;i<tagLen;i++){
-				
+		url: "getAllPost.json",
+		async: true,
+		data: {
+			"page": 1
+		}, //最新的帖子
+		success: function(data) {
+			var jsonObj = eval("(" + data + ")");
+
+			for (var i = 0, tagLen = jsonObj.postList.length; i < tagLen; i++) {
+
 				var id = jsonObj.postList[i].id;
 				var subject = jsonObj.postList[i].subject;
 				var submitTime = formatDate(new Date(jsonObj.postList[i].submitTime.time));
-				var name = jsonObj.postList[i].name;//昵称
-				var commentCount = jsonObj.postList[i].commentCount;//回复数
-				var content = jsonObj.postList[i].content;//摘要
-				var imgStr = jsonObj.postList[i].imgStr;//图片路径
-				
-				if(commentCount!=0){
-				$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img "+imgStr+" onload='AutoResizeImage(300,200,this)' /></div>" +
+				var name = jsonObj.postList[i].name; //昵称
+				var commentCount = jsonObj.postList[i].commentCount; //回复数
+				var content = jsonObj.postList[i].content; //摘要
+				var imgStr = jsonObj.postList[i].imgStr; //图片路径
+
+				if (commentCount != 0) {
+					$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img " + imgStr + " onload='AutoResizeImage(300,200,this)' /></div>" +
 						"<div class='dRight'>" +
-								"<a href='./detail.html?id="+id+"'><div class='postTitle'>"+subject+"</div></a><div class='postTime'>"+submitTime+"</div>" +
-								"<div class='postNickName'>"+name+"</div><div class='postCommentCount'><label>"+commentCount+"<label></div><div class='postContent'>"+content+"</div>"+
-										"</div></div>");
-				}else{
-					$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img "+imgStr+" onload='AutoResizeImage(300,200,this)' /></div>" +
-							"<div class='dRight'>" +
-									"<a href='./detail.html?id="+id+"'><div class='postTitle'>"+subject+"</div></a><div class='postTime'>"+submitTime+"</div>" +
-									"<div class='postNickName'>"+name+"</div><div class='postContent'>"+content+"</div>"+
-											"</div></div>");
+						"<a href='./detail.html?id=" + id + "'><div class='postTitle'>" + subject + "</div></a><div class='postTime'>" + submitTime + "</div>" +
+						"<div class='postNickName'>" + name + "</div><div class='postCommentCount'><label>" + commentCount + "<label></div><div class='postContent'>" + content + "</div>" +
+						"</div></div>");
+				} else {
+					$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img " + imgStr + " onload='AutoResizeImage(300,200,this)' /></div>" +
+						"<div class='dRight'>" +
+						"<a href='./detail.html?id=" + id + "'><div class='postTitle'>" + subject + "</div></a><div class='postTime'>" + submitTime + "</div>" +
+						"<div class='postNickName'>" + name + "</div><div class='postContent'>" + content + "</div>" +
+						"</div></div>");
 				}
 			}
 		}
 	});
-	
+
 	//获取所有版块
 	$.ajax({
-		url:"getAllModule.json",
-		async:true,
-		error:function(){alert("获取版块失败！");},
-		success:function(data){
-			var jsonObj = eval("("+data+")");
-			
-			for(var i = 0,tagLen = jsonObj.moduleVOList.length;i<tagLen;i++){
+		url: "getAllModule.json",
+		async: true,
+		error: function() {
+			var txt = "获取版块失败！";
+			window.wxc.xcConfirm(txt, "error");
+		},
+		success: function(data) {
+			var jsonObj = eval("(" + data + ")");
+
+			for (var i = 0, tagLen = jsonObj.moduleVOList.length; i < tagLen; i++) {
 				var id = jsonObj.moduleVOList[i].id;
 				var name = jsonObj.moduleVOList[i].name;
 				var desc = jsonObj.moduleVOList[i].desc;
 				var sort = jsonObj.moduleVOList[i].sort;
-				
-				$(".panel_right_module_content ul").append("<li><a href='./list.html?moduleId="+id+"&page=1'>"+name+"</a></li>");
+
+				$(".panel_right_module_content ul").append("<li><a href='./list.html?moduleId=" + id + "&page=1'>" + name + "</a></li>");
 			}
 		}
 	});
-	
+
 });
 
 function formatDate(now) {
@@ -136,8 +165,7 @@ function formatDate(now) {
 	var hour = now.getHours();
 	var minute = now.getMinutes();
 	var second = now.getSeconds();
-	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":"
-			+ second;
+	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
 }
 
 function AutoResizeImage(maxWidth, maxHeight, objImg) {
@@ -152,7 +180,7 @@ function AutoResizeImage(maxWidth, maxHeight, objImg) {
 	hRatio = maxHeight / h;
 	if (maxWidth == 0 && maxHeight == 0) {
 		Ratio = 1;
-	} else if (maxWidth == 0) {//
+	} else if (maxWidth == 0) { //
 		if (hRatio < 1)
 			Ratio = hRatio;
 	} else if (maxHeight == 0) {

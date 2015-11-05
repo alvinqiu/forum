@@ -1,15 +1,15 @@
-$(function(){
+$(function() {
 	//实例化UEditor编辑器
 	var ue = UE.getEditor('editor', {
 		toolbars: [
-					['fontsize','fontfamily','bold','undo','cleardoc','forecolor']
-				],
-		initialFrameWidth:790,
-		initialFrameHeight:200
+			['fontsize', 'fontfamily', 'bold', 'undo', 'cleardoc', 'forecolor']
+		],
+		initialFrameWidth: 790,
+		initialFrameHeight: 200
 	});
-	
+
 	var id = getUrlParam('id');
-	
+
 	$.ajax({
 		url: "getPostById.json",
 		data: {
@@ -20,16 +20,16 @@ $(function(){
 			var jsonObj = eval("(" + data + ")");
 			var obj = $(".panel_left_main");
 			var id, subject, submitTime, content, groupId, name, commentCount, praise;
-			
+
 			id = jsonObj.PostVO.id;
 			subject = jsonObj.PostVO.subject;
 			submitTime = formatDate(new Date(jsonObj.PostVO.submitTime.time));
 			content = jsonObj.PostVO.content;
 			groupId = jsonObj.GroupId;
-			name = jsonObj.PostVO.name;// 昵称
-			commentCount = jsonObj.PostVO.commentCount;// 回复数
-			praise = jsonObj.PostVO.praise;// 点赞数
-			checkPraise = jsonObj.PostVO.checkPraise;// 是否已点赞
+			name = jsonObj.PostVO.name; // 昵称
+			commentCount = jsonObj.PostVO.commentCount; // 回复数
+			praise = jsonObj.PostVO.praise; // 点赞数
+			checkPraise = jsonObj.PostVO.checkPraise; // 是否已点赞
 
 			obj.append("<div class='subject'>" + subject + "</div>");
 			obj.append("<div class='name'>" + name + "</div>");
@@ -38,75 +38,91 @@ $(function(){
 				obj.append("<div class='commentCount'><label>" + commentCount + "</label></div>");
 			}
 			obj.append("<div class='content'>" + content + "</div>");
-			
+
 			//点赞
-			if(checkPraise){
+			if (checkPraise) {
 				obj.append("<div class='praiseAnother'><label>" + praise + "</label></div>");
-			}else{
+			} else {
 				obj.append("<div class='praise' onclick='praise(" + id + ")'><label>" + praise + "</label></div>");
 			}
-			
+
 			if (groupId < 3) {
 				//删除按钮
 				$(".panel_left_main").append("<div class='delBtn'><a href='javascript:void(0);'onclick='del(" + id + ")'>删除</a></div>");
 			}
-			
+
 			//右侧用户名称
 			$(".panel_right_user_name").html(name);
 		}
 	});
-	
-	
-	
+
+
+
 	$.ajax({
-		url:"getComment.json",
-		data:{"id":id},
-		async:false,
-		success:function(data){
+		url: "getComment.json",
+		data: {
+			"id": id
+		},
+		async: false,
+		success: function(data) {
 			var jsonObj = eval("(" + data + ")");
 			var id, subject, submitTime, content, parentContentSummary, name, floor;
 
 			for (var i = 0, tagLen = jsonObj.postVOList.length; i < tagLen; i++) {
-				
+
 				id = jsonObj.postVOList[i].id;
 				subject = jsonObj.postVOList[i].subject;
 				submitTime = formatDate(new Date(jsonObj.postVOList[i].submitTime.time));
 				content = jsonObj.postVOList[i].content;
 				parentContentSummary = jsonObj.postVOList[i].parentContentSummary;
 				name = jsonObj.postVOList[i].name;
-				
+
 				//评论楼层
 				floor = ((i + 1) == 1) ? "沙发" : "" + (i + 1) + "楼";
-				
-				$(".panel_left_comment").append("<div id='"+id+"anchor' name='"+id+"anchor'>" +
-										"<div class='commentName'>"+name+"</div>" +
-										"<div class='commentSubmitTime'>"+submitTime+"</div>" +
-										"<div class='commentFloor'>"+floor+"</div>" +
-										"<div class='commentSummary'>\"" + parentContentSummary + "...\"</div>" +
-										"<div class='commentContent'>"+content+"</div>" +
-										"</div>");
+
+				$(".panel_left_comment").append("<div id='" + id + "anchor' name='" + id + "anchor'>" +
+					"<div class='commentName'>" + name + "</div>" +
+					"<div class='commentSubmitTime'>" + submitTime + "</div>" +
+					"<div class='commentFloor'>" + floor + "</div>" +
+					"<div class='commentSummary'>\"" + parentContentSummary + "...\"</div>" +
+					"<div class='commentContent'>" + content + "</div>" +
+					"</div>");
 			}
 		}
 	});
-	
+
 });
 
 //删除帖子
-function del(id){
+function del(id) {
 	$.ajax({
-		url : "del.json",
-		data : { "Id" : id },
-		error : function() { alert("删除失败！"); },
-		success : function(data){
+		url: "del.json",
+		data: {
+			"Id": id
+		},
+		error: function() {
+			var txt = "删除失败！";
+			window.wxc.xcConfirm(txt, "error");
+		},
+		success: function(data) {
 			if (data != "") {
 				var jsonObj = eval("(" + data + ")");
-				if(jsonObj.success){
-					alert("删除成功！");
-					history.go(-1);
-					location.reload();
-				}
-				else{
-					alert("删除失败！");
+				var txt;
+				if (jsonObj.success) {
+					txt = "删除成功！";
+					window.wxc.xcConfirm(txt, "success", {
+						onOk: function() {
+							history.go(-1);
+							location.reload();
+						},
+						onClose: function() {
+							history.go(-1);
+							location.reload();
+						}
+					});
+				} else {
+					txt = "删除失败！";
+					window.wxc.xcConfirm(txt, "info");
 				}
 			}
 		}
@@ -114,21 +130,26 @@ function del(id){
 }
 
 //点赞   （局部刷新+1）
-function praise(id){
+function praise(id) {
 	$.ajax({
-		url : "praise.json",
-		data : { "Id" : id },
-		error : function() { alert("点赞失败！"); },
-		success : function(data){
+		url: "praise.json",
+		data: {
+			"Id": id
+		},
+		error: function() {
+			var txt = "点赞失败！";
+			window.wxc.xcConfirm(txt, "error");
+		},
+		success: function(data) {
 			if (data != "") {
 				var jsonObj = eval("(" + data + ")");
-				if(jsonObj.success){
+				if (jsonObj.success) {
 					var count = $(".praise label").text();
 					$(".praise label").text(parseInt(count) + 1);
 					$(".praise").attr("class", "praiseAnother").removeAttr("onclick");
-				}
-				else{
-					alert("点赞失败！");
+				} else {
+					var txt = "点赞失败！";
+					window.wxc.xcConfirm(txt, "info");
 				}
 			}
 		}
@@ -137,9 +158,10 @@ function praise(id){
 
 //获取url中的参数
 function getUrlParam(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-    if (r != null) return unescape(r[2]); return null; //返回参数值
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	var r = window.location.search.substr(1).match(reg); //匹配目标参数
+	if (r != null) return unescape(r[2]);
+	return null; //返回参数值
 }
 
 function formatDate(now) {
@@ -149,45 +171,53 @@ function formatDate(now) {
 	var hour = now.getHours();
 	var minute = now.getMinutes();
 	var second = now.getSeconds();
-	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":"
-			+ second;
+	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
 }
 
 function gt_custom_ajax(result, selector, message) {
 	var ue = UE.getEditor('editor');
 	var id = getUrlParam('id');
-	
+
 	if (result) {
 		var challenge = selector(".geetest_challenge").value;
 		var validate = selector(".geetest_validate").value;
 		var seccode = selector(".geetest_seccode").value;
-		
+
 		var comments = $.trim(UE.getEditor('editor').getPlainTxt());
-		if(comments!=""){
+		if (comments != "") {
 			$.ajax({
-				type:"post",
-				url:"addComment.json",
-				data:{
-					"content":comments,
-					"id":id
-					},
-				async:false,
-				success : function(data,XHR, TS) {
+				type: "post",
+				url: "addComment.json",
+				data: {
+					"content": comments,
+					"id": id
+				},
+				async: false,
+				success: function(data, XHR, TS) {
 					if (data != "") {
 						var jsonObj = eval("(" + data + ")");
+						var txt;
 						if (jsonObj.success) {
-							alert("评论成功！");
-							location.reload();
+							txt = "评论成功！";
+							window.wxc.xcConfirm(txt, "success", {
+								onOk : function() {
+									location.reload()
+								},
+								onClose : function() {
+									location.reload()
+								}
+							});
 						} else {
-							alert("评论失败！");
+							txt = "评论失败！";
+							window.wxc.xcConfirm(txt, "info");
 						}
 					}
 				}
 			});
+		} else {
+			var txt = "不能为空！";
+			window.wxc.xcConfirm(txt, "info");
 		}
-		else{
-			alert("不能为空！");
-		}
-		
+
 	}
 }

@@ -1,12 +1,15 @@
-$(function(){
+$(function() {
 	var page = getUrlParam('page');
-	
+
 	$.ajax({
 		url: "getMyPost.json",
 		async: true,
-		data:{ "page" : page },
+		data: {
+			"page": page
+		},
 		error: function() {
-			alert("获取帖子失败！");
+			var txt = "获取帖子失败！";
+			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
 			if (data != "") {
@@ -61,7 +64,7 @@ $(function(){
 			}
 		}
 	});
-	
+
 });
 
 function formatDate(now) {
@@ -71,18 +74,18 @@ function formatDate(now) {
 	var hour = now.getHours();
 	var minute = now.getMinutes();
 	var second = now.getSeconds();
-	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":"
-			+ second;
+	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
 }
 
 //获取完整url（除参数外）
-function getUrl(){
-	return window.location.origin+window.location.pathname;
+function getUrl() {
+	return window.location.origin + window.location.pathname;
 }
 
 //获取url中的参数
 function getUrlParam(name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-    if (r != null) return unescape(r[2]); return null; //返回参数值
+	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	var r = window.location.search.substr(1).match(reg); //匹配目标参数
+	if (r != null) return unescape(r[2]);
+	return null; //返回参数值
 }
