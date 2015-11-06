@@ -2,11 +2,19 @@ $(function() {
 	//实例化UEditor编辑器
 	var ue = UE.getEditor('editor', {
 		toolbars: [
-			['fontsize', 'fontfamily', 'bold', 'undo', 'cleardoc', 'forecolor']
+ 			[ 'undo', 'cleardoc' ]
 		],
 		initialFrameWidth: 790,
 		initialFrameHeight: 200
 	});
+
+	// 初始化验证
+	window.gt_captcha_obj = new window.Geetest({
+		gt: "df6595b204a06069670b68b6e716ca45",
+		product: "popup",
+		https: false
+	});
+	gt_captcha_obj.appendTo("#js-GeetestDiv").bindOn('#js-submit');
 
 	var id = getUrlParam('id');
 
@@ -55,8 +63,6 @@ $(function() {
 			$(".panel_right_user_name").html(name);
 		}
 	});
-
-
 
 	$.ajax({
 		url: "getComment.json",
@@ -174,50 +180,55 @@ function formatDate(now) {
 	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
 }
 
-function gt_custom_ajax(result, selector, message) {
-	var ue = UE.getEditor('editor');
+//check评论是否为空
+function checkComment() {
+	var comments = $.trim(UE.getEditor('editor').getContentTxt());
+
+	if (comments != "") {
+		gt_captcha_obj.enable();
+		gt_captcha_obj.onSuccess(function() {
+			addComment(comments);
+		});
+		return true;
+	} else {
+		var txt = "评论不能为空！";
+		window.wxc.xcConfirm(txt, "info");
+		gt_captcha_obj.disable();
+		return false;
+	}
+}
+
+//添加评论
+function addComment(comments) {
 	var id = getUrlParam('id');
 
-	if (result) {
-		var challenge = selector(".geetest_challenge").value;
-		var validate = selector(".geetest_validate").value;
-		var seccode = selector(".geetest_seccode").value;
-
-		var comments = $.trim(UE.getEditor('editor').getPlainTxt());
-		if (comments != "") {
-			$.ajax({
-				type: "post",
-				url: "addComment.json",
-				data: {
-					"content": comments,
-					"id": id
-				},
-				async: false,
-				success: function(data, XHR, TS) {
-					if (data != "") {
-						var jsonObj = eval("(" + data + ")");
-						var txt;
-						if (jsonObj.success) {
-							txt = "评论成功！";
-							window.wxc.xcConfirm(txt, "success", {
-								onOk : function() {
-									location.reload()
-								},
-								onClose : function() {
-									location.reload()
-								}
-							});
-						} else {
-							txt = "评论失败！";
-							window.wxc.xcConfirm(txt, "info");
+	$.ajax({
+		type: "post",
+		url: "addComment.json",
+		data: {
+			"content": comments,
+			"id": id
+		},
+		async: false,
+		success: function(data, XHR, TS) {
+			if (data != "") {
+				var jsonObj = eval("(" + data + ")");
+				var txt;
+				if (jsonObj.success) {
+					txt = "评论成功！";
+					window.wxc.xcConfirm(txt, "success", {
+						onOk: function() {
+							location.reload()
+						},
+						onClose: function() {
+							location.reload()
 						}
-					}
+					});
+				} else {
+					txt = "评论失败！";
+					window.wxc.xcConfirm(txt, "info");
 				}
-			});
-		} else {
-			var txt = "不能为空！";
-			window.wxc.xcConfirm(txt, "info");
+			}
 		}
-
-	}
+	});
 }

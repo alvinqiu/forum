@@ -1,7 +1,7 @@
 $(function() {
 
 	// 初始化验证
-	var gt_captcha_obj = new window.Geetest({
+	window.gt_captcha_obj = new window.Geetest({
 		gt: "df6595b204a06069670b68b6e716ca45",
 		product: "popup",
 		https: false
@@ -11,9 +11,12 @@ $(function() {
 	// 实例化UEditor编辑器
 	var ue = UE.getEditor('editor', {
 		toolbars: [
-			['fontsize', 'fontfamily', 'bold', 'undo', 'cleardoc',
-				'forecolor', 'simpleupload'
-			]
+    			[ 
+    			'fontsize', 'fontfamily', 'bold', 'undo', 'cleardoc',
+				'forecolor', 'simpleupload', 'underline', 'strikethrough',
+				'justifyleft', 'justifyright', 'justifycenter',
+				'justifyjustify', 'imagecenter', 'lineheight' 
+				]
 		],
 		initialFrameWidth: 790,
 		initialFrameHeight: 500,
@@ -68,39 +71,10 @@ $(function() {
 		}
 	});
 
-	gt_captcha_obj.onSuccess(function() {
-		var formDom = $("form[name='postForm']");
-		if (checkForm()) {
-			$.ajax({
-				type: "post",
-				url: "addPost.json",
-				data: formDom.serialize(),
-				async: true,
-				error: function(request) {
-					var txt = "发布帖子失败！";
-					window.wxc.xcConfirm(txt, "error");
-				},
-				success: function(data) {
-					if (data != "") {
-						var jsonObj = eval("(" + data + ")");
-
-						var txt = jsonObj.result;
-						window.wxc.xcConfirm(txt, "success", {
-							onOk : function() {
-								if (jsonObj.success) {
-									window.location.href = "./index.html";
-								}
-							}
-						});
-					}
-				}
-			});
-		}
-	});
-
 });
 
 function checkForm() {
+	var flag = false;
 	var subject = $.trim($("input[name='subject']").val());
 	var moduleId = $.trim($("select[name='moduleId']").val());
 	var type = $.trim($("select[name='type']").val());
@@ -114,21 +88,54 @@ function checkForm() {
 
 	if (subject == "") {
 		txt = "标题不能为空！";
-		window.wxc.xcConfirm(txt, "info");
-		return false;
 	} else if (moduleId == "0") {
 		txt = "请选择版块！";
-		window.wxc.xcConfirm(txt, "info");
-		return false;
 	} else if (type == "0") {
 		txt = "请选择类型！";
-		window.wxc.xcConfirm(txt, "info");
-		return false;
 	} else if (content == "" || contentText == "") {
 		txt = "请输入内容！";
+	} else {
+		flag = true;
+	}
+
+	if (flag) {
+		gt_captcha_obj.enable();
+		gt_captcha_obj.onSuccess(function() {
+			addPost();
+		});
+		return true;
+	} else {
+		gt_captcha_obj.disable();
 		window.wxc.xcConfirm(txt, "info");
 		return false;
-	} else {
-		return true;
 	}
+}
+
+//添加帖子
+function addPost() {
+	var formDom = $("form[name='postForm']");
+	$.ajax({
+		type: "post",
+		url: "addPost.json",
+		data: formDom.serialize(),
+		async: true,
+		error: function(request) {
+			var txt = "发布帖子失败！";
+			window.wxc.xcConfirm(txt, "error");
+		},
+		success: function(data) {
+			if (data != "") {
+				var jsonObj = eval("(" + data + ")");
+
+				var txt = jsonObj.result;
+				window.wxc.xcConfirm(txt, "success", {
+					onOk: function() {
+						if (jsonObj.success) {
+							window.location.href = "./index.html";
+						}
+					}
+				});
+			}
+		}
+	});
 }
