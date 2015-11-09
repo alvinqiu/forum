@@ -104,18 +104,17 @@ $(function() {
 		data: {
 			"page": 1
 		}, //最新的帖子
+		dataType : "json",
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
+			for (var i = 0, tagLen = data.postList.length; i < tagLen; i++) {
 
-			for (var i = 0, tagLen = jsonObj.postList.length; i < tagLen; i++) {
-
-				var id = jsonObj.postList[i].id;
-				var subject = jsonObj.postList[i].subject;
-				var submitTime = formatDate(new Date(jsonObj.postList[i].submitTime.time));
-				var name = jsonObj.postList[i].name; //昵称
-				var commentCount = jsonObj.postList[i].commentCount; //回复数
-				var content = jsonObj.postList[i].content; //摘要
-				var imgStr = jsonObj.postList[i].imgStr; //图片路径
+				var id = data.postList[i].id;
+				var subject = data.postList[i].subject;
+				var submitTime = formatDate(new Date(data.postList[i].submitTime.time));
+				var name = data.postList[i].name; //昵称
+				var commentCount = data.postList[i].commentCount; //回复数
+				var content = data.postList[i].content; //摘要
+				var imgStr = data.postList[i].imgStr; //图片路径
 
 				if (commentCount != 0) {
 					$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img " + imgStr + " onload='AutoResizeImage(300,200,this)' /></div>" +
@@ -138,18 +137,18 @@ $(function() {
 	$.ajax({
 		url: "getAllModule.json",
 		async: true,
+		dataType : "json",
 		error: function() {
 			var txt = "获取版块失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
 
-			for (var i = 0, tagLen = jsonObj.moduleVOList.length; i < tagLen; i++) {
-				var id = jsonObj.moduleVOList[i].id;
-				var name = jsonObj.moduleVOList[i].name;
-				var desc = jsonObj.moduleVOList[i].desc;
-				var sort = jsonObj.moduleVOList[i].sort;
+			for (var i = 0, tagLen = data.moduleVOList.length; i < tagLen; i++) {
+				var id = data.moduleVOList[i].id;
+				var name = data.moduleVOList[i].name;
+				var desc = data.moduleVOList[i].desc;
+				var sort = data.moduleVOList[i].sort;
 
 				$(".panel_right_module_content ul").append("<li><a href='./list.html?moduleId=" + id + "&page=1'>" + name + "</a></li>");
 			}

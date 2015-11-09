@@ -73,36 +73,35 @@ $(function() {
 	$.ajax({
 		url: "preview.json",
 		type: "post",
+		dataType : "json",
 		async: false,
 		error: function(request) {
 			var txt = "获取数据失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			if (data != "") {
+			if (data != null) {
 				var key;
 				if (data != "{}") {
 					key = 0;
-					var jsonObj = eval("(" + data + ")");
-					$(".preview").html("<img src='" + jsonObj.result.head + "' />");
-					$("input[name='head']").val(jsonObj.result.head);
-					$("input[name='nickName']").val(jsonObj.result.nickName);
-					$("input[name='mobile']").val(jsonObj.result.mobile);
-					$("input[type=radio][value=" + jsonObj.result.gender + "]").attr("checked", 'checked');
-					$("input[name='birthday']").val(jsonObj.result.birthday);
-					if (jsonObj.result.birthday != null) {
-						var birth = jsonObj.result.birthday.split('-', -1);
+					$(".preview").html("<img src='" + data.result.head + "' />");
+					$("input[name='head']").val(data.result.head);
+					$("input[name='nickName']").val(data.result.nickName);
+					$("input[name='mobile']").val(data.result.mobile);
+					$("input[type=radio][value=" + data.result.gender + "]").attr("checked", 'checked');
+					$("input[name='birthday']").val(data.result.birthday);
+					if (data.result.birthday != null) {
+						var birth = data.result.birthday.split('-', -1);
 						$("#js-year").val(birth[0]);
 						$("#js-month").val(parseInt(birth[1]));
 						$("#js-day").val(parseInt(birth[2]));
 					}
-					$(".point").children().next().text(
-						jsonObj.result.point);
+					$(".point").children().next().text(data.result.point);
 
 					// 标签
-					for (var i = 0, tagLen = jsonObj.result.tags.split(',').length; i < tagLen; i++) {
+					for (var i = 0, tagLen = data.result.tags.split(',').length; i < tagLen; i++) {
 						var tagList = $.trim($("input[name='tags']").val());
-						var tag = jsonObj.result.tags.split(',')[i];
+						var tag = data.result.tags.split(',')[i];
 
 						if (tag != "") {
 							$(".tagPanel").append("<label class='tagStyle'>" + tag + "<label class='delTag'><a href='javascript:void(0)' onclick='delTag(this)'>X</a></label><label style='display:none'>" + tag + "</label></label>");
@@ -130,21 +129,22 @@ $(function() {
 				url: formDom.attr("action"),
 				data: formDom.serialize(),
 				async: false,
+				dataType : "json",
 				error: function(request) {
 					var txt = "修改个人信息失败！";
 					window.wxc.xcConfirm(txt, "error");
 				},
 				success: function(data) {
-					var jsonObj = eval("(" + data + ")");
-					var txt = jsonObj.result;
-					window.wxc.xcConfirm(txt, "info", {
-						onOk : function() {
-							if (jsonObj.success) {
-								window.location.href = "./index.html";
+					if (data != null) {
+						var txt = data.result;
+						window.wxc.xcConfirm(txt, "info", {
+							onOk : function() {
+								if (data.success) {
+									window.location.href = "./index.html";
+								}
 							}
-						}
-					});
-
+						});
+					}
 				}
 			});
 		} else {

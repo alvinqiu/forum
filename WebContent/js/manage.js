@@ -3,10 +3,10 @@ $(function() {
 	$.ajax({
 		url : "checkLogin.json",
 		async : false,
+		dataType : "json",
 		success : function(data) {
-			var jsonObj = eval("(" + data + ")");
-			if (jsonObj.success) {
-				if (!jsonObj.isAdmin) {
+			if (data.success) {
+				if (!data.isAdmin) {
 					var txt = "您还没有权限访问，请联系管理员！";
 					window.wxc.xcConfirm(txt, "info", {
 						onOk : function() {

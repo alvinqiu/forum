@@ -3,10 +3,10 @@ $(function() {
 	$.ajax({
 		url: "checkLogin.json",
 		async: false,
+		dataType : "json",
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
-			if (jsonObj.success) {
-				if (!jsonObj.isAdmin) {
+			if (data.success) {
+				if (!data.isAdmin) {
 					var txt = "您还没有权限访问，请联系管理员！";
 					window.wxc.xcConfirm(txt, "info", {
 						onOk : function() {
@@ -39,20 +39,18 @@ function getAllPostByHold() {
 	$.ajax({
 		url: "getAllPostByHold.json",
 		async: true,
+		dataType : "json",
 		error: function(request) {
 			var txt = "获取待审核帖子列表失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			if (data != "") {
-				var jsonObj = eval("(" + data + ")");
-
-				for (var i = 0, tagLen = jsonObj.postVOList.length; i < tagLen; i++) {
-
-					var id = jsonObj.postVOList[i].id;
-					var subject = jsonObj.postVOList[i].subject;
-					var submitTime = formatDate(new Date(jsonObj.postVOList[i].submitTime.time));
-					var content = jsonObj.postVOList[i].content;
+			if (data != null) {
+				for (var i = 0, tagLen = data.postVOList.length; i < tagLen; i++) {
+					var id = data.postVOList[i].id;
+					var subject = data.postVOList[i].subject;
+					var submitTime = formatDate(new Date(data.postVOList[i].submitTime.time));
+					var content = data.postVOList[i].content;
 
 					$(".list").append("<div><a href='javascript:void(0);'>#" + id + " 标题：" + subject + " 时间：" + submitTime + "</a><input type='hidden' value='" + content + "' />" +
 						"<input type='button' value='通过' /><input type='hidden' value='" + id + "' />" +
@@ -73,15 +71,15 @@ function getAllPostByHold() {
 						data: {
 							"id": id
 						},
+						dataType : "json",
 						error: function(request) {
 							var txt = "审核帖子失败！";
 							window.wxc.xcConfirm(txt, "error");
 						},
 						success: function(data) {
-							if (data != "") {
-								var jsonObj = eval("(" + data + ")");
+							if (data != null) {
 								var txt;
-								if (jsonObj.success) {
+								if (data.success) {
 									txt = "审核帖子成功！";
 									window.wxc.xcConfirm(txt, "success", {
 										onOk: function(){
@@ -109,5 +107,6 @@ function formatDate(now) {
 	var hour = now.getHours();
 	var minute = now.getMinutes();
 	var second = now.getSeconds();
-	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
+	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":"
+			+ second;
 }

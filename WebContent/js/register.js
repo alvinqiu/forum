@@ -5,13 +5,13 @@ function registerSuccess() {
 		url: "register.json",
 		data: $("form[name='registerForm']").serialize(),
 		async: false,
+		dataType : "json",
 		error: function(request) {
 			var txt = "注册失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
-			var txt = jsonObj.result;
+			var txt = data.result;
 			window.wxc.xcConfirm(txt, "info", {
 				onOk : function() {
 					location.href = "./login.html";

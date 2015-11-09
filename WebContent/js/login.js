@@ -73,17 +73,16 @@ function loginSuccess() {
 		url: "login.json",
 		data: $("form[name='loginForm']").serialize(),
 		async: false,
+		dataType : "json",
 		error: function(request) {
 			var txt = "登录失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
-
-			if (jsonObj.success) {
+			if (data.success) {
 				window.location.href = "./index.html";
 			} else {
-				var txt = jsonObj.result;
+				var txt = data.result;
 				window.wxc.xcConfirm(txt, "info");
 			}
 		}

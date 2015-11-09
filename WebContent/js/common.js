@@ -23,20 +23,20 @@ $(function() {
 		return myDate.toString(myDate);
 	});
 
-	//签到
+	// 签到
 	$("#js-signIn").click(signIn);
 
-	//搜索
+	// 搜索
 	$("#js_search_btn").click(search);
 
-	//绑定搜索框
+	// 绑定搜索框
 	$("#js_search_content").bind('keydown', function(event) {
 		if (event.keyCode == 13) {
 			$("#js_search_btn").trigger("click");
 		}
 	});
 
-	//弹出框
+	// 弹出框
 	window.wxc = window.wxc || {};
 	window.wxc.xcConfirm = function(popHtml, type, options) {
 		var btnType = window.wxc.xcConfirm.btnEnum;
@@ -243,15 +243,15 @@ $(function() {
 	$.ajax({
 		url: "checkLogin.json",
 		async: true,
+		dataType : "json",
 		error: function() {
 			var txt = "请重新登录！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
 			$("#js-checkLogin ul").empty();
-			if (jsonObj.success) {
-				$("#js-checkLogin ul").append("<li><a id='username'>" + jsonObj.name + "</a>" +
+			if (data.success) {
+				$("#js-checkLogin ul").append("<li><a id='username'>" + data.name + "</a>" +
 					"<div class='panel_top_content_menu'>" +
 					"<p><a href='./editPreview.html'>我的信息</a></p>" +
 					"<p><a href='./myPost.html?page=1'>我的帖子</a></p>" +
@@ -262,11 +262,11 @@ $(function() {
 				$("#js-checkLogin ul").append("<li><a href='login.html'>登录</a></li><li> | </li><li><a href='register.html'>注册</a></li>");
 			}
 
-			if (jsonObj.isAdmin) {
+			if (data.isAdmin) {
 				$("#js-manage").show();
 			}
 
-			if (jsonObj.isSignIn) {
+			if (data.isSignIn) {
 				$("#signin_status").text("已签到");
 			} else {
 				$("#signin_status").text("签 到");
@@ -296,14 +296,14 @@ function loginOut() {
 	$.ajax({
 		url: "loginOut.json",
 		type: "post",
+		dataType : "json",
 		cache: false,
 		error: function() {
 			var txt = "退出失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
-			if (jsonObj) {
+			if (data) {
 				location.reload();
 			}
 		}
@@ -314,19 +314,19 @@ function loginOut() {
 function signIn() {
 	$.ajax({
 		url: "signIn.json",
+		dataType : "json",
 		error: function() {
 			var txt = "签到失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			if (data != "") {
-				var jsonObj = eval("(" + data + ")");
-				if (typeof(jsonObj.result) != "undefined") {
-					var txt = jsonObj.result;
+			if (data != null) {
+				if (typeof(data.result) != "undefined") {
+					var txt = data.result;
 					window.wxc.xcConfirm(txt, "info");
 				}
 
-				if (jsonObj.success) {
+				if (data.success) {
 					$("#signin_status").text("已签到");
 				}
 			}

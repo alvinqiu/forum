@@ -27,14 +27,14 @@ $(function() {
 	$.ajax({
 		url: "checkLogin.json",
 		async: true,
+		dataType : "json",
 		error: function() {
 			var txt = "获取类型失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
-			if (jsonObj.success) {
-				if (jsonObj.isAdmin) {
+			if (data.success) {
+				if (data.isAdmin) {
 					$(".type select").append("<option value='1'>公告</option>");
 				}
 				$(".type select").append("<option value='2' selected='selected'>普通帖</option>");
@@ -46,17 +46,16 @@ $(function() {
 	$.ajax({
 		url: "getAllModule.json",
 		async: true,
+		dataType : "json",
 		error: function() {
 			var txt = "获取版块失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
+			for (var i = 0, tagLen = data.moduleVOList.length; i < tagLen; i++) {
 
-			for (var i = 0, tagLen = jsonObj.moduleVOList.length; i < tagLen; i++) {
-
-				var id = jsonObj.moduleVOList[i].id;
-				var name = jsonObj.moduleVOList[i].name;
+				var id = data.moduleVOList[i].id;
+				var name = data.moduleVOList[i].name;
 
 				$(".module select").append("<option value='" + id + "'>" + name + "</option>");
 			}
@@ -117,6 +116,7 @@ function addPost() {
 	$.ajax({
 		type: "post",
 		url: "addPost.json",
+		dataType : "json",
 		data: formDom.serialize(),
 		async: true,
 		error: function(request) {
@@ -124,13 +124,11 @@ function addPost() {
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			if (data != "") {
-				var jsonObj = eval("(" + data + ")");
-
-				var txt = jsonObj.result;
+			if (data != null) {
+				var txt = data.result;
 				window.wxc.xcConfirm(txt, "success", {
 					onOk: function() {
-						if (jsonObj.success) {
+						if (data.success) {
 							window.location.href = "./index.html";
 						}
 					}

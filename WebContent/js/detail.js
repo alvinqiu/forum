@@ -24,20 +24,20 @@ $(function() {
 			"id": id
 		},
 		async: true,
+		dataType : "json",
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
 			var obj = $(".panel_left_main");
 			var id, subject, submitTime, content, groupId, name, commentCount, praise;
 
-			id = jsonObj.PostVO.id;
-			subject = jsonObj.PostVO.subject;
-			submitTime = formatDate(new Date(jsonObj.PostVO.submitTime.time));
-			content = jsonObj.PostVO.content;
-			groupId = jsonObj.GroupId;
-			name = jsonObj.PostVO.name; // 昵称
-			commentCount = jsonObj.PostVO.commentCount; // 回复数
-			praise = jsonObj.PostVO.praise; // 点赞数
-			checkPraise = jsonObj.PostVO.checkPraise; // 是否已点赞
+			id = data.PostVO.id;
+			subject = data.PostVO.subject;
+			submitTime = formatDate(new Date(data.PostVO.submitTime.time));
+			content = data.PostVO.content;
+			groupId = data.GroupId;
+			name = data.PostVO.name; // 昵称
+			commentCount = data.PostVO.commentCount; // 回复数
+			praise = data.PostVO.praise; // 点赞数
+			checkPraise = data.PostVO.checkPraise; // 是否已点赞
 
 			obj.append("<div class='subject'>" + subject + "</div>");
 			obj.append("<div class='name'>" + name + "</div>");
@@ -69,19 +69,19 @@ $(function() {
 		data: {
 			"id": id
 		},
+		dataType : "json",
 		async: false,
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
 			var id, subject, submitTime, content, parentContentSummary, name, floor;
 
-			for (var i = 0, tagLen = jsonObj.postVOList.length; i < tagLen; i++) {
+			for (var i = 0, tagLen = data.postVOList.length; i < tagLen; i++) {
 
-				id = jsonObj.postVOList[i].id;
-				subject = jsonObj.postVOList[i].subject;
-				submitTime = formatDate(new Date(jsonObj.postVOList[i].submitTime.time));
-				content = jsonObj.postVOList[i].content;
-				parentContentSummary = jsonObj.postVOList[i].parentContentSummary;
-				name = jsonObj.postVOList[i].name;
+				id = data.postVOList[i].id;
+				subject = data.postVOList[i].subject;
+				submitTime = formatDate(new Date(data.postVOList[i].submitTime.time));
+				content = data.postVOList[i].content;
+				parentContentSummary = data.postVOList[i].parentContentSummary;
+				name = data.postVOList[i].name;
 
 				//评论楼层
 				floor = ((i + 1) == 1) ? "沙发" : "" + (i + 1) + "楼";
@@ -106,15 +106,15 @@ function del(id) {
 		data: {
 			"Id": id
 		},
+		dataType : "json",
 		error: function() {
 			var txt = "删除失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			if (data != "") {
-				var jsonObj = eval("(" + data + ")");
+			if (data != null) {
 				var txt;
-				if (jsonObj.success) {
+				if (data.success) {
 					txt = "删除成功！";
 					window.wxc.xcConfirm(txt, "success", {
 						onOk: function() {
@@ -142,14 +142,14 @@ function praise(id) {
 		data: {
 			"Id": id
 		},
+		dataType : "json",
 		error: function() {
 			var txt = "点赞失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			if (data != "") {
-				var jsonObj = eval("(" + data + ")");
-				if (jsonObj.success) {
+			if (data != null) {
+				if (data.success) {
 					var count = $(".praise label").text();
 					$(".praise label").text(parseInt(count) + 1);
 					$(".praise").attr("class", "praiseAnother").removeAttr("onclick");
@@ -209,12 +209,12 @@ function addComment(comments) {
 			"content": comments,
 			"id": id
 		},
+		dataType : "json",
 		async: false,
 		success: function(data, XHR, TS) {
-			if (data != "") {
-				var jsonObj = eval("(" + data + ")");
+			if (data != null) {
 				var txt;
-				if (jsonObj.success) {
+				if (data.success) {
 					txt = "评论成功！";
 					window.wxc.xcConfirm(txt, "success", {
 						onOk: function() {

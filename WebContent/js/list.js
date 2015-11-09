@@ -12,6 +12,7 @@ $(function() {
 			"page": page,
 			"moduleId": moduleId
 		},
+		dataType : "json",
 		async: true,
 		success: function(data) {
 
@@ -19,10 +20,8 @@ $(function() {
 			$(".panel_left_top").empty();
 			$(".panel_left_common").empty();
 
-			var jsonObj = eval("(" + data + ")");
-
-			var groupId = jsonObj.GroupId;
-			var total = jsonObj.Total;
+			var groupId = data.GroupId;
+			var total = data.Total;
 			var url = getUrl();
 
 			if (total != 0) {
@@ -41,15 +40,15 @@ $(function() {
 				}
 
 
-				for (var i = 0, tagLen = jsonObj.postList.length; i < tagLen; i++) {
+				for (var i = 0, tagLen = data.postList.length; i < tagLen; i++) {
 
-					var id = jsonObj.postList[i].id;
-					var subject = jsonObj.postList[i].subject;
-					var submitTime = formatDate(new Date(jsonObj.postList[i].submitTime.time));
-					var name = jsonObj.postList[i].name;
-					var commentCount = jsonObj.postList[i].commentCount;
-					var highLight = jsonObj.postList[i].highLight;
-					var top = jsonObj.postList[i].top;
+					var id = data.postList[i].id;
+					var subject = data.postList[i].subject;
+					var submitTime = formatDate(new Date(data.postList[i].submitTime.time));
+					var name = data.postList[i].name;
+					var commentCount = data.postList[i].commentCount;
+					var highLight = data.postList[i].highLight;
+					var top = data.postList[i].top;
 
 					if (top != 0) {
 						if (highLight != 0) {
@@ -120,23 +119,25 @@ function setHighLight(id) {
 		data: {
 			"Id": id
 		},
+		dataType : "json",
 		error: function() {
 			var txt = "设置高亮失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
-			var txt;
-			if (jsonObj.success) {
-				txt = "设置高亮成功！";
-				window.wxc.xcConfirm(txt, "success", {
-					onOk : function() {
-						location.reload();
-					}
-				});
-			} else {
-				txt = "设置高亮失败！";
-				window.wxc.xcConfirm(txt, "info");
+			if (data != null) {
+				var txt;
+				if (data.success) {
+					txt = "设置高亮成功！";
+					window.wxc.xcConfirm(txt, "success", {
+						onOk : function() {
+							location.reload();
+						}
+					});
+				} else {
+					txt = "设置高亮失败！";
+					window.wxc.xcConfirm(txt, "info");
+				}
 			}
 		}
 	});
@@ -149,24 +150,26 @@ function setTop(id) {
 		data: {
 			"Id": id
 		},
+		dataType : "json",
 		error: function() {
 			var txt = "设置置顶失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
-			var txt;
-			if (jsonObj.success) {
+			if (data != null) {
+				var txt;
+				if (data.success) {
 
-				txt = "设置置顶成功！";
-				window.wxc.xcConfirm(txt, "success", {
-					onOk : function() {
-						location.reload();
-					}
-				});
-			} else {
-				txt = "设置置顶失败！";
-				window.wxc.xcConfirm(txt, "info");
+					txt = "设置置顶成功！";
+					window.wxc.xcConfirm(txt, "success", {
+						onOk : function() {
+							location.reload();
+						}
+					});
+				} else {
+					txt = "设置置顶失败！";
+					window.wxc.xcConfirm(txt, "info");
+				}
 			}
 		}
 	});
@@ -179,23 +182,25 @@ function del(id) {
 		data: {
 			"Id": id
 		},
+		dataType : "json",
 		error: function() {
 			var txt = "删除失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
-			var txt;
-			if (jsonObj.success) {
-				txt = "删除成功！";
-				window.wxc.xcConfirm(txt, "success", {
-					onOk : function() {
-						location.reload();
-					}
-				});
-			} else {
-				txt = "删除失败！";
-				window.wxc.xcConfirm(txt, "info");
+			if (data != null) {
+				var txt;
+				if (data.success) {
+					txt = "删除成功！";
+					window.wxc.xcConfirm(txt, "success", {
+						onOk : function() {
+							location.reload();
+						}
+					});
+				} else {
+					txt = "删除失败！";
+					window.wxc.xcConfirm(txt, "info");
+				}
 			}
 		}
 	});

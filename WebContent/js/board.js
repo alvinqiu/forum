@@ -3,17 +3,17 @@ $(function() {
 	$.ajax({
 		url: "getAllModule.json",
 		async: true,
+		dataType : "json",
 		error: function() {
 			var txt = "获取版块失败！";
 			window.wxc.xcConfirm(txt, "error");
 		},
 		success: function(data) {
-			var jsonObj = eval("(" + data + ")");
-			var tagLen = jsonObj.moduleVOList.length;
+			var tagLen = data.moduleVOList.length;
 			for (var i = 0; i < tagLen; i++) {
-				var id = jsonObj.moduleVOList[i].id;
-				var name = jsonObj.moduleVOList[i].name;
-				var desc = jsonObj.moduleVOList[i].desc;
+				var id = data.moduleVOList[i].id;
+				var name = data.moduleVOList[i].name;
+				var desc = data.moduleVOList[i].desc;
 
 				$(".panel_detail_content").append("<div class='item'><a href='./list.html?moduleId=" + id + "&page=1'>" +
 					"<div class='img'></div>" +
