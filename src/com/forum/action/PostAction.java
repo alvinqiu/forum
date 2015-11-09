@@ -51,7 +51,7 @@ public class PostAction {
 
 	private long BudgetPoint = 50;// 发帖积分标准，小于则需审核帖子；大于或等于则无需审核帖子
 	
-	private String DefaultImgSrc = "src=\"./img/testImg.jpg\"";// 首页默认预览图
+	private String DefaultImgSrc = "src=\"./img/default.png\"";// 首页默认预览图
 
 	/*
 	 * 添加帖子
