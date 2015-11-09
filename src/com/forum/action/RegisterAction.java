@@ -71,10 +71,13 @@ public class RegisterAction {
 			expandInfoBiz.addExpandInfo(expandInfoVO);
 				
 			json.put("result", "注册成功，系统会发送一封邮件至您的邮箱，请查阅邮件并点击内容中链接进行激活！");
+			json.put("success", true);
 		} else if (code.equals("100")) {
 			json.put("result", "此邮箱地址已被注册！");
+			json.put("success", false);
 		} else {
 			json.put("result", "注册失败，请联系管理员！");
+			json.put("success", false);
 		}
 
 		return json.toString();

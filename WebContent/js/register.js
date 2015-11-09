@@ -1,39 +1,33 @@
-// 验证成功  注册
-function registerSuccess() {
-	$.ajax({
-		type: "Get",
-		url: "register.json",
-		data: $("form[name='registerForm']").serialize(),
-		async: false,
-		dataType : "json",
-		error: function(request) {
-			var txt = "注册失败！";
-			window.wxc.xcConfirm(txt, "error");
-		},
-		success: function(data) {
-			var txt = data.result;
-			window.wxc.xcConfirm(txt, "info", {
-				onOk : function() {
-					location.href = "./login.html";
-				}
-			});
+$(function() {
+	$("body").bind('keydown', function(event) {
+		if (event.keyCode == 13) {
+			$("#js-submit").trigger("click");
 		}
 	});
-}
+});
 
-//按钮触发  进行简单验证
-$("#js-submit").click(function() {
+// 验证
+function checkRegister() {
 	var flag = true;
 	// 验证是否为空
-	$("form :input").each(function(i) {
-		if ($.trim($(this).val()) == "") {
-			var txt = "表单不能为空！";
-			window.wxc.xcConfirm(txt, "info");
-			$(this).focus();
+	$("form input[type='text'],input[type='password']").each(function(i) {
+		var _this = $(this);
+		if ($.trim(_this.val()) == "") {
+			var txt;
+			if (_this.attr("type") == "text") {
+				txt = "请输入邮箱地址！";
+			} else {
+				txt = "请输入密码！";
+			}
+			window.wxc.xcConfirm(txt, "info", {
+				onOk: function() {
+					_this.focus();
+				}
+			});
 			flag = false;
+			
 			return false;
 		}
-
 	});
 
 	if (flag) {
@@ -46,20 +40,51 @@ $("#js-submit").click(function() {
 			var pass = $.trim($("#js-password").val());
 			var passConfirm = $.trim($("#js-password_confirm").val());
 			if (pass == passConfirm) {
-				// 注册成功
+				//  验证成功
 				registerSuccess();
+				return true;
 			} else {
 				var txt = "密码不一致！";
-				window.wxc.xcConfirm(txt, "info");
-
-				$("#js-password_confirm").focus();
+				window.wxc.xcConfirm(txt, "info", {
+					onOk: function() {
+						$("#js-password_confirm").focus();
+					}
+				});
+				return false;
 			}
-
 		} else {
 			var txt = "邮箱格式不正确！";
-			window.wxc.xcConfirm(txt, "info");
-			$("#js-mail").focus();
+			window.wxc.xcConfirm(txt, "info", {
+				onOk: function() {
+					$("#js-mail").focus();
+				}
+			});
+			return false;
 		}
 	}
-	return false;
-});
+}
+
+// 验证成功  注册
+function registerSuccess() {
+	$.ajax({
+		type: "Get",
+		url: "register.json",
+		data: $("form[name='registerForm']").serialize(),
+		async: false,
+		dataType: "json",
+		error: function(request) {
+			var txt = "注册失败！";
+			window.wxc.xcConfirm(txt, "error");
+		},
+		success: function(data) {
+			var txt = data.result;
+			window.wxc.xcConfirm(txt, "info", {
+				onOk: function() {
+					if(data.success){
+						location.href = "./login.html";
+					}
+				}
+			});
+		}
+	});
+}
