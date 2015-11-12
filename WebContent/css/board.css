@@ -3,7 +3,6 @@
 	width: 1200px;
 	margin: 0 auto;
 	padding: 10px;
-	min-height: 500px;
 }
 
 .panel_detail_content {
@@ -12,11 +11,12 @@
 
 .panel_detail_content .item {
 	width: 400px;
-	height: 200px;
+	min-height: 200px;
 	display: inline-block;
 	margin: 10px 0;
 	background-color: #FEFEFE;
 	float: left;
+	display: inline-block;
 }
 
 .panel_detail_content .item .img {
@@ -36,6 +36,6 @@
 
 .panel_detail_content .item .desc {
 	width: 100px;
-	margin: 0 auto;
+	margin: 0 auto 20px auto;
 	text-align: center;
 }
