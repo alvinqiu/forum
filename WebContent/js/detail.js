@@ -213,9 +213,8 @@ function addComment(comments) {
 		async: false,
 		success: function(data, XHR, TS) {
 			if (data != null) {
-				var txt;
+				var txt = data.Msg;
 				if (data.success) {
-					txt = "评论成功！";
 					window.wxc.xcConfirm(txt, "success", {
 						onOk: function() {
 							location.reload()
@@ -225,7 +224,6 @@ function addComment(comments) {
 						}
 					});
 				} else {
-					txt = "评论失败！";
 					window.wxc.xcConfirm(txt, "info");
 				}
 			}

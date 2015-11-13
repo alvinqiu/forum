@@ -35,9 +35,14 @@ $(function() {
 		success: function(data) {
 			if (data.success) {
 				if (data.isAdmin) {
-					$(".type select").append("<option value='1'>公告</option>");
+					var node = "<div class='type'>" +
+							"<label>类型：</label>" +
+							"<label><select name='type'>" +
+							"<option value='1'>公告</option>" +
+							"<option value='2' selected='selected'>普通帖</option>" +
+							"</select></label></div>";
+					$(node).insertBefore($(".content"));
 				}
-				$(".type select").append("<option value='2' selected='selected'>普通帖</option>");
 			}
 		}
 	});

@@ -20,11 +20,16 @@ $(function() {
 					"<div class='name'>" + name + "</div>" +
 					"<div class='desc'>" + desc + "</div>" +
 					"</a></div>");
+				
+				if ((i - 2) % 3 == 0) {
+					$(".panel_detail_content").append("<div class='clearBoth'></div>");
+				}
 			}
 			if (tagLen % 3 != 0) {
 				for (var j = 0; j < (3 - (tagLen % 3)); j++) {
 					$(".panel_detail_content").append("<div class='item'></div>");
 				}
+				$(".panel_detail_content").append("<div class='clearBoth'></div>");
 			}
 		}
 	});

@@ -74,7 +74,7 @@ public class PostAction {
 				if(expandInfoVOList.get(0).getPoint() >= BudgetPoint){
 					postVO.setType(Constants.PostType.common.getValue());// 设置为已审核状态
 				}else{
-					postVO.setType(Constants.PostType.authstr.getValue());// 设置为待审核状态					
+					postVO.setType(Constants.PostType.authstr.getValue());// 设置为待审核状态	
 				}
 				name = expandInfoVOList.get(0).getNickName();
 			} else {
@@ -97,9 +97,9 @@ public class PostAction {
 				json.put("success", true);
 
 				if (postVO.getType() == Constants.PostType.common.getValue()) {
-					json.put("result", "发布成功！");
+					json.put("result", "发布成功,您获得了 " + AddPostPoint + " 积分奖励！");
 				} else {
-					json.put("result", "帖子提交成功,待管理员审核！");
+					json.put("result", "帖子提交成功,您获得了 " + AddPostPoint + " 积分奖励,待管理员审核！");
 
 					// 发送提醒邮件给管理员
 					postBiz.sendMsgMail(postVO);
@@ -394,16 +394,19 @@ public class PostAction {
 			postVOClone.setSubmitTime(timestamp);
 
 			Integer result = postBiz.addPost(postVOClone);
-
+			String msg = ""; 
 			if (result > 0) {
 
 				// 获得评论积分
 				expandInfoBiz.addPoint(AddCommentPoint, userVO.getId());
 
+				msg = "评论成功,您获得了 " + AddCommentPoint + " 积分奖励！";
 				json.put("success", true);
 			} else {
+				msg = "评论失败！";
 				json.put("success", false);
 			}
+			json.put("Msg", msg);
 		}
 
 		return json.toString();
