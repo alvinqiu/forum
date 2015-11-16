@@ -44,6 +44,9 @@ $(function() {
 						var subject = data.postList[i].subject;
 						var submitTime = formatDate(new Date(data.postList[i].submitTime.time));
 						var name = data.postList[i].name;
+						if (name.length > 8) {
+							name = "<label title='" + name + "'>" + name.substring(0, 8) + "...</label>";
+						}
 						var commentCount = data.postList[i].commentCount;
 						var moduleName = data.postList[i].moduleName;
 

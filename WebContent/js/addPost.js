@@ -42,6 +42,29 @@ $(function() {
 							"<option value='2' selected='selected'>普通帖</option>" +
 							"</select></label></div>";
 					$(node).insertBefore($(".content"));
+					
+					node = "<div class='highLight'>" +
+								"<label>高亮：</label>" +
+								"<label>" +
+									"<input type='checkbox' />" +
+									"<input type='hidden' name='highLight' value='0' />" +
+								"</label>" +
+							"</div>" +
+							"<div class='top'>" +
+								"<label>置顶：</label>" +
+								"<label>" +
+									"<input type='checkbox' />" +
+									"<input type='hidden' name='top' value='0' />" +
+								"</label>" +
+							"</div>" +
+							"<div class='attach'>" +
+								"<label>附件：</label>" +
+								"<label>" +
+									"<input type='file' name='attach' />" +
+								"</label>" +
+							"</div>";
+					
+					$(node).insertBefore($(".submitPost"));
 				}
 			}
 		}

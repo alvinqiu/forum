@@ -595,23 +595,20 @@ public class PostAction {
 
 				List<ExpandInfoVO> expandInfoVOList;
 				String postContent = "";
+				String name = "";
 				if (postVOList.size() > 0) {
 					for (PostVO postVO : postVOList) {
 						// 昵称
-						expandInfoVOList = expandInfoBiz
-								.selExpandInfoByUserId(postVO.getUserId());
+						expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 						if (expandInfoVOList.size() > 0) {
-							postVO.setName(expandInfoVOList.get(0)
-									.getNickName());
+							name = expandInfoVOList.get(0).getNickName();
 						} else {
-							userVO = userBiz.selectUserById(postVO.getUserId(),
-									"");
-							postVO.setName(userVO.getMail());
+							name = userBiz.selectUserById(postVO.getUserId(), "").getMail();
 						}
+						postVO.setName(name);
 
 						// 回复数
-						postVO.setCommentCount(postBiz.getCommentByPostId(
-								postVO.getId()).size());
+						postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
 
 						// 截取帖子内容一部分
 						postContent = postVO.getContent();
@@ -622,8 +619,7 @@ public class PostAction {
 
 						// 所属版块
 						String moduleName = "";
-						ModuleVO m = moduleBiz.selectModuleById(postVO
-								.getModuleId());
+						ModuleVO m = moduleBiz.selectModuleById(postVO.getModuleId());
 						if (m != null) {
 							moduleName = m.getName();
 						} else {
