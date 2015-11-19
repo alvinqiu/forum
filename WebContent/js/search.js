@@ -42,7 +42,7 @@ $(function() {
 
 						var id = data.postList[i].id;
 						var subject = data.postList[i].subject;
-						var submitTime = formatDate(new Date(data.postList[i].submitTime.time));
+						var formatTime = data.postList[i].formatTime;
 						var name = data.postList[i].name;
 						if (name.length > 8) {
 							name = "<label title='" + name + "'>" + name.substring(0, 8) + "...</label>";
@@ -54,7 +54,7 @@ $(function() {
 							"<label class='subject'>" + subject + "</label></a>" +
 							"<label class='module'>" + moduleName + "</label>" +
 							"<label class='author'>" + name + "</label>" +
-							"<label class='time'>" + submitTime + "</label>" +
+							"<label class='time'>" + formatTime + "</label>" +
 							"<label class='comments'>" + commentCount + "</label></div>");
 					}
 
@@ -66,17 +66,6 @@ $(function() {
 	});
 
 });
-
-function formatDate(now) {
-	var year = now.getFullYear();
-	var month = now.getMonth() + 1;
-	var date = now.getDate();
-	var hour = now.getHours();
-	var minute = now.getMinutes();
-	var second = now.getSeconds();
-	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":"
-			+ second;
-}
 
 // 获取完整url（除参数外）
 function getUrl() {

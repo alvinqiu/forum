@@ -43,11 +43,11 @@ $(function() {
 						var content = "我的回复： " + data.postList[i].content; //回复摘要
 						var parentContentSummary = data.postList[i].parentContentSummary; //帖子摘要
 						var subject = data.postList[i].subject; //帖子标题
-						var submitTime = formatDate(new Date(data.postList[i].submitTime.time)); //回复时间
+						var formatTime = data.postList[i].formatTime; //回复时间
 
 						$(".panel_left_top").append("<div><a href='./detail.html?id=" + parentId + "#" + id + "anchor'>" +
 							"<div class='subject'>" + subject + "</div>" +
-							"<div class='submitTime'>" + submitTime + "</div>" +
+							"<div class='submitTime'>" + formatTime + "</div>" +
 							"<div class='parentContentSummary'>\"" + parentContentSummary + "...\"</div>" +
 							"<div class='content'>" + content + "</div></a></div>");
 					}
@@ -60,17 +60,6 @@ $(function() {
 	});
 
 });
-
-function formatDate(now) {
-	var year = now.getFullYear();
-	var month = now.getMonth() + 1;
-	var date = now.getDate();
-	var hour = now.getHours();
-	var minute = now.getMinutes();
-	var second = now.getSeconds();
-	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":"
-			+ second;
-}
 
 // 获取完整url（除参数外）
 function getUrl() {

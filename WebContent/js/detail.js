@@ -27,11 +27,11 @@ $(function() {
 		dataType : "json",
 		success: function(data) {
 			var obj = $(".panel_left_main");
-			var id, subject, submitTime, content, groupId, name, commentCount, praise;
+			var id, subject, formatTime, content, groupId, name, commentCount, praise;
 
 			id = data.PostVO.id;
 			subject = data.PostVO.subject;
-			submitTime = formatDate(new Date(data.PostVO.submitTime.time));
+			formatTime = data.PostVO.formatTime;
 			content = data.PostVO.content;
 			groupId = data.GroupId;
 			name = data.PostVO.name; // 昵称
@@ -41,7 +41,7 @@ $(function() {
 
 			obj.append("<div class='subject'>" + subject + "</div>");
 			obj.append("<div class='name'>" + name + "</div>");
-			obj.append("<div class='submitTime'>" + submitTime + "</div>");
+			obj.append("<div class='submitTime'>" + formatTime + "</div>");
 			if (commentCount != 0) {
 				obj.append("<div class='commentCount'><label>" + commentCount + "</label></div>");
 			}
@@ -72,13 +72,13 @@ $(function() {
 		dataType : "json",
 		async: false,
 		success: function(data) {
-			var id, subject, submitTime, content, parentContentSummary, name, floor;
+			var id, subject, formatTime, content, parentContentSummary, name, floor;
 
 			for (var i = 0, tagLen = data.postVOList.length; i < tagLen; i++) {
 
 				id = data.postVOList[i].id;
 				subject = data.postVOList[i].subject;
-				submitTime = formatDate(new Date(data.postVOList[i].submitTime.time));
+				formatTime = data.postVOList[i].formatTime;
 				content = data.postVOList[i].content;
 				parentContentSummary = data.postVOList[i].parentContentSummary;
 				name = data.postVOList[i].name;
@@ -88,9 +88,9 @@ $(function() {
 
 				$(".panel_left_comment").append("<div id='" + id + "anchor' name='" + id + "anchor'>" +
 					"<div class='commentName'>" + name + "</div>" +
-					"<div class='commentSubmitTime'>" + submitTime + "</div>" +
+					"<div class='commentSubmitTime'>" + formatTime + "</div>" +
 					"<div class='commentFloor'>" + floor + "</div>" +
-					"<div class='commentSummary'>\"" + parentContentSummary + "...\"</div>" +
+					//"<div class='commentSummary'>\"" + parentContentSummary + "...\"</div>" +
 					"<div class='commentContent'>" + content + "</div>" +
 					"</div>");
 			}
@@ -170,18 +170,32 @@ function getUrlParam(name) {
 	return null; //返回参数值
 }
 
-function formatDate(now) {
-	var year = now.getFullYear();
-	var month = now.getMonth() + 1;
-	var date = now.getDate();
-	var hour = now.getHours();
-	var minute = now.getMinutes();
-	var second = now.getSeconds();
-	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
+//查询是否登录
+function checkLogin() {
+	$.ajax({
+		async : false,
+		url : "checkLogin.json",
+		dataType:"json",
+		success:function(data){
+			if(data.success){
+				checkComment();
+			}else{
+				var txt = "请先登录,确定要跳转至登录页吗？";
+				window.wxc.xcConfirm(txt, "confirm", {
+					onOk : function() {
+						window.location.replace("./login.html");
+					}
+				});
+				gt_captcha_obj.disable();
+				return false;
+			}
+		}
+	});
 }
 
+
 //check评论是否为空
-function checkComment() {
+function checkComment(){
 	var comments = $.trim(UE.getEditor('editor').getContentTxt());
 
 	if (comments != "") {

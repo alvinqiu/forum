@@ -41,7 +41,7 @@ $(function() {
 
 						var id = data.postList[i].id;
 						var subject = data.postList[i].subject;
-						var submitTime = formatDate(new Date(data.postList[i].submitTime.time));
+						var formatTime = data.postList[i].formatTime;
 						var name = data.postList[i].name;
 						var commentCount = data.postList[i].commentCount;
 						var type = data.postList[i].type;
@@ -65,17 +65,6 @@ $(function() {
 	});
 
 });
-
-function formatDate(now) {
-	var year = now.getFullYear();
-	var month = now.getMonth() + 1;
-	var date = now.getDate();
-	var hour = now.getHours();
-	var minute = now.getMinutes();
-	var second = now.getSeconds();
-	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":"
-			+ second;
-}
 
 // 获取完整url（除参数外）
 function getUrl() {

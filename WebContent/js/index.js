@@ -110,7 +110,7 @@ $(function() {
 
 				var id = data.postList[i].id;
 				var subject = data.postList[i].subject;
-				var submitTime = formatDate(new Date(data.postList[i].submitTime.time));
+				var formatTime = data.postList[i].formatTime;
 				var name = data.postList[i].name; //昵称
 				var commentCount = data.postList[i].commentCount; //回复数
 				var content = data.postList[i].content; //摘要
@@ -119,13 +119,13 @@ $(function() {
 				if (commentCount != 0) {
 					$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img " + imgStr + " onload='AutoResizeImage(300,200,this)' /></div>" +
 						"<div class='dRight'>" +
-						"<a href='./detail.html?id=" + id + "'><div class='postTitle'>" + subject + "</div></a><div class='postTime'>" + submitTime + "</div>" +
+						"<a href='./detail.html?id=" + id + "'><div class='postTitle'>" + subject + "</div></a><div class='postTime'>" + formatTime + "</div>" +
 						"<div class='postNickName'>" + name + "</div><div class='postCommentCount'><label>" + commentCount + "<label></div><div class='postContent'>" + content + "</div>" +
 						"</div></div>");
 				} else {
 					$(".panel_left_list").append("<div class='postDetail'><div class='dLeft'><img " + imgStr + " onload='AutoResizeImage(300,200,this)' /></div>" +
 						"<div class='dRight'>" +
-						"<a href='./detail.html?id=" + id + "'><div class='postTitle'>" + subject + "</div></a><div class='postTime'>" + submitTime + "</div>" +
+						"<a href='./detail.html?id=" + id + "'><div class='postTitle'>" + subject + "</div></a><div class='postTime'>" + formatTime + "</div>" +
 						"<div class='postNickName'>" + name + "</div><div class='postContent'>" + content + "</div>" +
 						"</div></div>");
 				}
@@ -156,16 +156,6 @@ $(function() {
 	});
 
 });
-
-function formatDate(now) {
-	var year = now.getFullYear();
-	var month = now.getMonth() + 1;
-	var date = now.getDate();
-	var hour = now.getHours();
-	var minute = now.getMinutes();
-	var second = now.getSeconds();
-	return year + "-" + month + "-" + date + "   " + hour + ":" + minute + ":" + second;
-}
 
 function AutoResizeImage(maxWidth, maxHeight, objImg) {
 	var img = new Image();

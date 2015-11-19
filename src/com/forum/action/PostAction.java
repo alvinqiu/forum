@@ -1,6 +1,7 @@
 package com.forum.action;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -52,6 +53,8 @@ public class PostAction {
 	private long BudgetPoint = 50;// 发帖积分标准，小于则需审核帖子；大于或等于则无需审核帖子
 	
 	private String DefaultImgSrc = "src=\"./img/default.png\"";// 首页默认预览图
+	
+	private String TimeFormat = "yyyy-MM-dd HH:mm:ss";// 日期格式
 
 	/*
 	 * 添加帖子
@@ -159,6 +162,8 @@ public class PostAction {
 
 			List<ExpandInfoVO> expandInfoVOList;
 			String postContent = "";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TimeFormat);
+			
 			if (postVOList.size() > 0) {
 				for (PostVO postVO : postVOList) {
 					// 昵称
@@ -188,6 +193,9 @@ public class PostAction {
 						postContent = postContent.substring(0, 100);
 					}
 					postVO.setContent(postContent);
+					
+					// 设置时间格式
+					postVO.setFormatTime(simpleDateFormat.format(postVO.getSubmitTime()));
 				}
 
 				json.put("postList", postVOList);
@@ -207,7 +215,6 @@ public class PostAction {
 		JSONObject json = new JSONObject();
 		List<ExpandInfoVO> expandInfoVOList;
 		if (id > 0) {
-
 			HttpSession session = request.getSession();
 			UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
 			PostVO postVO = postBiz.getPostById(id);
@@ -236,7 +243,10 @@ public class PostAction {
 			}
 			postVO.setName(name != "" ? name : userBiz.selectUserById(postVO.getUserId(), "").getMail());
 			
-
+			// 设置时间格式
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TimeFormat);
+			postVO.setFormatTime(simpleDateFormat.format(postVO.getSubmitTime()));
+			
 			json.put("PostVO", postVO);
 		}
 
@@ -261,8 +271,7 @@ public class PostAction {
 			long end = page * PageCount;
 
 			if (userVO != null) {
-				postVOList = postBiz
-						.getPostByUserId(userVO.getId(), start, end);
+				postVOList = postBiz.getPostByUserId(userVO.getId(), start, end);
 
 				int total = postBiz.getPostByUserId(userVO.getId()).size();
 				total = (int) Math.ceil((double) total / PageCount);
@@ -271,11 +280,12 @@ public class PostAction {
 
 			List<ExpandInfoVO> expandInfoVOList;
 			String postContent = "";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TimeFormat);
+			
 			if (postVOList.size() > 0) {
 				for (PostVO postVO : postVOList) {
 					// 昵称
-					expandInfoVOList = expandInfoBiz
-							.selExpandInfoByUserId(postVO.getUserId());
+					expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 					if (expandInfoVOList.size() > 0) {
 						postVO.setName(expandInfoVOList.get(0).getNickName());
 					} else {
@@ -284,16 +294,17 @@ public class PostAction {
 					}
 
 					// 回复数
-					postVO.setCommentCount(postBiz.getCommentByPostId(
-							postVO.getId()).size());
+					postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
 
 					// 截取帖子内容一部分
 					postContent = postVO.getContent();
 					if (postContent.length() >= 100) {
 						postContent = postContent.substring(0, 100);
 					}
-
 					postVO.setContent(postContent);
+					
+					// 设置时间格式
+					postVO.setFormatTime(simpleDateFormat.format(postVO.getSubmitTime()));
 				}
 
 				json.put("postList", postVOList);
@@ -308,8 +319,7 @@ public class PostAction {
 	 */
 	@RequestMapping("/getMyReply.json")
 	@ResponseBody
-	public String getMyReply(HttpServletRequest request,
-			@Param("page") long page) {
+	public String getMyReply(HttpServletRequest request, @Param("page") long page) {
 		JSONObject json = new JSONObject();
 		List<PostVO> postVOList = null;
 		HttpSession session = request.getSession();
@@ -333,11 +343,12 @@ public class PostAction {
 
 			List<ExpandInfoVO> expandInfoVOList;
 			String postContent = "";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TimeFormat);
+			
 			if (postVOList.size() > 0) {
 				for (PostVO postVO : postVOList) {
 					// 昵称
-					expandInfoVOList = expandInfoBiz
-							.selExpandInfoByUserId(postVO.getUserId());
+					expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 					if (expandInfoVOList.size() > 0) {
 						postVO.setName(expandInfoVOList.get(0).getNickName());
 					} else {
@@ -346,16 +357,17 @@ public class PostAction {
 					}
 
 					// 回复数
-					postVO.setCommentCount(postBiz.getCommentByPostId(
-							postVO.getId()).size());
+					postVO.setCommentCount(postBiz.getCommentByPostId(postVO.getId()).size());
 
 					// 截取帖子内容一部分
 					postContent = postVO.getContent();
 					if (postContent.length() >= 30) {
 						postContent = postContent.substring(0, 30);
 					}
-
 					postVO.setContent(postContent);
+					
+					// 设置时间格式
+					postVO.setFormatTime(simpleDateFormat.format(postVO.getSubmitTime()));
 				}
 
 				json.put("postList", postVOList);
@@ -370,8 +382,7 @@ public class PostAction {
 	 */
 	@RequestMapping("/addComment.json")
 	@ResponseBody
-	public String addComment(HttpServletRequest request,
-			@RequestParam("content") String content, @RequestParam("id") long id) {
+	public String addComment(HttpServletRequest request, @RequestParam("content") String content, @RequestParam("id") long id) {
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
 		JSONObject json = new JSONObject();
@@ -422,18 +433,20 @@ public class PostAction {
 		List<ExpandInfoVO> expandInfoVOList;
 		if (id != 0) {
 			List<PostVO> postVOList = postBiz.getCommentByPostId(id);
-
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TimeFormat);
+			
 			for (PostVO postVO : postVOList) {
 				// 昵称
-				expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO
-						.getUserId());
+				expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(postVO.getUserId());
 				if (expandInfoVOList.size() > 0) {
 					postVO.setName(expandInfoVOList.get(0).getNickName());
 				} else {
-					UserVO userVO = userBiz.selectUserById(postVO.getUserId(),
-							"");
+					UserVO userVO = userBiz.selectUserById(postVO.getUserId(), "");
 					postVO.setName(userVO.getMail());
 				}
+				
+				// 设置时间格式
+				postVO.setFormatTime(simpleDateFormat.format(postVO.getSubmitTime()));
 			}
 
 			json.put("postVOList", postVOList);
@@ -450,6 +463,13 @@ public class PostAction {
 		JSONObject json = new JSONObject();
 
 		List<PostVO> postVOList = postBiz.getAllPostByHold();
+		
+		// 设置时间格式
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TimeFormat);
+		for (PostVO postVO : postVOList) {
+			postVO.setFormatTime(simpleDateFormat.format(postVO.getSubmitTime()));
+		}
+		
 		json.put("postVOList", postVOList);
 
 		return json.toString();
@@ -538,8 +558,7 @@ public class PostAction {
 	 */
 	@RequestMapping("/praise.json")
 	@ResponseBody
-	public String praise(HttpServletRequest request,
-			@RequestParam("Id") long postId) {
+	public String praise(HttpServletRequest request, @RequestParam("Id") long postId) {
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
 		JSONObject json = new JSONObject();
@@ -577,10 +596,7 @@ public class PostAction {
 
 			if (kw != "") {
 				int total = 0;
-
-				if (userVO != null
-						&& userVO.getGroupId() == Constants.GroupType.admin
-								.getValue()) {
+				if (userVO != null && userVO.getGroupId() == Constants.GroupType.admin.getValue()) {
 					// 管理员权限
 					postVOList = postBiz.search4Limit(kw, start, end, true);
 					total = postBiz.search(kw, true).size();
@@ -596,6 +612,8 @@ public class PostAction {
 				List<ExpandInfoVO> expandInfoVOList;
 				String postContent = "";
 				String name = "";
+				SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TimeFormat);
+				
 				if (postVOList.size() > 0) {
 					for (PostVO postVO : postVOList) {
 						// 昵称
@@ -626,6 +644,9 @@ public class PostAction {
 							moduleName = "未知版块";
 						}
 						postVO.setModuleName(moduleName);
+						
+						// 设置时间格式
+						postVO.setFormatTime(simpleDateFormat.format(postVO.getSubmitTime()));
 					}
 
 					json.put("postList", postVOList);

@@ -18,11 +18,20 @@ public class PostVO {
 	private long moduleId;
 	private long userId;
 	private long praise;
+	private String formatTime;// 格式化后的日期(临时)
 	private String name;// 昵称(临时)
 	private long commentCount;// 回复数(临时)
 	private String moduleName;// 版块名称(临时)
 	private boolean checkPraise;// 当前用户是否已点赞(临时)
 	private String imgStr;// 首页图片路径
+
+	public String getFormatTime() {
+		return formatTime;
+	}
+
+	public void setFormatTime(String formatTime) {
+		this.formatTime = formatTime;
+	}
 
 	public String getImgStr() {
 		return imgStr;
