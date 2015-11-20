@@ -46,7 +46,7 @@ public class SignIn {
 				json.put("result", "恭喜您获得了  " + point + " 积分！");
 				json.put("success", true);
 			} else if (result < 0) {
-				json.put("result", "您已签到");
+				json.put("result", "您已经签过到啦，明天再来吧！");
 				json.put("success", false);
 			} else {
 				json.put("result", "请先完善你的个人信息！");

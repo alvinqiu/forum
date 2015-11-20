@@ -17,7 +17,16 @@ $(function() {
 	gt_captcha_obj.appendTo("#js-GeetestDiv").bindOn('#js-submit');
 
 	var id = getUrlParam('id');
+	
+	// 获取帖子
+	getPost(id);
 
+	// 获取评论
+	getComment(id);
+	
+});
+
+var getPost = function(id){
 	$.ajax({
 		url: "getPostById.json",
 		data: {
@@ -63,17 +72,19 @@ $(function() {
 			$(".panel_right_user_name").html(name);
 		}
 	});
+}
 
+var getComment = function(id){
 	$.ajax({
 		url: "getComment.json",
 		data: {
 			"id": id
 		},
 		dataType : "json",
-		async: false,
+		async: true,
 		success: function(data) {
 			var id, subject, formatTime, content, parentContentSummary, name, floor;
-
+			$(".panel_left_comment").empty();
 			for (var i = 0, tagLen = data.postVOList.length; i < tagLen; i++) {
 
 				id = data.postVOList[i].id;
@@ -96,8 +107,8 @@ $(function() {
 			}
 		}
 	});
+}
 
-});
 
 //删除帖子
 function del(id) {
@@ -224,17 +235,19 @@ function addComment(comments) {
 			"id": id
 		},
 		dataType : "json",
-		async: false,
-		success: function(data, XHR, TS) {
+		async: true,
+		success: function(data) {
 			if (data != null) {
 				var txt = data.Msg;
 				if (data.success) {
 					window.wxc.xcConfirm(txt, "success", {
 						onOk: function() {
-							location.reload()
+							// 刷新评论区域
+							getComment(id);
 						},
 						onClose: function() {
-							location.reload()
+							// 刷新评论区域
+							getComment(id);
 						}
 					});
 				} else {
