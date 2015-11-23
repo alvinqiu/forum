@@ -7,15 +7,18 @@ $(function() {
 	});
 	gt_captcha_obj.appendTo("#js-GeetestDiv").bindOn('#js-submit');
 
-	$("input").bind('keydown', function(event) {
-		if (event.keyCode == 13) {
+	$("body").bind('keydown', function(event) {
+		if (event.keyCode == 13 && $(".xcConfirm").length == 0) {
+			//checkLogin(event);
 			$("#js-submit").trigger("click");
-			$(this).blur();
 		}
 	});
 });
 
-function checkLogin() {
+function checkLogin(event) {
+	if(event) {
+		event.stopPropagation();
+	}
 	var flag = true;
 	// 验证是否为空
 	$("form input[type='text'],input[type='password']").each(function(i) {

@@ -1,8 +1,7 @@
 $(function() {
-	$("input").bind('keydown', function(event) {
-		if (event.keyCode == 13) {
-			$("#js-submit").trigger("click");
-			$(this).blur();
+	$("body").bind('keydown', function(event) {
+		if (event.keyCode == 13 && $(".xcConfirm").length == 0) {
+			checkRegister(event);
 		}
 	});
 });
@@ -10,6 +9,10 @@ $(function() {
 // 验证
 function checkRegister(event) {
 	disableBtn();
+	
+	if(event) {
+		event.stopPropagation();
+	}
 	
 	var flag = true;
 	// 验证是否为空
