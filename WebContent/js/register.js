@@ -1,13 +1,16 @@
 $(function() {
-	$("body").bind('keydown', function(event) {
+	$("input").bind('keydown', function(event) {
 		if (event.keyCode == 13) {
 			$("#js-submit").trigger("click");
+			$(this).blur();
 		}
 	});
 });
 
 // 验证
-function checkRegister() {
+function checkRegister(event) {
+	disableBtn();
+	
 	var flag = true;
 	// 验证是否为空
 	$("form input[type='text'],input[type='password']").each(function(i) {
@@ -25,7 +28,6 @@ function checkRegister() {
 				}
 			});
 			flag = false;
-			
 			return false;
 		}
 	});
@@ -42,7 +44,6 @@ function checkRegister() {
 			if (pass == passConfirm) {
 				//  验证成功
 				registerSuccess();
-				return true;
 			} else {
 				var txt = "密码不一致！";
 				window.wxc.xcConfirm(txt, "info", {
@@ -50,7 +51,7 @@ function checkRegister() {
 						$("#js-password_confirm").focus();
 					}
 				});
-				return false;
+				flag = false;
 			}
 		} else {
 			var txt = "邮箱格式不正确！";
@@ -59,9 +60,13 @@ function checkRegister() {
 					$("#js-mail").focus();
 				}
 			});
-			return false;
+			flag = false;
 		}
 	}
+	
+	if (!flag) { enableBtn(); }
+	
+	return flag;
 }
 
 // 验证成功  注册
@@ -85,6 +90,23 @@ function registerSuccess() {
 					}
 				}
 			});
+		},
+		complete: function() {
+			enableBtn();
 		}
+	});
+}
+
+var disableBtn = function(){
+	$("#js-submit").attr({
+		"disabled" : true,
+		"class" : "submit_disabled"
+	});
+}
+
+var enableBtn = function(){
+	$("#js-submit").attr({
+		"disabled" : false,
+		"class" : "submit"
 	});
 }

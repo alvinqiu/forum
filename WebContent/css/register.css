@@ -24,3 +24,11 @@
 	color: #fff;
 	cursor: pointer;
 }
+
+.panel_login .submit_disabled {
+	width: 342px;
+	font-size: 20px;
+	background-color: #dadada;
+	color: #fff;
+	cursor: default;
+}

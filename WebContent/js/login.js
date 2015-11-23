@@ -7,10 +7,10 @@ $(function() {
 	});
 	gt_captcha_obj.appendTo("#js-GeetestDiv").bindOn('#js-submit');
 
-	$("body").bind('keydown', function(event) {
+	$("input").bind('keydown', function(event) {
 		if (event.keyCode == 13) {
 			$("#js-submit").trigger("click");
-			//return false;
+			$(this).blur();
 		}
 	});
 });
