@@ -21,10 +21,8 @@
 	line-height: 36px;
 	float: right;
 	margin: 10px 0;
-}
-
-.panel_left_addPost a {
-	color: #FFFFFF !important;
+	color: #FFFFFF;
+	cursor: pointer;
 }
 
 .panel_left_top, .panel_left_common {

@@ -1,5 +1,4 @@
 $(function() {
-
 	// 初始化验证
 	window.gt_captcha_obj = new window.Geetest({
 		gt: "df6595b204a06069670b68b6e716ca45",
@@ -26,7 +25,7 @@ $(function() {
 	// 获取所有类型
 	$.ajax({
 		url: "checkLogin.json",
-		async: true,
+		async: false,
 		dataType : "json",
 		error: function() {
 			var txt = "获取类型失败！";
@@ -66,6 +65,17 @@ $(function() {
 					
 					$(node).insertBefore($(".submitPost"));
 				}
+			}else{
+				var txt = "登录后即可发布帖子！";
+				window.wxc.xcConfirm(txt, "info", {
+					onOk : function() {
+						window.location.replace("./login.html");
+					},
+					onClose : function() {
+						window.location.replace("./login.html");
+					}
+				});
+				return false;
 			}
 		}
 	});

@@ -83,27 +83,32 @@ var getComment = function(id){
 		dataType : "json",
 		async: true,
 		success: function(data) {
-			var id, subject, formatTime, content, parentContentSummary, name, floor;
-			$(".panel_left_comment").empty();
-			for (var i = 0, tagLen = data.postVOList.length; i < tagLen; i++) {
-
-				id = data.postVOList[i].id;
-				subject = data.postVOList[i].subject;
-				formatTime = data.postVOList[i].formatTime;
-				content = data.postVOList[i].content;
-				parentContentSummary = data.postVOList[i].parentContentSummary;
-				name = data.postVOList[i].name;
-
-				//评论楼层
-				floor = ((i + 1) == 1) ? "沙发" : "" + (i + 1) + "楼";
-
-				$(".panel_left_comment").append("<div id='" + id + "anchor' name='" + id + "anchor'>" +
-					"<div class='commentName'>" + name + "</div>" +
-					"<div class='commentSubmitTime'>" + formatTime + "</div>" +
-					"<div class='commentFloor'>" + floor + "</div>" +
-					//"<div class='commentSummary'>\"" + parentContentSummary + "...\"</div>" +
-					"<div class='commentContent'>" + content + "</div>" +
-					"</div>");
+			if(data.postVOList.length == 0) {
+				$(".panel_left_comment").hide();
+			}else {
+				var id, subject, formatTime, content, parentContentSummary, name, floor;
+				$(".panel_left_comment").empty();
+				for (var i = 0, tagLen = data.postVOList.length; i < tagLen; i++) {
+	
+					id = data.postVOList[i].id;
+					subject = data.postVOList[i].subject;
+					formatTime = data.postVOList[i].formatTime;
+					content = data.postVOList[i].content;
+					parentContentSummary = data.postVOList[i].parentContentSummary;
+					name = data.postVOList[i].name;
+	
+					//评论楼层
+					floor = ((i + 1) == 1) ? "沙发" : "" + (i + 1) + "楼";
+	
+					$(".panel_left_comment").append("<div id='" + id + "anchor' name='" + id + "anchor'>" +
+						"<div class='commentName'>" + name + "</div>" +
+						"<div class='commentSubmitTime'>" + formatTime + "</div>" +
+						"<div class='commentFloor'>" + floor + "</div>" +
+						//"<div class='commentSummary'>\"" + parentContentSummary + "...\"</div>" +
+						"<div class='commentContent'>" + content + "</div>" +
+						"</div>");
+				}
+				$(".panel_left_comment").show();
 			}
 		}
 	});

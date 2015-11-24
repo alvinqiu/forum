@@ -2,9 +2,7 @@ $(function() {
 	var moduleId = getUrlParam('moduleId');
 	var page = getUrlParam('page');
 
-	$("#js-addPost").click(function() {
-		location.href = "./addPost.html";
-	});
+	$("#js-addPost").click(checkLogin);
 
 	$.ajax({
 		url: "getAllPost.json",
@@ -111,6 +109,28 @@ $(function() {
 		}
 	});
 });
+
+//查询是否登录
+function checkLogin() {
+	$.ajax({
+		async : false,
+		url : "checkLogin.json",
+		dataType:"json",
+		success:function(data){
+			if(data.success){
+				location.href = "./addPost.html";
+			}else{
+				var txt = "请先登录,确定要跳转至登录页吗？";
+				window.wxc.xcConfirm(txt, "confirm", {
+					onOk : function() {
+						window.location.replace("./login.html");
+					}
+				});
+				return false;
+			}
+		}
+	});
+}
 
 //设置高亮（加精）
 function setHighLight(id) {
