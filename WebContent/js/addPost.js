@@ -22,6 +22,60 @@ $(function() {
 		autoSyncData: false
 	});
 
+	// 初始化进度条
+	var opts = {
+			lines: 9, // The number of lines to draw
+			length: 0, // The length of each line
+			width: 10, // The line thickness
+			radius: 15, // The radius of the inner circle
+			corners: 1, // Corner roundness (0..1)
+			rotate: 0, // The rotation offset
+			color: '#000', // #rgb or #rrggbb
+			speed: 1, // Rounds per second
+			trail: 60, // Afterglow percentage
+			shadow: false, // Whether to render a shadow
+			hwaccel: false, // Whether to use hardware acceleration
+			className: 'spinner', // The CSS class to assign to the spinner
+			zIndex: 2e9, // The z-index (defaults to 2000000000)
+			top: 'auto', // Top position relative to parent in px
+			left: 'auto' // Left position relative to parent in px
+		};
+		window.scrollVar = {
+			init: function() {
+				this.hanle = document.getElementById('foo');
+				this.bindEvnet();
+				$(window).bind('scroll resize', function() {
+					var spinner = document.getElementById('foo').querySelector('.spinner');
+					if (spinner) {
+						scrollVar.bindEvnet();
+					}
+				});
+			},
+			bindEvnet: function() {
+				var _this = this.hanle;
+				var x = window.innerWidth,
+					y = window.innerHeight;
+					
+					_this.style.width = x + 'px',
+					_this.style.height = y + 'px',
+					_this.style.margin = '0 auto',
+					_this.style.top = '0',
+					_this.style.position = 'fixed',
+					_this.style.backgroundColor = 'rgb(211, 211, 211)',
+					_this.style.opacity = '0.7';
+					
+				this.close();
+				new Spinner(opts).spin(_this);
+			},
+			close: function() {
+				var _this = this.hanle;
+				var spinner = _this.querySelector('.spinner');
+				if (spinner) {
+					spinner.remove();
+				}
+			}
+		}
+	
 	// 获取所有类型
 	$.ajax({
 		url: "checkLogin.json",
@@ -138,6 +192,7 @@ function checkForm() {
 	if (flag) {
 		gt_captcha_obj.enable();
 		gt_captcha_obj.onSuccess(function() {
+			scrollVar.init();
 			addPost();
 		});
 		return true;
@@ -156,7 +211,7 @@ function addPost() {
 		url: "addPost.json",
 		dataType : "json",
 		data: formDom.serialize(),
-		async: true,
+		async: false,
 		error: function(request) {
 			var txt = "发布帖子失败！";
 			window.wxc.xcConfirm(txt, "error");
@@ -172,6 +227,10 @@ function addPost() {
 					}
 				});
 			}
+		},
+		complete: function() {
+			scrollVar.close();
+			$("#foo").removeAttr("style");
 		}
 	});
 }

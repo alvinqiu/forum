@@ -69,5 +69,5 @@ public class CheckLogin {
 		json.put("isSignIn", isSignIn);
 		return json.toString();
 	}
-
+	
 }

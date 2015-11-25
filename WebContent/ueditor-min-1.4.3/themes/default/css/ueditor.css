@@ -56,7 +56,7 @@ div.edui-box {
 }
 
 /* control layout */
-.edui-default .edui-button-body, .edui-splitbutton-body, .edui-menubutton-body, .edui-combox-body {
+ .edui-button-body, .edui-splitbutton-body, .edui-menubutton-body, .edui-combox-body {
     position: relative;
 }
 
@@ -135,7 +135,6 @@ div.edui-box {
 .edui-default .edui-editor {
     border: 1px solid #d4d4d4;
     background-color: white;
-    position: relative;
     overflow: visible;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -180,8 +179,8 @@ div.edui-box {
 }
 
 .edui-default .edui-editor-iframeholder {
-    position: relative;
-    /*for fix ie6 toolbarmsg under iframe bug. relative -> static */
+    /*position: relative;
+    for fix ie6 toolbarmsg under iframe bug. relative -> static */
     /*_position: static !important;*
 }
 
@@ -269,7 +268,7 @@ div.edui-box {
     position: absolute;
     bottom: -25px;
     left: 0;
-    z-index: 1009;
+    z-index: 100;
     width: 99.9%;
 }
 

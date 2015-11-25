@@ -9,8 +9,17 @@ $(function() {
 
 	$("body").bind('keydown', function(event) {
 		if (event.keyCode == 13 && $(".xcConfirm").length == 0) {
-			//checkLogin(event);
-			$("#js-submit").trigger("click");
+			var name = $.trim($("#js-mail").val());
+			var pass = $.trim($("#js-password").val());
+			
+			if (name != "" && pass != "") {
+				var patten = new RegExp(/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+(com|cn)$/);
+				if (patten.test(name)) {
+					$("#js-submit").trigger("click");
+					return false;
+				}
+			}
+			checkLogin(event);
 		}
 	});
 });

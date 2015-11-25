@@ -9,6 +9,8 @@ import java.net.URLConnection;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,8 +23,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.forum.biz.ExpandInfoBiz;
 import com.forum.biz.UserBiz;
 import com.forum.utility.Constants;
+import com.forum.vo.ExpandInfoVO;
 import com.forum.vo.UserVO;
 
 @Controller
@@ -30,6 +34,9 @@ public class LoginAction {
 
 	@Autowired
 	private UserBiz userBiz;
+	
+	@Autowired
+	private ExpandInfoBiz expandInfoBiz;
 
 	/*
 	 * 登录
@@ -99,4 +106,17 @@ public class LoginAction {
 		return line;
 	}
 
+	/*
+	 * 截取邮箱地址‘@’左边部分作为默认昵称
+	 */
+	public String getName(String name){
+		String pat="[a-zA-Z0-9_\\-\\.]+@[a-zA-Z0-9]+(\\.(com|cn))";
+		Pattern pattern = Pattern.compile(pat);
+		Matcher matcher = pattern.matcher(name);
+		
+		if(matcher.matches()){
+			name = name.split("@")[0];
+		}
+		return name;
+	}
 }

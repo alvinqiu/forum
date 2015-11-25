@@ -31,8 +31,8 @@ $(function() {
 
 	// 绑定搜索框
 	$("#js_search_content").bind('keydown', function(event) {
-		if (event.keyCode == 13) {
-			$("#js_search_btn").trigger("click");
+		if (event.keyCode == 13 && $(".xcConfirm").length == 0) {
+			search(event);
 		}
 	});
 
@@ -335,8 +335,12 @@ function signIn() {
 }
 
 // 搜索
-function search() {
-	var _this = $(this).prev();
+function search(event) {
+	if(event) {
+		event.stopPropagation();
+	}
+	
+	var _this = $("#js_search_content");
 	var _thisVal = $.trim(_this.val());
 	if (_thisVal != "") {
 		location.href = "./search.html?kw=" + _thisVal + "&page=1";

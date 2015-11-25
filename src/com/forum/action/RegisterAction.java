@@ -9,6 +9,8 @@ import java.net.URLConnection;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,7 +69,7 @@ public class RegisterAction {
 			//添加个人信息
 			ExpandInfoVO expandInfoVO = new ExpandInfoVO();
 			expandInfoVO.setUserId(Integer.parseInt(id));
-			expandInfoVO.setNickName(username);
+			expandInfoVO.setNickName(getName(username));
 			expandInfoBiz.addExpandInfo(expandInfoVO);
 				
 			json.put("result", "注册成功，系统会发送一封邮件至您的邮箱，请查阅邮件并点击内容中链接进行激活！");
@@ -125,5 +127,19 @@ public class RegisterAction {
 		String line = in.readLine();
 
 		return line;
+	}
+	
+	/*
+	 * 截取邮箱地址‘@’左边部分作为默认昵称
+	 */
+	public String getName(String name){
+		String pat="[a-zA-Z0-9_\\-\\.]+@[a-zA-Z0-9]+(\\.(com|cn))";
+		Pattern pattern = Pattern.compile(pat);
+		Matcher matcher = pattern.matcher(name);
+		
+		if(matcher.matches()){
+			name = name.split("@")[0];
+		}
+		return name;
 	}
 }
