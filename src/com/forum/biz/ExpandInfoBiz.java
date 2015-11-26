@@ -19,7 +19,7 @@ public class ExpandInfoBiz {
 	private ExpandInfoDao expandInfoDao;
 
 	/*
-	 * ��ȡ�û���Ϣ(by userId)
+	 * 查询个人信息(by userId)
 	 */
 	public List<ExpandInfoVO> selExpandInfoByUserId(long userId) {
 		return expandInfoDao.selExpandInfoByUserId(userId);
@@ -33,14 +33,14 @@ public class ExpandInfoBiz {
 	}
 
 	/*
-	 * �޸��û���Ϣ
+	 *  修改个人信息 (by userId)
 	 */
 	public Integer updateExpandInfoByUserId(ExpandInfoVO expandInfoVO) {
 		return expandInfoDao.updateExpandInfoByUserId(expandInfoVO);
 	}
 
 	/*
-	 * �ж��ǳ��Ƿ��Ѵ���
+	 * 查询昵称是否已存在
 	 */
 	public List<ExpandInfoVO> checkNickNameIsExist(String nickName) {
 		return expandInfoDao.checkNickNameIsExist(nickName);
