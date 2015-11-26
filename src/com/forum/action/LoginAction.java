@@ -8,6 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -74,6 +75,16 @@ public class LoginAction {
 				session.setAttribute(Constants.LOGINED_USER, userVO);
 
 			} else {
+				List<ExpandInfoVO> expandInfoVOList = expandInfoBiz.selExpandInfoByUserId(Integer.parseInt(id));
+				if (expandInfoVOList.size() == 0) {
+					// 添加个人信息
+					ExpandInfoVO expandInfoVO = new ExpandInfoVO();
+					expandInfoVO.setUserId(Integer.parseInt(id));
+					expandInfoVO.setNickName(getName(username));
+					expandInfoVO.setHead(Constants.HEADPATH);
+					expandInfoBiz.addExpandInfo(expandInfoVO);
+				}
+				
 				json.put("result", "账户未激活,系统已发送一封邮件至您的邮箱，请点击邮件中链接进行激活操作！");
 				json.put("success", false);
 

@@ -7,7 +7,11 @@ import net.sf.json.JSONObject;
 
 public class Constants {
 
+	// 用户信息对象
 	public static final String LOGINED_USER = "logined_user";
+	
+	// 默认头像路径
+	public static final String HEADPATH = "img/defaultHead.jpg";
 
 	/**
 	 * 1.公告 2.公共 3.待审核

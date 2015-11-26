@@ -49,7 +49,7 @@ label, select {
 	margin-bottom: 0 !important;
 }
 
-.filePanel div{
+.filePanel div {
 	margin-bottom: 0 !important;
 }
 
@@ -63,9 +63,14 @@ label, select {
 	width: 100px;
 	height: 100px;
 	overflow: hidden;
-	float:right;
+	float: right;
 	border: 1px solid #e9e9e9;
 	background-color: #dadada;
+}
+
+.preview img {
+	width: 100px;
+	height: 100px;
 }
 
 .nickName input, .mobile input, .tag input {

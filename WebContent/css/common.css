@@ -28,27 +28,41 @@ img {
 	height: 100px;
 	width: 1200px;
 	margin: 0 auto;
-	padding: 27px 20px;
 }
 
 .panel_top_logo {
 	display: inline-block;
 	float: left;
+	line-height: 100px;
 }
 
 .panel_top_logo img {
 	border-width: 0;
+	vertical-align: middle;
 }
 
 .panel_top_right, .panel_top_content {
 	position: relative;
 	display: inline-block;
 	float: right;
+	line-height: 100px;
+}
+
+.panel_top_content ul {
+	margin: 0;
+	padding: 0;
 }
 
 .panel_top_content li {
 	display: inline-block;
-	padding: 5px;
+	margin: 0 5px;
+}
+
+.panel_top_content li img {
+	width: 50px;
+	height: 50px;
+	vertical-align: middle;
+	border-radius: 50%;
 }
 
 a {
@@ -64,13 +78,16 @@ a:hover {
 	width: 100px;
 	position: absolute;
 	z-index: 999;
-	left: 30px;
-	top: 40px;
 	display: none;
 	background-color: #fff;
 	text-align: center;
 	border: 1px solid #eee;
-	top: 42px;
+	top: 70px;
+	left: 70px;
+}
+
+.panel_top_content_menu p {
+	line-height: 20px;
 }
 
 .panel_bars {

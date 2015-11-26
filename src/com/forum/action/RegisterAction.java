@@ -70,6 +70,7 @@ public class RegisterAction {
 			ExpandInfoVO expandInfoVO = new ExpandInfoVO();
 			expandInfoVO.setUserId(Integer.parseInt(id));
 			expandInfoVO.setNickName(getName(username));
+			expandInfoVO.setHead(Constants.HEADPATH);
 			expandInfoBiz.addExpandInfo(expandInfoVO);
 				
 			json.put("result", "注册成功，系统会发送一封邮件至您的邮箱，请查阅邮件并点击内容中链接进行激活！");

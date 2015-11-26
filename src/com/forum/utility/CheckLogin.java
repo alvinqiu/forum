@@ -32,6 +32,8 @@ public class CheckLogin {
 
 		// 用户名（昵称 or 邮箱地址）
 		String USERNAME = "";
+		// 用户头像路径
+		String HEADPATH = Constants.HEADPATH;
 		// 是否为管理员
 		boolean isAdmin = false;
 		// 是否已签到
@@ -49,7 +51,7 @@ public class CheckLogin {
 
 			if (expandInfoVOList.size() > 0) {
 				USERNAME = expandInfoVOList.get(0).getNickName();
-
+				HEADPATH = expandInfoVOList.get(0).getHead();
 				// 判断签到时间是否为今天
 				if (expandInfoBiz.checkSignInTime(expandInfoVOList.get(0).getPointSignInTime())) {
 					isSignIn = true;
@@ -65,6 +67,7 @@ public class CheckLogin {
 			json.put("success", false);
 		}
 
+		json.put("headPath", HEADPATH);
 		json.put("isAdmin", isAdmin);
 		json.put("isSignIn", isSignIn);
 		return json.toString();
