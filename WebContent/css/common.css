@@ -65,6 +65,16 @@ img {
 	border-radius: 50%;
 }
 
+.arrow {
+	background: url("../img/main_icon.png") transparent no-repeat -149px
+		-347px;
+	display: inline-block;
+	width: 10px;
+	height: 5px;
+	margin-left: 5px;
+	right: 0px;
+}
+
 a {
 	text-decoration: none;
 	color: #515151;

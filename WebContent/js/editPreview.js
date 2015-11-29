@@ -153,6 +153,15 @@ $(function() {
 		}
 		return false;
 	});
+	
+	$("#js-cancel").click(function() {
+		var txt = "是否放弃修改";
+		window.wxc.xcConfirm(txt, "confirm", {
+			onOk : function() {
+				history.go(-1);
+			}
+		});
+	});
 
 	function getDataURL4Head() {
 		if ($(".filePanel img").attr("src").trim() == "") {

@@ -20,17 +20,35 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="panel_bars">
+			<div class="panel_bars_nav">
+				<ul>
+					<li><a href="./index.html">首页</a></li>
+					<li> | </li>
+					<li><a href="./board.html">版块</a></li>
+					<li> | </li>
+					<li><a href="http://www.singwin.cn">官网</a></li>
+					<li> | </li>
+					<li><a href="http://android.myapp.com/myapp/detail.htm?apkName=cn.wisekingokok.passwordbook">简密</a></li>
+				</ul>
+			</div>
+			
+			<div class="panel_bars_search">
+				<input type="text" class="search_content" id="js_search_content" placeholder="搜索帖子或内容" />
+				<button type="button" class="search_btn" id="js_search_btn"></button>
+			</div>
+		</div>
 
 		<form method="post" name="previewForm">
 			<div class="panel_detail">
 				<div class="panel_content">
-					<div class="goBack">
-						<a href="javascript:void(0);" onclick="history.go(-1);">返回上一级</a>
-					</div>
 					<div class="head">
-						<input type="button" id="js-headFile" class="headFile"
-							value="选择您要上传的头像" /> <input type="file" name="file"
-							id="pickfiles" style="display: none" accept="image/*" />
+						<div class="headFile" id="js-headFile">
+							<i class="fileImg"></i>
+							选择您要上传的头像
+						</div>
+						<input type="file" name="file" id="pickfiles" style="display: none" accept="image/*" />
 						<div class="preview"></div>
 						<div class="fileTable">
 							<div class="filePanel"><img src="" style="display:none"></div>
@@ -59,7 +77,7 @@
 						<label>积分：</label><label></label>
 					</div>
 					<div class="tag">
-						<input type="text" name="tag" placeholder="标签  (空格键为确认添加标签)" />
+						<input type="text" name="tag" placeholder="标签 (多个请用空格键隔开) " />
 						<div class="tagtable">
 							<div class="tagPanel"></div>
 						</div>
@@ -67,9 +85,17 @@
 					</div>
 					<input type="submit" id="js-submit" class="submitPreview"
 						value="确认修改" />
+					<input type="button" id="js-cancel" class="cancelPreview"
+						value="取消修改" />
 				</div>
 			</div>
 		</form>
+		
+		<div class="scrolltop" id="js-scrolltop"></div>
+
+		<div class="foot">
+			晟越科技<a id="js-manage" href="manage.html" style="display: none">后台管理</a>
+		</div>
 	</div>
 
 	<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>

@@ -251,7 +251,7 @@ $(function() {
 		success: function(data) {
 			$("#js-checkLogin ul").empty();
 			if (data.success) {
-				$("#js-checkLogin ul").append("<li><img src='" + data.headPath + "' /></li><li><a id='username'>" + data.name + "</a>" +
+				$("#js-checkLogin ul").append("<li><img src='" + data.headPath + "' /></li><li><a id='username'>" + data.name + "<em class='arrow'></em></a>" +
 					"<div class='panel_top_content_menu'>" +
 					"<p><a href='./editPreview.html'>我的信息</a></p>" +
 					"<p><a href='./myPost.html?page=1'>我的帖子</a></p>" +
