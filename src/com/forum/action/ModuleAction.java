@@ -58,16 +58,17 @@ public class ModuleAction {
 	@ResponseBody
 	public String addModule(HttpServletRequest request,
 			@RequestParam("name") String name,
+			@RequestParam("imgPath") String imgPath,
 			@RequestParam("desc") String desc,
 			@RequestParam("visible") String visible) throws IOException {
 		HttpSession session = request.getSession();
 		UserVO userVO = (UserVO) session.getAttribute(Constants.LOGINED_USER);
 		JSONObject json = new JSONObject();
 
-		if (userVO != null
-				&& userVO.getGroupId() == Constants.GroupType.admin.getValue()) {
+		if (userVO != null && userVO.getGroupId() == Constants.GroupType.admin.getValue()) {
 			ModuleVO moduleVO = new ModuleVO();
 			moduleVO.setName(name);
+			moduleVO.setImgPath(imgPath);
 			moduleVO.setDesc(desc);
 			moduleVO.setSort("");
 			moduleVO.setParentId(0);
@@ -97,27 +98,32 @@ public class ModuleAction {
 	 */
 	@RequestMapping("/editModule.json")
 	@ResponseBody
-	public String editModule(@RequestParam("id") String id,@RequestParam("name") String name,@RequestParam("desc") String desc,@RequestParam("visible") String visible) throws UnsupportedEncodingException{
+	public String editModule(@RequestParam("id") String id,
+			@RequestParam("name") String name,
+			@RequestParam("imgPath") String imgPath,
+			@RequestParam("desc") String desc,
+			@RequestParam("visible") String visible)
+			throws UnsupportedEncodingException {
 		ModuleVO moduleVO = new ModuleVO();
 		moduleVO.setId(Integer.parseInt(id));
 		moduleVO.setName(name);
+		moduleVO.setImgPath(imgPath);
 		moduleVO.setDesc(desc);
 		moduleVO.setSort("");
 		moduleVO.setParentId(0);
 		moduleVO.setVisible(Boolean.parseBoolean(visible));
 		Integer result = moduleBiz.editModule(moduleVO);
-		
+
 		JSONObject json = new JSONObject();
-		
-		if(result>0){
+
+		if (result > 0) {
 			json.put("success", true);
-		}
-		else{
+		} else {
 			json.put("success", false);
 		}
-		
+
 		return json.toString();
-		
+
 	}
 	
 	/*

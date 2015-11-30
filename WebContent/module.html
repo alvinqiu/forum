@@ -5,27 +5,31 @@
 <title>模块管理</title>
 <link href="img/favicon.ico" rel="icon" type="image/x-icon" />
 <link rel="stylesheet" href="css/jquery-ui-1.7.2.custom.css" />
+<link rel="stylesheet" href="css/cropper.min.css" />
 <link rel="stylesheet" href="css/common.css" />
 <link rel="stylesheet" href="css/module.css" />
 </head>
 <body>
 
-	<div class="back">
-		<a href="manage.html">返回管理菜单</a>
-	</div>
-
 	<div class="panel">
-		<a href="javascript:void(0);" id="js-addModule">添加模块</a>
-		<table>
-			<tr>
-				<th>ID</th>
-				<th>名称</th>
-				<th>说明</th>
-				<th>排序</th>
-				<th>管理员可见</th>
-				<th>操作</th>
-			</tr>
-		</table>
+		<div class="panel_detail">
+			<div class="back">
+				<a href="manage.html">返回管理菜单</a>
+			</div>
+
+			<a href="javascript:void(0);" id="js-addModule">添加模块</a>
+			<table>
+				<tr>
+					<th>ID</th>
+					<th>名称</th>
+					<th>说明</th>
+					<th>图标</th>
+					<!-- <th>排序</th> -->
+					<th>管理员可见</th>
+					<th>操作</th>
+				</tr>
+			</table>
+		</div>
 	</div>
 
 	<!-- module dialog -->
@@ -41,11 +45,25 @@
 					<td><input type="text" id="js-name" name="name" /></td>
 				</tr>
 				<tr>
-					<td>模块说明</td>
-					<td><textarea rows="3" cols="20" id="js-desc" name="desc"></textarea></td>
+					<td>模块图标</td>
+					<td>
+						<div class="headFile" id="js-headFile">选择图片</div>
+						<input type="file" name="file" id="pickfiles" style="display: none" accept="image/*" />
+						<div class="preview"></div>
+						<div class="fileTable">
+							<div class="filePanel">
+								<img src="" style="display: none">
+							</div>
+						</div>
+						<input type="hidden" name="imgPath" id="js-imgPath" />
+					</td>
 				</tr>
 				<tr>
-					<td>管理员可见</td>
+					<td>模块说明</td>
+					<td><textarea rows="5" cols="20" id="js-desc" name="desc" style="width:350px"></textarea></td>
+				</tr>
+				<tr>
+					<td>仅管理员可见</td>
 					<td><input type="checkbox" id="js-visible" name="visibleId" /></td>
 				</tr>
 			</table>
@@ -54,6 +72,7 @@
 
 	<script src="js/jquery-1.7.2.min.js"></script>
 	<script src="js/jquery-ui-1.7.2.custom.min.js"></script>
+	<script src="js/cropper.min.js"></script>
 	<script src="js/common.js"></script>
 	<script src="js/interceptor.js"></script>
 	<script src="js/module.js"></script>

@@ -13,10 +13,11 @@ $(function() {
 			for (var i = 0; i < tagLen; i++) {
 				var id = data.moduleVOList[i].id;
 				var name = data.moduleVOList[i].name;
+				var imgPath = data.moduleVOList[i].imgPath;
 				var desc = data.moduleVOList[i].desc;
 
 				$(".panel_detail_content").append("<div class='item'><a href='./list.html?moduleId=" + id + "&page=1'>" +
-					"<div class='img'></div>" +
+ 					"<div class='img'><img src='" + imgPath + "' /></div>" +
 					"<div class='name'>" + name + "</div>" +
 					"<div class='desc'>" + desc + "</div>" +
 					"</a></div>");

@@ -8,41 +8,61 @@ public class ModuleVO {
 	private String desc;
 	private long parentId;
 	private boolean visible;
-	
+	private String imgPath;
+
 	public long getId() {
 		return id;
 	}
+
 	public void setId(long id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getSort() {
 		return sort;
 	}
+
 	public void setSort(String sort) {
 		this.sort = sort;
 	}
+
 	public String getDesc() {
 		return desc;
 	}
+
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
+
 	public long getParentId() {
 		return parentId;
 	}
+
 	public void setParentId(long parentId) {
 		this.parentId = parentId;
 	}
+
 	public boolean getVisible() {
 		return visible;
 	}
+
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+
+	public String getImgPath() {
+		return imgPath;
+	}
+
+	public void setImgPath(String imgPath) {
+		this.imgPath = imgPath;
 	}
 }

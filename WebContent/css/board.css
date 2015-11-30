@@ -3,7 +3,7 @@
 	width: 1200px;
 	margin: 0 auto;
 	padding: 10px;
-	min-height:460px;
+	min-height: 460px;
 }
 
 .panel_detail_content {
@@ -21,10 +21,13 @@
 }
 
 .panel_detail_content .item .img {
+	text-align: center;
+}
+
+.panel_detail_content .item .img img {
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
-	background-color: #07BCF7;
 	margin: 20px auto;
 }
 
@@ -37,7 +40,7 @@
 
 .panel_detail_content .item .desc {
 	width: 100px;
-	margin: 0 auto 20px auto;
+	margin: 10px auto;
 	text-align: center;
 }
 
